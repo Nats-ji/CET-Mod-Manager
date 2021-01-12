@@ -12,6 +12,8 @@ The default key is set to `C`. You can change it at Line 19 in the `init.lua` fi
 Hotkey = 0x43 -- Change Hotkey Here.
 ```
 
+![imgage](https://staticdelivery.nexusmods.com/mods/3333/images/895/895-1610480969-1242777005.png)
+
 ## Installation
 
 This mod requires **CyberEngineTweaks** Mod. Please Install it first. https://github.com/yamashi?tab=repositories
