@@ -26,7 +26,7 @@ Restart the game. Or reload Mods from the CyberEngineTweaks Console.
 
 1. To use it, you just simply press `Ctrl + Shift + C` to open the inertface.
 
-2. Press the button `Scan` to scan your installed mods.
+2. Press the button `Scan` to scan your installed mods. (Set the game to `Borderless Windows` mode to avoid being thrown out to the desktop.)
 
 3. Tick/untick the checkbox in front of the mod name to enable/disable them.
 
