@@ -1,3 +1,20 @@
+-- Copyright 2018-2020 Mingming Cui
+--
+-- This file is part of CyberEngineTWeaks Mod Manager.
+--
+-- CyberEngineTWeaks Mod Manager is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
+--
+-- CyberEngineTWeaks Mod Manager is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
+--
+-- You should have received a copy of the GNU General Public License
+-- along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+
 local theme = {
 	Text										=	{	0.95,	0.30,	0.28,	1		},
 	TextDisabled						=	{	0.48,	0.39,	0.40,	1		},
