@@ -1,4 +1,4 @@
--- Copyright 2018-2020 Mingming Cui
+-- Copyright 2021 Mingming Cui
 --
 -- This file is part of CyberEngineTWeaks Mod Manager.
 --
