@@ -153,7 +153,13 @@ registerForEvent("onDraw", function()
 			end
 		else
 			ImGui.Spacing()
-			ImGui.Text("Please scan the mods first...")
+			if showDofileMods then
+				pushstylecolor(ImGuiCol.Text, theme.Separator)
+				ImGui.Text("Please scan the mods first...")
+				ImGui.PopStyleColor(1)
+			else
+				ImGui.Text("Please scan the mods first...")
+			end
 		end
 
 		ImGui.EndChild()
