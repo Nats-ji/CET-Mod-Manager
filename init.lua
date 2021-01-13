@@ -16,42 +16,69 @@
 -- along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
 registerForEvent("onInit", function()
-	Hotkey = 0x43 -- Change Hotkey Here. You can find Key Codes at https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+	Manager_Hotkey = 0x43 -- Hotkey for openning mod manager. Change Hotkey Here. You can find Key Codes at https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+	Dofiles_Hotkey = 0x46 -- Hotkey for openning dofile mod list.
 	draw = false
 	scanned = false
 	showHelp = false
+	showDofileMods = false
 	wWidth, wHeight = GetDisplayResolution()
 	theme = require "cet_mod_manager.theme"
 	json = require "cet_mod_manager.json"
 	config = loadConfig("./cet_mod_manager/config.json")
+	print()
 	if config.autoscan then
 		mods_data = get_mods_data()
+		dofile_names = scan_dofiles()
 		scanned = true
 	end
 	print("************************************************")
 	print("* CyberEngineTWeaks Mod Manager Loaded...      *")
-	print("* Press Ctrl + Shift + C to open.              *")
+	print("* Press Ctrl+Shift+C to open mod manager.      *")
+	print("* Press Ctrl+Shift+F to open dofile mods.      *")
 	print("************************************************")
 end)
 
 registerForEvent("onUpdate", function()
-	if (ImGui.IsKeyDown(0x11) and ImGui.IsKeyDown(0x10) and ImGui.IsKeyPressed(Hotkey, false)) then
+	if (ImGui.IsKeyDown(0x11) and ImGui.IsKeyDown(0x10) and ImGui.IsKeyPressed(Manager_Hotkey, false)) then
 		draw = not draw
+		showDofileMods = false
+	end
+	if (ImGui.IsKeyDown(0x11) and ImGui.IsKeyDown(0x10) and ImGui.IsKeyPressed(Dofiles_Hotkey, false)) then
+		draw = not draw
+		showDofileMods = true
 	end
 	if btnScan then
 		mods_data = get_mods_data()
+		dofile_names = scan_dofiles()
 		scanned = true
 		print("[CETMM] Mod scan complete.")
 	end
-	if btnOpen then
-		os.execute('start explorer "..\\mods\\"')
+	if btnOpenMods then
+		os.execute('start explorer ".\\"')
+	end
+	if btnOpenDofiles then
+		os.execute('start explorer ".\\cet_mod_manager\\dofiles"')
 	end
 	if btnAutoScan then
 		config.autoscan = not config.autoscan
 		saveConfig("./cet_mod_manager/config.json", config)
+		if config.autoscan then print("[CETMM] Auto scan enabled.") else print("[CETMM] Auto scan disabled.") end
+	end
+	if btnDofiles then
+		showDofileMods = not showDofileMods
 	end
 	if btnHelp then
 		showHelp = not showHelp
+	end
+	if btnRun ~= nil then
+		for i in pairs(btnRun) do
+			if btnRun[i] then
+				print("[CETMM] Executing "..modNameConvert(dofile_names[i]:match("(.+)%.lua$"))..".")
+				dofile("./cet_mod_manager/dofiles/"..dofile_names[i])
+				print("[CETMM] Done.")
+			end
+		end
 	end
 	if scanned then
 		for i in pairs(mods_data) do
@@ -69,37 +96,70 @@ registerForEvent("onDraw", function()
 		ImGui.SetWindowPos(wWidth/2-200, wHeight/2-200, ImGuiCond.FirstUseEver)
 		ImGui.SetWindowSize(400, 600, ImGuiCond.FirstUseEver)
 		ImGui.Spacing()
+		btnToggleStyleBegin(showDofileMods)
+		btnDofiles = ImGui.Button("Dofile Mods", 90, 25)
+		btnToggleStyleEnd()
+		ImGui.SameLine(186)
 		btnScan = ImGui.Button("Scan", 55, 25)
-		ImGui.SameLine()
-		btnOpen = ImGui.Button("Open Folder", 100, 25)
-		ImGui.SameLine()
+		ImGui.SameLine(248)
 		btnToggleStyleBegin(config.autoscan)
-		btnAutoScan = btnToggle("Auto Scan On", "Auto Scan Off", config.autoscan, 120, 25)
+		btnAutoScan = btnToggle("Auto Scan On", "Auto Scan Off", config.autoscan, 110, 25)
 		btnToggleStyleEnd()
 		ImGui.SameLine(365)
+		btnToggleStyleBegin(showHelp)
 		btnHelp = ImGui.Button("?", 25, 25)
+		btnToggleStyleEnd()
 		ImGui.Spacing()
+
+		ImGui.BeginChild("Mod List", 385, 497)
+
 		if showHelp then
-			ImGui.BeginChild("Help", ImGui.GetWindowWidth()-15, 145)
-			pushstylecolor(ImGuiCol.Text, theme.Separator)
-			ImGui.SetWindowFontScale(1.1)
-			ImGui.TextWrapped('Press [Scan] to scan the CyberEngineTweaks mods you have installed.')
-			ImGui.Spacing()
-			ImGui.TextWrapped('Tick/untick the checkboxs to enable/disable mods.')
-			ImGui.Spacing()
-			ImGui.TextWrapped('Change [Whindowed Mode] in Game\'s [Settings] - [Video] to [Windows Borderless] to avoid being thrown out to desktop when pressing [Scan].')
-			ImGui.Spacing()
-			ImGui.TextWrapped('After Enabling/Disabling mods, press the [Reload ALL Mods] button on console to reload the mods.')
-			ImGui.PopStyleColor(1)
-			ImGui.EndChild()
+			if not showDofileMods then
+				pushstylecolor(ImGuiCol.Text, theme.Separator)
+				ImGui.TextWrapped('Press [Scan] to scan the CyberEngineTweaks mods you have installed.')
+				ImGui.Spacing()
+				ImGui.TextWrapped('Tick/untick the checkbox to enable/disable mods.')
+				ImGui.Spacing()
+				ImGui.TextWrapped('Change [Windowed Mode] in Game\'s [Settings] - [Video] to [Windows Borderless] to avoid being thrown out to desktop when pressing [Scan].')
+				ImGui.Spacing()
+				ImGui.TextWrapped('After Enabling/Disabling mods, press the [Reload ALL Mods] button on console to reload the mods.')
+				ImGui.Spacing()
+				ImGui.TextWrapped('Press [Auto Scan] button to enable auto scan when the mod manager is loaded.')
+				ImGui.PopStyleColor(1)
+			else
+				ImGui.TextWrapped('You can run your favorite "dofile()" lua mods here with a press of button')
+				ImGui.Spacing()
+				ImGui.TextWrapped('To use this feature, press the [Dofile Folder] button on the button to open the folder. Copy your *.lua mod that runs with "dofile()" in here.')
+				ImGui.Spacing()
+				ImGui.TextWrapped('Press [Scan] button to refresh the mod list.')
+				ImGui.Spacing()
+				ImGui.TextWrapped('After the mod list has been loaded, press the [Run] button in front of them to run them with a press of button. No moar dofile()!')
+				ImGui.Spacing()
+				ImGui.TextWrapped('You can delete the example dofile modes if you want.')
+			end
 			ImGui.Spacing()
 		end
-		if mods_data ~= nil then
-			if showHelp then modlistH = 230 else modlistH = 75 end
-			ImGui.BeginChild("Mod List", ImGui.GetWindowWidth()-15, ImGui.GetWindowHeight()-modlistH)
-			draw_mod_list(mods_data)
-			ImGui.EndChild()
+
+		if scanned then
+			if showDofileMods then
+				if dofile_names[1] ~= nil then
+					btnRun = draw_dofile_list(dofile_names)
+				else
+					ImGui.Spacing()
+					ImGui.Text("You don't have any dofile mods...")
+				end
+			else
+				draw_mod_list(mods_data)
+			end
+		else
+			ImGui.Spacing()
+			ImGui.Text("Please scan the mods first...")
 		end
+
+		ImGui.EndChild()
+		btnOpenMods = ImGui.Button("Mods Folder", 90, 25)
+		ImGui.SameLine()
+		btnOpenDofiles = ImGui.Button("Dofile Folder", 105, 25)
 		ImGui.End()
 		setThemeEnd()
     end
@@ -109,14 +169,24 @@ end)
 function scan_mods()
 	local i = 0
 	local mod_names = {}
-	for dir in io.popen([[dir "..\mods\" /b /ad]]):lines() do
+	for dir in io.popen([[dir ".\" /b /ad]]):lines() do
 		i = i + 1
 		mod_names[i] = dir
 	end
 	return mod_names
 end
 
-function check_mod_state(mod) -- 1 == enabled, 2 == disabled, 3 == error
+function scan_dofiles()
+	local dofile_names = {}
+	for dir in io.popen([[dir ".\cet_mod_manager\dofiles\" /b /a-d]]):lines() do
+		if dir:match("(.+)%.lua$") then
+			table.insert(dofile_names, dir)
+		end
+	end
+	return dofile_names
+end
+
+function check_mod_state(mod)
 	local modpath = "./"..mod.."/init.lua"
 	local disabled_modpath = "./"..mod.."/init.lua_disabled"
 	if file_exists(modpath) then
@@ -142,6 +212,7 @@ end
 
 function draw_mod_list(mods_data)
 	for i in pairs(mods_data) do
+		ImGui.Spacing()
 		ImGui.PushID(i)
 		if mods_data[i].name == "cet_mod_manager" then
 			pushstylecolor(ImGuiCol.Text, theme.TextDisabled)
@@ -168,16 +239,38 @@ function draw_mod_list(mods_data)
 	end
 end
 
+function draw_dofile_list(dofile_names)
+	local btnRun = {}
+	for i in pairs(dofile_names) do
+		ImGui.Spacing()
+		ImGui.PushID(i)
+		pushstylecolor(ImGuiCol.Text, theme.CustomToggleOnText)
+		pushstylecolor(ImGuiCol.Button, theme.CustomToggleOn)
+		pushstylecolor(ImGuiCol.ButtonHovered, theme.CustomToggleOnHovered)
+		pushstylecolor(ImGuiCol.ButtonActive, theme.CustomToggleOn)
+		btnRun[i] = ImGui.Button("Run", 40, 20)
+		ImGui.PopStyleColor(4)
+		ImGui.PopID()
+		ImGui.SameLine()
+		ImGui.PushID(i)
+		pushstylecolor(ImGuiCol.Text, theme.Separator)
+		ImGui.Text(modNameConvert(dofile_names[i]:match("(.+)%.lua$")))
+		ImGui.PopStyleColor(1)
+		ImGui.PopID()
+	end
+	return btnRun
+end
+
 function toggleMod(mod, enable)
 	if enable then
-		local ok = os.rename ("./"..mod.."/init.lua_disabled", "./"..mod.."/init.lua")
+		local ok = os.rename("./"..mod.."/init.lua_disabled", "./"..mod.."/init.lua")
 		if ok then
 			print("[CETMM] "..modNameConvert(mod).." has been enabled.")
 		else
 			print("Error")
 		end
 	elseif not enable then
-		local ok = os.rename ("./"..mod.."/init.lua", "./"..mod.."/init.lua_disabled")
+		local ok = os.rename("./"..mod.."/init.lua", "./"..mod.."/init.lua_disabled")
 		if ok then
 			print("[CETMM] "..modNameConvert(mod).." has been disabled.")
 		else
