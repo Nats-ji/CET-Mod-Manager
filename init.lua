@@ -22,6 +22,12 @@ registerForEvent("onInit", function()
 	showHelp = false
 	wWidth, wHeight = GetDisplayResolution()
 	theme = require "cet_mod_manager.theme"
+	json = require "cet_mod_manager.json"
+	config = loadConfig("./cet_mod_manager/config.json")
+	if config.autoscan then
+		mods_data = get_mods_data()
+		scanned = true
+	end
 	print("************************************************")
 	print("* CyberEngineTWeaks Mod Manager Loaded...      *")
 	print("* Press Ctrl + Shift + C to open.              *")
@@ -36,6 +42,13 @@ registerForEvent("onUpdate", function()
 		mods_data = get_mods_data()
 		scanned = true
 		print("[CETMM] Mod scan complete.")
+	end
+	if btnOpen then
+		os.execute('start explorer "..\\mods\\"')
+	end
+	if btnAutoScan then
+		config.autoscan = not config.autoscan
+		saveConfig("./cet_mod_manager/config.json", config)
 	end
 	if btnHelp then
 		showHelp = not showHelp
@@ -56,8 +69,14 @@ registerForEvent("onDraw", function()
 		ImGui.SetWindowPos(wWidth/2-200, wHeight/2-200, ImGuiCond.FirstUseEver)
 		ImGui.SetWindowSize(400, 600, ImGuiCond.FirstUseEver)
 		ImGui.Spacing()
-		btnScan = ImGui.Button("Scan", 70, 25)
+		btnScan = ImGui.Button("Scan", 55, 25)
 		ImGui.SameLine()
+		btnOpen = ImGui.Button("Open Folder", 100, 25)
+		ImGui.SameLine()
+		btnToggleStyleBegin(config.autoscan)
+		btnAutoScan = btnToggle("Auto Scan On", "Auto Scan Off", config.autoscan, 120, 25)
+		btnToggleStyleEnd()
+		ImGui.SameLine(365)
 		btnHelp = ImGui.Button("?", 25, 25)
 		ImGui.Spacing()
 		if showHelp then
@@ -228,4 +247,62 @@ function modNameConvert(name)
 	else
 		return string.gsub(" "..name, "%W%l", string.upper):sub(2)
 	end
+end
+
+function btnToggle(onname, offname, state, width, height)
+	if onname ~= nil and offname ~= nil and state ~= nil then
+		if type(width) == "number" and type(height) == "number" then
+			if state then
+				return ImGui.Button(onname, width, height)
+			else
+				return ImGui.Button(offname, width, height)
+			end
+		else
+			if state then
+				return ImGui.Button(onname)
+			else
+				return ImGui.Button(offname)
+			end
+		end
+	end
+end
+
+function btnToggleStyleBegin(state)
+	if state then
+		pushstylecolor(ImGuiCol.Button, theme.CustomToggleOn)
+		pushstylecolor(ImGuiCol.ButtonHovered, theme.CustomToggleOnHovered)
+		pushstylecolor(ImGuiCol.Text, theme.CustomToggleOnText)
+	else
+		pushstylecolor(ImGuiCol.Button, theme.Button)
+		pushstylecolor(ImGuiCol.ButtonHovered, theme.ButtonHovered)
+		pushstylecolor(ImGuiCol.Text, theme.Text)
+	end
+end
+
+function btnToggleStyleEnd()
+	ImGui.PopStyleColor(3)
+end
+
+function loadConfig(name)
+	if file_exists(name) then
+		local file = io.open(name, "r")
+		io.input(file)
+		local config = json.decode(io.read("*a"))
+		file:close()
+			if type(config.autoscan) ~= "boolean" then
+				config.autoscan = false
+			end
+		return config
+	else
+		config = { autoscan = false }
+		return config
+	end
+end
+
+function saveConfig(name, config)
+	local file = io.open(name, "w")
+	io.output(file)
+	local jconfig = json.encode(config)
+	io.write(jconfig)
+	file:close()
 end
