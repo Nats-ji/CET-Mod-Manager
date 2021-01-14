@@ -26,7 +26,6 @@ registerForEvent("onInit", function()
 	theme = require "cet_mod_manager.theme"
 	json = require "cet_mod_manager.json"
 	config = loadConfig("./cet_mod_manager/config.json")
-	print()
 	if config.autoscan then
 		mods_data = get_mods_data()
 		dofile_names = scan_dofiles()
