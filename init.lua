@@ -16,6 +16,12 @@
 -- along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
 registerForEvent("onInit", function()
+	rootPath = {
+		Require = "plugins.cyber_engine_tweaks.mods.cet_mod_manager.",
+		ModsIO = "bin/x64/plugins/cyber_engine_tweaks/mods/",
+		IO = "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/",
+		Execute = "bin\\x64\\plugins\\cyber_engine_tweaks\\mods\\"
+	}
 	Manager_Hotkey = 0x43 -- Hotkey for openning mod manager. Change Hotkey Here. You can find Key Codes at https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 	Dofiles_Hotkey = 0x46 -- Hotkey for openning dofile mod list.
 	draw = false
@@ -23,9 +29,9 @@ registerForEvent("onInit", function()
 	showHelp = false
 	showDofileMods = false
 	wWidth, wHeight = GetDisplayResolution()
-	theme = require "cet_mod_manager.theme"
-	json = require "cet_mod_manager.json"
-	config = loadConfig("./cet_mod_manager/config.json")
+	theme = require(rootPath.Require.."theme")
+	json = require(rootPath.Require.."json")
+	config = loadConfig(rootPath.IO.."config.json")
 	if config.autoscan then
 		mods_data = get_mods_data()
 		dofile_names = scan_dofiles()
@@ -54,14 +60,14 @@ registerForEvent("onUpdate", function()
 		print("[CETMM] Mod scan complete.")
 	end
 	if btnOpenMods then
-		os.execute('start explorer ".\\"')
+		os.execute("start explorer "..rootPath.Execute)
 	end
 	if btnOpenDofiles then
-		os.execute('start explorer ".\\cet_mod_manager\\dofiles"')
+		os.execute("start explorer "..rootPath.Execute.."cet_mod_manager\\dofiles")
 	end
 	if btnAutoScan then
 		config.autoscan = not config.autoscan
-		saveConfig("./cet_mod_manager/config.json", config)
+		saveConfig(rootPath.IO.."config.json", config)
 		if config.autoscan then print("[CETMM] Auto scan enabled.") else print("[CETMM] Auto scan disabled.") end
 	end
 	if btnDofiles then
@@ -74,7 +80,7 @@ registerForEvent("onUpdate", function()
 		for i in pairs(btnRun) do
 			if btnRun[i] then
 				print("[CETMM] Executing "..modNameConvert(dofile_names[i]:match("(.+)%.lua$"))..".")
-				dofile("./cet_mod_manager/dofiles/"..dofile_names[i])
+				dofile(rootPath.IO.."dofiles/"..dofile_names[i])
 				print("[CETMM] Done.")
 			end
 		end
@@ -174,7 +180,7 @@ end)
 function scan_mods()
 	local i = 0
 	local mod_names = {}
-	for dir in io.popen([[dir ".\" /b /ad]]):lines() do
+	for dir in io.popen("dir "..rootPath.Execute.." /b /ad"):lines() do
 		i = i + 1
 		mod_names[i] = dir
 	end
@@ -183,17 +189,18 @@ end
 
 function scan_dofiles()
 	local dofile_names = {}
-	for dir in io.popen([[dir ".\cet_mod_manager\dofiles\" /b /a-d]]):lines() do
-		if dir:match("(.+)%.lua$") then
-			table.insert(dofile_names, dir)
+	for lua in io.popen("dir "..rootPath.Execute.."cet_mod_manager\\dofiles\\ /b /a-d"):lines() do
+		if lua:match("(.+)%.lua$") then
+			table.insert(dofile_names, lua)
 		end
 	end
 	return dofile_names
 end
 
 function check_mod_state(mod)
-	local modpath = "./"..mod.."/init.lua"
-	local disabled_modpath = "./"..mod.."/init.lua_disabled"
+	local modpath = rootPath.ModsIO..mod.."/init.lua"
+	print(modpath)
+	local disabled_modpath = rootPath.ModsIO..mod.."/init.lua_disabled"
 	if file_exists(modpath) then
 		return true
 	elseif not file_exists(modpath) and file_exists(disabled_modpath) then
@@ -268,14 +275,14 @@ end
 
 function toggleMod(mod, enable)
 	if enable then
-		local ok = os.rename("./"..mod.."/init.lua_disabled", "./"..mod.."/init.lua")
+		local ok = os.rename(rootPath.ModsIO..mod.."/init.lua_disabled", rootPath.ModsIO..mod.."/init.lua")
 		if ok then
 			print("[CETMM] "..modNameConvert(mod).." has been enabled.")
 		else
 			print("Error")
 		end
 	elseif not enable then
-		local ok = os.rename("./"..mod.."/init.lua", "./"..mod.."/init.lua_disabled")
+		local ok = os.rename(rootPath.ModsIO..mod.."/init.lua", rootPath.ModsIO..mod.."/init.lua_disabled")
 		if ok then
 			print("[CETMM] "..modNameConvert(mod).." has been disabled.")
 		else
