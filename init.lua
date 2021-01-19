@@ -32,7 +32,6 @@ registerForEvent("onInit", function()
 	theme = require(rootPath.Require.."theme")
 	json = require(rootPath.Require.."json")
 	config = loadConfig(rootPath.IO.."config.json")
-	print()
 	if config.autoscan then
 		mods_data = get_mods_data()
 		dofile_names = scan_dofiles()
