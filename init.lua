@@ -199,7 +199,6 @@ end
 
 function check_mod_state(mod)
 	local modpath = rootPath.ModsIO..mod.."/init.lua"
-	print(modpath)
 	local disabled_modpath = rootPath.ModsIO..mod.."/init.lua_disabled"
 	if file_exists(modpath) then
 		return true
