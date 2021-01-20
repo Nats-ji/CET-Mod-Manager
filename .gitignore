@@ -6,3 +6,4 @@ dofiles/*
 !dofiles/set_time_to_noon.lua
 !dofiles/suicide.lua
 !dofiles/to-the-moon.lua
+cet_mod_manager.log

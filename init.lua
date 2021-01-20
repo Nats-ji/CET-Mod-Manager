@@ -17,10 +17,10 @@
 
 registerForEvent("onInit", function()
 	rootPath = {
-		Require = "plugins.cyber_engine_tweaks.mods.cet_mod_manager.",
-		ModsIO = "bin/x64/plugins/cyber_engine_tweaks/mods/",
-		IO = "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/",
-		Execute = "bin\\x64\\plugins\\cyber_engine_tweaks\\mods\\"
+		Require = ".plugins.cyber_engine_tweaks.mods.cet_mod_manager.",
+		ModsIO = "./bin/x64/plugins/cyber_engine_tweaks/mods/",
+		IO = "./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/",
+		Execute = ".\\bin\\x64\\plugins\\cyber_engine_tweaks\\mods\\"
 	}
 	Manager_Hotkey = 0x43 -- Hotkey for openning mod manager. Change Hotkey Here. You can find Key Codes at https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 	Dofiles_Hotkey = 0x46 -- Hotkey for openning dofile mod list.
