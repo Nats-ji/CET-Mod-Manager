@@ -18,10 +18,11 @@
 registerForEvent("onInit", function()
 	rootPath = {
 		Require = ".plugins.cyber_engine_tweaks.mods.cet_mod_manager.",
-		ModsIO = "./bin/x64/plugins/cyber_engine_tweaks/mods/",
-		IO = "./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/",
-		Execute = ".\\bin\\x64\\plugins\\cyber_engine_tweaks\\mods\\"
+		ModsIO = nil,
+		IO = nil,
+		Execute = nil
 	}
+	readRootPath()
 	Manager_Hotkey = 0x43 -- Hotkey for openning mod manager. Change Hotkey Here. You can find Key Codes at https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 	Dofiles_Hotkey = 0x46 -- Hotkey for openning dofile mod list.
 	draw = false
@@ -413,4 +414,24 @@ function saveConfig(name, config)
 	local jconfig = json.encode(config)
 	io.write(jconfig)
 	file:close()
+end
+
+function readRootPath()
+  local f = io.popen"cd"
+  local path = f:read'*l'
+  local current_dir = path:match("([^\\]+)$")
+  if current_dir == "Cyberpunk 2077" then
+    rootPath.ModsIO = "./bin/x64/plugins/cyber_engine_tweaks/mods/"
+    rootPath.IO = "./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/"
+    rootPath.Execute = ".\\bin\\x64\\plugins\\cyber_engine_tweaks\\mods\\"
+  elseif current_dir == "x64" then
+    rootPath.ModsIO = "./plugins/cyber_engine_tweaks/mods/"
+    rootPath.IO = "./plugins/cyber_engine_tweaks/mods/cet_mod_manager/"
+    rootPath.Execute = ".\\plugins\\cyber_engine_tweaks\\mods\\"
+  elseif  current_dir == "mods" then
+    rootPath.ModsIO = "./"
+    rootPath.IO = "./cet_mod_manager/"
+    rootPath.Execute = ".\\"
+  end
+  f:close()
 end
