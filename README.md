@@ -2,7 +2,7 @@
 
 ## Features
 
-Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/download/1.0/cet_mod_manager_1.0.zip
+Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/
 
 - A Mod Manager for CyberEngineTweaks based mods
 - Enable/Disable CyberEngineTweaks based mods inside game with a single click
