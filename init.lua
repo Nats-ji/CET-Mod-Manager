@@ -180,20 +180,24 @@ end)
 function scan_mods()
 	local i = 0
 	local mod_names = {}
-	for dir in io.popen("dir "..rootPath.Execute.." /b /ad"):lines() do
+	local dir_list = io.popen("dir "..rootPath.Execute.." /b /ad")
+	for dir in dir_list:lines() do
 		i = i + 1
 		mod_names[i] = dir
 	end
+	dir_list:close()
 	return mod_names
 end
 
 function scan_dofiles()
 	local dofile_names = {}
-	for lua in io.popen("dir "..rootPath.Execute.."cet_mod_manager\\dofiles\\ /b /a-d"):lines() do
+	local dofile_list = io.popen("dir "..rootPath.Execute.."cet_mod_manager\\dofiles\\ /b /a-d")
+	for lua in dofile_list:lines() do
 		if lua:match("(.+)%.lua$") then
 			table.insert(dofile_names, lua)
 		end
 	end
+	dofile_list:close()
 	return dofile_names
 end
 
