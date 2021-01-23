@@ -39,15 +39,17 @@ registerForEvent("onInit", function()
 	print("************************************************")
 end)
 
+registerHotkey("mod_manager_interface", "Mod Manager Interface", function()
+	draw = not draw
+	showDofileMods = false
+end)
+
+registerHotkey("dofile_interface", "Dofile Interface", function()
+	draw = not draw
+	showDofileMods = true
+end)
+
 registerForEvent("onUpdate", function()
-	if (ImGui.IsKeyDown(0x11) and ImGui.IsKeyDown(0x10) and ImGui.IsKeyPressed(Manager_Hotkey, false)) then
-		draw = not draw
-		showDofileMods = false
-	end
-	if (ImGui.IsKeyDown(0x11) and ImGui.IsKeyDown(0x10) and ImGui.IsKeyPressed(Dofiles_Hotkey, false)) then
-		draw = not draw
-		showDofileMods = true
-	end
 	if btnScan then
 		mods_data = get_mods_data()
 		dofile_names = scan_dofiles()
