@@ -56,8 +56,7 @@ registerForEvent("onUpdate", function()
 	if btnScan then
 		mods_data = get_mods_data()
 		dofile_names = scan_dofiles()
-		scanned = true
-		print("[CETMM] Mod scan complete.")
+		print("[CETMM] Mod rescan complete.")
 	end
 	if btnOpenMods then
 		os.execute("start explorer "..rootPath.Execute)
@@ -65,11 +64,7 @@ registerForEvent("onUpdate", function()
 	if btnOpenDofiles then
 		os.execute("start explorer "..rootPath.Execute.."cet_mod_manager\\dofiles")
 	end
-	if btnAutoScan then
-		config.autoscan = not config.autoscan
-		saveConfig(rootPath.IO.."config.json", config)
-		if config.autoscan then print("[CETMM] Auto scan enabled.") else print("[CETMM] Auto scan disabled.") end
-	end
+
 	if btnDofiles then
 		showDofileMods = not showDofileMods
 	end
@@ -85,11 +80,9 @@ registerForEvent("onUpdate", function()
 			end
 		end
 	end
-	if scanned then
-		for i in pairs(mods_data) do
-			if mods_data[i].pressed then
-				toggleMod(mods_data[i].name, mods_data[i].state)
-			end
+	for i in pairs(mods_data) do
+		if mods_data[i].pressed then
+			toggleMod(mods_data[i].name, mods_data[i].state)
 		end
 	end
 end)
@@ -104,12 +97,8 @@ registerForEvent("onDraw", function()
 		btnToggleStyleBegin(showDofileMods)
 		btnDofiles = ImGui.Button("Dofile Mods", 90, 25)
 		btnToggleStyleEnd()
-		ImGui.SameLine(186)
-		btnScan = ImGui.Button("Scan", 55, 25)
-		ImGui.SameLine(248)
-		btnToggleStyleBegin(config.autoscan)
-		btnAutoScan = btnToggle("Auto Scan On", "Auto Scan Off", config.autoscan, 110, 25)
-		btnToggleStyleEnd()
+		ImGui.SameLine(285)
+		btnScan = ImGui.Button("Re-Scan", 75, 25)
 		ImGui.SameLine(365)
 		btnToggleStyleBegin(showHelp)
 		btnHelp = ImGui.Button("?", 25, 25)
@@ -145,26 +134,15 @@ registerForEvent("onDraw", function()
 			ImGui.Spacing()
 		end
 
-		if scanned then
-			if showDofileMods then
-				if dofile_names[1] ~= nil then
-					btnRun = draw_dofile_list(dofile_names)
-				else
-					ImGui.Spacing()
-					ImGui.Text("You don't have any dofile mods...")
-				end
+		if showDofileMods then
+			if dofile_names[1] ~= nil then
+				btnRun = draw_dofile_list(dofile_names)
 			else
-				draw_mod_list(mods_data)
+				ImGui.Spacing()
+				ImGui.Text("You don't have any dofile mods...")
 			end
 		else
-			ImGui.Spacing()
-			if showDofileMods then
-				pushstylecolor(ImGuiCol.Text, theme.Separator)
-				ImGui.Text("Please scan the mods first...")
-				ImGui.PopStyleColor(1)
-			else
-				ImGui.Text("Please scan the mods first...")
-			end
+			draw_mod_list(mods_data)
 		end
 
 		ImGui.EndChild()
@@ -389,30 +367,6 @@ end
 
 function btnToggleStyleEnd()
 	ImGui.PopStyleColor(3)
-end
-
-function loadConfig(name)
-	if file_exists(name) then
-		local file = io.open(name, "r")
-		io.input(file)
-		local config = json.decode(io.read("*a"))
-		file:close()
-			if type(config.autoscan) ~= "boolean" then
-				config.autoscan = false
-			end
-		return config
-	else
-		config = { autoscan = false }
-		return config
-	end
-end
-
-function saveConfig(name, config)
-	local file = io.open(name, "w")
-	io.output(file)
-	local jconfig = json.encode(config)
-	io.write(jconfig)
-	file:close()
 end
 
 function readRootPath()
