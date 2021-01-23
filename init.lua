@@ -31,7 +31,7 @@ registerForEvent("onInit", function()
 	showDofileMods = false
 	wWidth, wHeight = GetDisplayResolution()
 	theme = require(rootPath.Require.."theme")
-	json = require(rootPath.Require.."json")
+	json = require("json")
 	config = loadConfig(rootPath.IO.."config.json")
 	if config.autoscan then
 		mods_data = get_mods_data()
@@ -417,21 +417,17 @@ function saveConfig(name, config)
 end
 
 function readRootPath()
-  local f = io.popen"cd"
-  local path = f:read'*l'
-  local current_dir = path:match("([^\\]+)$")
-  if current_dir == "Cyberpunk 2077" then
+  if file_exists("./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/init.lua") then
     rootPath.ModsIO = "./bin/x64/plugins/cyber_engine_tweaks/mods/"
     rootPath.IO = "./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/"
     rootPath.Execute = ".\\bin\\x64\\plugins\\cyber_engine_tweaks\\mods\\"
-  elseif current_dir == "x64" then
+  elseif file_exists("./plugins/cyber_engine_tweaks/mods/cet_mod_manager/init.lua") then
     rootPath.ModsIO = "./plugins/cyber_engine_tweaks/mods/"
     rootPath.IO = "./plugins/cyber_engine_tweaks/mods/cet_mod_manager/"
     rootPath.Execute = ".\\plugins\\cyber_engine_tweaks\\mods\\"
-  elseif  current_dir == "mods" then
+  elseif  file_exists("./cet_mod_manager/init.lua") then
     rootPath.ModsIO = "./"
     rootPath.IO = "./cet_mod_manager/"
     rootPath.Execute = ".\\"
   end
-  f:close()
 end
