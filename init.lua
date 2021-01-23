@@ -26,8 +26,6 @@ registerForEvent("onInit", function()
 	mods_data = get_mods_data()
 	dofile_names = scan_dofiles()
 	theme = require(rootPath.Require.."theme")
-	Manager_Hotkey = 0x43 -- Hotkey for openning mod manager. Change Hotkey Here. You can find Key Codes at https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-	Dofiles_Hotkey = 0x46 -- Hotkey for openning dofile mod list.
 	draw = false
 	showHelp = false
 	showDofileMods = false
