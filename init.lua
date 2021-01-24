@@ -23,7 +23,7 @@ registerForEvent("onInit", function()
 		Execute = nil
 	}
 	readRootPath()
-	draw = true
+	draw = false
 	scanned = false
 	showHelp = false
 	showDofileMods = false
