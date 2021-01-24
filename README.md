@@ -6,13 +6,8 @@ Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/download/1.0/cet_m
 
 - A Mod Manager for CyberEngineTweaks based mods
 - Enable/Disable CyberEngineTweaks based mods inside game with a single click
-- Open the interface by pressing `Ctrl + Shift + C`
+- Open the interface by pressing the hotkey you bound in CET
 
-The default key is set to `C`. You can change it at Line 19 in the `init.lua` file. You can find Key Codes at https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-
-```lua
-Hotkey = 0x43 -- Change Hotkey Here.
-```
 
 ![imgage](https://staticdelivery.nexusmods.com/mods/3333/images/895/895-1610480969-1242777005.png)
 
@@ -26,7 +21,7 @@ Restart the game. Or reload Mods from the CyberEngineTweaks Console.
 
 ## Usage
 
-1. To use it, you just simply press `Ctrl + Shift + C` to open the inertface.
+1. To use it, you just simply press `hotkey` you bound to open the inertface.
 
 2. Press the button `Scan` to scan your installed mods. (Set the game to `Borderless Windows` mode to avoid being thrown out to the desktop.)
 
