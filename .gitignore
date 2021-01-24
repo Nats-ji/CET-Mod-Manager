@@ -7,3 +7,4 @@ dofiles/*
 !dofiles/suicide.lua
 !dofiles/to-the-moon.lua
 cet_mod_manager.log
+config.json
