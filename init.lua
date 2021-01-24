@@ -23,22 +23,24 @@ registerForEvent("onInit", function()
 		Execute = nil
 	}
 	readRootPath()
-	draw = false
+	draw = true
 	scanned = false
 	showHelp = false
 	showDofileMods = false
 	wWidth, wHeight = GetDisplayResolution()
 	theme = require(rootPath.Require.."theme")
 	config = loadConfig(rootPath.IO.."config.json")
+	fontscale = ImGui.GetFontSize()/13
 	if config.autoscan then
 		mods_data = get_mods_data()
 		dofile_names = scan_dofiles()
 		scanned = true
 	end
+	ry2 = 0
 	print("************************************************")
 	print("* CyberEngineTWeaks Mod Manager Loaded...      *")
-	print("* Press Ctrl+Shift+C to open mod manager.      *")
-	print("* Press Ctrl+Shift+F to open dofile mods.      *")
+	print("* Please bind a hotkey in Cyber Engine Tweaks, *")
+	print("* if this is your first time launch.           *")
 	print("************************************************")
 end)
 
@@ -93,30 +95,36 @@ registerForEvent("onUpdate", function()
 		end
 	end
 end)
-
 registerForEvent("onDraw", function()
     if draw then
 		setThemeBegin()
-		draw = ImGui.Begin("CyberEngineTWeaks Mod Manager", draw, ImGuiWindowFlags.NoResize)
-		ImGui.SetWindowPos(wWidth/2-200, wHeight/2-200, ImGuiCond.FirstUseEver)
-		ImGui.SetWindowSize(400, 600, ImGuiCond.FirstUseEver)
+		draw = ImGui.Begin("CyberEngineTWeaks Mod Manager", true)
+		ImGui.SetWindowPos(wWidth/2-200*fontscale, wHeight/2-300*fontscale, ImGuiCond.FirstUseEver)
+		if 600*fontscale > wHeight*0.8 then
+			ImGui.SetWindowSize(400*fontscale, wHeight*0.8, ImGuiCond.Always)
+		else
+			ImGui.SetWindowSize(400*fontscale, 600*fontscale, ImGuiCond.Always)
+		end
+		ImGui.BeginGroup()
 		ImGui.Spacing()
 		btnToggleStyleBegin(showDofileMods)
-		btnDofiles = ImGui.Button("Dofile Mods", 90, 25)
+		btnDofiles = ImGui.Button("Dofile Mods", 90*fontscale, 25*fontscale)
 		btnToggleStyleEnd()
-		ImGui.SameLine(186)
-		btnScan = ImGui.Button("Scan", 55, 25)
-		ImGui.SameLine(248)
+		ImGui.SameLine(180*fontscale)
+		btnScan = ImGui.Button("Scan", 55*fontscale, 25*fontscale)
+		ImGui.SameLine(242*fontscale)
 		btnToggleStyleBegin(config.autoscan)
-		btnAutoScan = btnToggle("Auto Scan On", "Auto Scan Off", config.autoscan, 110, 25)
+		btnAutoScan = btnToggle("Auto Scan On", "Auto Scan Off", config.autoscan, 110*fontscale, 25*fontscale)
 		btnToggleStyleEnd()
-		ImGui.SameLine(365)
+		ImGui.SameLine(359*fontscale)
 		btnToggleStyleBegin(showHelp)
-		btnHelp = ImGui.Button("?", 25, 25)
+		btnHelp = ImGui.Button("?", 25*fontscale, 25*fontscale)
 		btnToggleStyleEnd()
 		ImGui.Spacing()
+		ImGui.EndGroup()
+		cax, cay = ImGui.GetContentRegionAvail()
 
-		ImGui.BeginChild("Mod List", 385, 497)
+		ImGui.BeginChild("Mod List", cax, cay-ry2-5)
 
 		if showHelp then
 			if not showDofileMods then
@@ -168,9 +176,13 @@ registerForEvent("onDraw", function()
 		end
 
 		ImGui.EndChild()
-		btnOpenMods = ImGui.Button("Mods Folder", 90, 25)
+		ImGui.BeginGroup()
+		ImGui.Spacing()
+		btnOpenMods = ImGui.Button("Mods Folder", 90*fontscale, 25*fontscale)
 		ImGui.SameLine()
-		btnOpenDofiles = ImGui.Button("Dofile Folder", 105, 25)
+		btnOpenDofiles = ImGui.Button("Dofile Folder", 105*fontscale, 25*fontscale)
+		ImGui.EndGroup()
+		rx2, ry2 = ImGui.GetItemRectSize()
 		ImGui.End()
 		setThemeEnd()
     end
@@ -263,7 +275,7 @@ function draw_dofile_list(dofile_names)
 		pushstylecolor(ImGuiCol.Button, theme.CustomToggleOn)
 		pushstylecolor(ImGuiCol.ButtonHovered, theme.CustomToggleOnHovered)
 		pushstylecolor(ImGuiCol.ButtonActive, theme.CustomToggleOn)
-		btnRun[i] = ImGui.Button("Run", 40, 20)
+		btnRun[i] = ImGui.Button("Run", 40*fontscale, 20*fontscale)
 		ImGui.PopStyleColor(4)
 		ImGui.PopID()
 		ImGui.SameLine()
@@ -341,9 +353,11 @@ function setThemeBegin()
 	pushstylecolor(ImGuiCol.ButtonHovered,			theme.ButtonHovered)
 	pushstylecolor(ImGuiCol.ButtonActive,			theme.ButtonActive)
 	pushstylecolor(ImGuiCol.Separator,				theme.Separator)
+	ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 6*fontscale, 6*fontscale)
 end
 
 function setThemeEnd()
+	ImGui.PopStyleVar(1)
 	ImGui.PopStyleColor(24)
 end
 
