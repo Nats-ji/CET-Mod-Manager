@@ -2,7 +2,7 @@
 
 ## Features
 
-Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/download/1.0/cet_mod_manager_1.0.zip
+Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/
 
 - A Mod Manager for CyberEngineTweaks based mods
 - Enable/Disable CyberEngineTweaks based mods inside game with a single click
@@ -13,7 +13,7 @@ Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/download/1.0/cet_m
 
 ## Installation
 
-This mod requires **CyberEngineTweaks** Mod. Please Install it first. https://github.com/yamashi?tab=repositories
+This mod requires the latest version of **Cyber Engine Tweaks** Mod. Please Install it first. https://github.com/yamashi/CyberEngineTweaks/releases
 
 Put `cet_mod_manager` folder inside `\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\`
 
