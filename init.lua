@@ -293,6 +293,9 @@ function applyConfig(config)
 		dofile_names = scan_dofiles()
 		scanned = true
 	end
+	if config.lang ~= "en_us" then
+		i18n.loadFile(rootPath.IO.."lang/en_us.lua")
+	end
 	i18n.loadFile(rootPath.IO.."lang/"..config.lang..".lua")
 	i18n.setLocale(config.lang)
 end

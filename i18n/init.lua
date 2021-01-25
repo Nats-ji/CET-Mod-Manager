@@ -3,7 +3,7 @@ local i18n = {}
 local store
 local locale
 local pluralizeFunction
-local defaultLocale = 'en'
+local defaultLocale = 'en_us'
 local fallbackLocale = defaultLocale
 
 local currentFilePath = (...):gsub("%.init$","")
