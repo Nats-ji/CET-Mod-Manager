@@ -24,6 +24,7 @@ rootPath = {
 }
 
 i18n = require(rootPath.Require.."i18n")
+languages = require(rootPath.Require.."lang/lang")
 
 function scan_mods()
 	local i = 0
@@ -275,7 +276,7 @@ function loadConfig(name)
 			if type(config.autoscan) ~= "boolean" then
 				config.autoscan = false
 			end
-			if config.lang ~= "en_us" and config.lang ~= "zh_cn" and config.lang ~= "zh_tw" and config.lang ~= "ja_jp" then
+			if config.lang == nil then
 				config.lang = "en_us"
 			end
 		saveConfig(name, config)
@@ -292,6 +293,8 @@ function applyConfig(config)
 		mods_data = get_mods_data()
 		dofile_names = scan_dofiles()
 		scanned = true
+	else
+		scanned = false
 	end
 	if config.lang ~= "en_us" then
 		i18n.loadFile(rootPath.IO.."lang/en_us.lua")
@@ -314,7 +317,6 @@ applyConfig(config)
 registerForEvent("onInit", function()
 	readRootPath()
 	draw = true
-	scanned = false
 	showHelp = false
 	showDofileMods = false
 	wWidth, wHeight = GetDisplayResolution()
@@ -378,21 +380,11 @@ registerForEvent("onUpdate", function()
 			end
 		end
 	end
-	if selLangEN then
-		setLang("en_us")
-		selLangEN = false
-	end
-	if selLangZHCN then
-		setLang("zh_cn")
-		selLangZHCN = false
-	end
-	if selLangZHTW then
-		setLang("zh_tw")
-		selLangZHTW = false
-	end
-	if selLangJP then
-		setLang("ja_jp")
-		selLangJP = false
+	for l in pairs(languages) do
+		if languages[l].selLang then
+			setLang(languages[l].id)
+			languages[l].selLang = false
+		end
 	end
 end)
 registerForEvent("onDraw", function()
@@ -439,10 +431,9 @@ registerForEvent("onDraw", function()
       ImGui.Text(i18n("text_select_lang"))
 			ImGui.Spacing()
 			ImGui.PushStyleVar(ImGuiStyleVar.SelectableTextAlign, 0, 0.5)
-      selLangEN = ImGui.Selectable("English", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
-			selLangZHCN = ImGui.Selectable("简体中文 (Simplified Chinese)", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
-			selLangZHTW = ImGui.Selectable("正體中文 (Traditional Chinese)", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
-			selLangJP = ImGui.Selectable("日本語 (Japanese)", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
+			for l in pairs(languages) do
+				languages[l].selLang = ImGui.Selectable(languages[l].name, false, ImGuiSelectableFlags.None, 0, 22*fontscale)
+			end
 			ImGui.PopStyleVar(1)
       ImGui.EndPopup()
     end
