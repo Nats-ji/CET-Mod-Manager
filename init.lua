@@ -15,179 +15,15 @@
 -- You should have received a copy of the GNU General Public License
 -- along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
-registerForEvent("onInit", function()
-	rootPath = {
-		Require = "./plugins/cyber_engine_tweaks/mods/cet_mod_manager/",
-		ModsIO = nil,
-		IO = nil,
-		Execute = nil
-	}
-	readRootPath()
-	draw = false
-	scanned = false
-	showHelp = false
-	showDofileMods = false
-	wWidth, wHeight = GetDisplayResolution()
-	theme = require(rootPath.Require.."theme")
-	config = loadConfig(rootPath.IO.."config.json")
-	fontscale = ImGui.GetFontSize()/13
-	if config.autoscan then
-		mods_data = get_mods_data()
-		dofile_names = scan_dofiles()
-		scanned = true
-	end
-	ry2 = 0
-	print("************************************************")
-	print("* CyberEngineTWeaks Mod Manager Loaded...      *")
-	print("* Please bind a hotkey in Cyber Engine Tweaks, *")
-	print("* if this is your first time launch.           *")
-	print("************************************************")
-end)
 
-registerHotkey("mod_manager_interface", "Mod Manager Interface", function()
-	draw = not draw
-	showDofileMods = false
-end)
+rootPath = {
+	Require = "./plugins/cyber_engine_tweaks/mods/cet_mod_manager/",
+	ModsIO = "./",
+	IO = "./cet_mod_manager/",
+	Execute = ".\\"
+}
 
-registerHotkey("dofile_interface", "Dofile Interface", function()
-	draw = not draw
-	showDofileMods = true
-end)
-
-registerForEvent("onUpdate", function()
-	if btnScan then
-		mods_data = get_mods_data()
-		dofile_names = scan_dofiles()
-		scanned = true
-		print("[CETMM] Mod scan complete.")
-	end
-	if btnOpenMods then
-		os.execute("start explorer "..rootPath.Execute)
-	end
-	if btnOpenDofiles then
-		os.execute("start explorer "..rootPath.Execute.."cet_mod_manager\\dofiles")
-	end
-	if btnAutoScan then
-		config.autoscan = not config.autoscan
-		saveConfig(rootPath.IO.."config.json", config)
-		if config.autoscan then print("[CETMM] Auto scan enabled.") else print("[CETMM] Auto scan disabled.") end
-	end
-	if btnDofiles then
-		showDofileMods = not showDofileMods
-	end
-	if btnHelp then
-		showHelp = not showHelp
-	end
-	if btnRun ~= nil then
-		for i in pairs(btnRun) do
-			if btnRun[i] then
-				print("[CETMM] Executing "..modNameConvert(dofile_names[i]:match("(.+)%.lua$"))..".")
-				dofile(rootPath.IO.."dofiles/"..dofile_names[i])
-				print("[CETMM] Done.")
-			end
-		end
-	end
-	if scanned then
-		for i in pairs(mods_data) do
-			if mods_data[i].pressed then
-				toggleMod(mods_data[i].name, mods_data[i].state)
-			end
-		end
-	end
-end)
-registerForEvent("onDraw", function()
-    if draw then
-		setThemeBegin()
-		draw = ImGui.Begin("CyberEngineTWeaks Mod Manager", true)
-		ImGui.SetWindowPos(wWidth/2-200*fontscale, wHeight/2-300*fontscale, ImGuiCond.FirstUseEver)
-		if 600*fontscale > wHeight*0.8 then
-			ImGui.SetWindowSize(400*fontscale, wHeight*0.8, ImGuiCond.Always)
-		else
-			ImGui.SetWindowSize(400*fontscale, 600*fontscale, ImGuiCond.Always)
-		end
-		ImGui.BeginGroup()
-		ImGui.Spacing()
-		btnToggleStyleBegin(showDofileMods)
-		btnDofiles = ImGui.Button("Dofile Mods", 90*fontscale, 25*fontscale)
-		btnToggleStyleEnd()
-		ImGui.SameLine(180*fontscale)
-		btnScan = ImGui.Button("Scan", 55*fontscale, 25*fontscale)
-		ImGui.SameLine(242*fontscale)
-		btnToggleStyleBegin(config.autoscan)
-		btnAutoScan = btnToggle("Auto Scan On", "Auto Scan Off", config.autoscan, 110*fontscale, 25*fontscale)
-		btnToggleStyleEnd()
-		ImGui.SameLine(359*fontscale)
-		btnToggleStyleBegin(showHelp)
-		btnHelp = ImGui.Button("?", 25*fontscale, 25*fontscale)
-		btnToggleStyleEnd()
-		ImGui.Spacing()
-		ImGui.EndGroup()
-		cax, cay = ImGui.GetContentRegionAvail()
-
-		ImGui.BeginChild("Mod List", cax, cay-ry2-5)
-
-		if showHelp then
-			if not showDofileMods then
-				pushstylecolor(ImGuiCol.Text, theme.Separator)
-				ImGui.TextWrapped('Press [Scan] to scan the CyberEngineTweaks mods you have installed.')
-				ImGui.Spacing()
-				ImGui.TextWrapped('Tick/untick the checkbox to enable/disable mods.')
-				ImGui.Spacing()
-				ImGui.TextWrapped('Change [Windowed Mode] in Game\'s [Settings] - [Video] to [Windows Borderless] to avoid being thrown out to desktop when pressing [Scan].')
-				ImGui.Spacing()
-				ImGui.TextWrapped('After Enabling/Disabling mods, press the [Reload ALL Mods] button on console to reload the mods.')
-				ImGui.Spacing()
-				ImGui.TextWrapped('Press [Auto Scan] button to enable auto scan when the mod manager is loaded.')
-				ImGui.PopStyleColor(1)
-			else
-				ImGui.TextWrapped('You can run your favorite "dofile()" lua mods here with a press of button')
-				ImGui.Spacing()
-				ImGui.TextWrapped('To use this feature, press the [Dofile Folder] button on the button to open the folder. Copy your *.lua mod that runs with "dofile()" in here.')
-				ImGui.Spacing()
-				ImGui.TextWrapped('Press [Scan] button to refresh the mod list.')
-				ImGui.Spacing()
-				ImGui.TextWrapped('After the mod list has been loaded, press the [Run] button in front of them to run them with a press of button. No moar dofile()!')
-				ImGui.Spacing()
-				ImGui.TextWrapped('You can delete the example dofile modes if you want.')
-			end
-			ImGui.Spacing()
-		end
-
-		if scanned then
-			if showDofileMods then
-				if dofile_names[1] ~= nil then
-					btnRun = draw_dofile_list(dofile_names)
-				else
-					ImGui.Spacing()
-					ImGui.Text("You don't have any dofile mods...")
-				end
-			else
-				draw_mod_list(mods_data)
-			end
-		else
-			ImGui.Spacing()
-			if showDofileMods then
-				pushstylecolor(ImGuiCol.Text, theme.Separator)
-				ImGui.Text("Please scan the mods first...")
-				ImGui.PopStyleColor(1)
-			else
-				ImGui.Text("Please scan the mods first...")
-			end
-		end
-
-		ImGui.EndChild()
-		ImGui.BeginGroup()
-		ImGui.Spacing()
-		btnOpenMods = ImGui.Button("Mods Folder", 90*fontscale, 25*fontscale)
-		ImGui.SameLine()
-		btnOpenDofiles = ImGui.Button("Dofile Folder", 105*fontscale, 25*fontscale)
-		ImGui.EndGroup()
-		rx2, ry2 = ImGui.GetItemRectSize()
-		ImGui.End()
-		setThemeEnd()
-    end
-end)
-
+i18n = require(rootPath.Require.."i18n")
 
 function scan_mods()
 	local i = 0
@@ -247,7 +83,7 @@ function draw_mod_list(mods_data)
 			pushstylecolor(ImGuiCol.FrameBgHovered, theme.FrameBgHoveredDisabled)
 			pushstylecolor(ImGuiCol.FrameBgActive, theme.FrameBgActiveDisabled)
 			pushstylecolor(ImGuiCol.CheckMark, theme.CheckMarkTrueDisabled)
-			ImGui.Checkbox("CyberEngineTWeaks Mod Manager", true)
+			ImGui.Checkbox(i18n("window_title"), true)
 			ImGui.PopStyleColor(5)
 		elseif mods_data[i].state == true then
 			mods_data[i].state, mods_data[i].pressed = ImGui.Checkbox(modNameConvert(mods_data[i].name), mods_data[i].state)
@@ -275,7 +111,7 @@ function draw_dofile_list(dofile_names)
 		pushstylecolor(ImGuiCol.Button, theme.CustomToggleOn)
 		pushstylecolor(ImGuiCol.ButtonHovered, theme.CustomToggleOnHovered)
 		pushstylecolor(ImGuiCol.ButtonActive, theme.CustomToggleOn)
-		btnRun[i] = ImGui.Button("Run", 40*fontscale, 20*fontscale)
+		btnRun[i] = ImGui.Button(i18n("button_dofile_run"), 40*fontscale, 20*fontscale)
 		ImGui.PopStyleColor(4)
 		ImGui.PopID()
 		ImGui.SameLine()
@@ -292,16 +128,16 @@ function toggleMod(mod, enable)
 	if enable then
 		local ok = os.rename(rootPath.ModsIO..mod.."/init.lua_disabled", rootPath.ModsIO..mod.."/init.lua")
 		if ok then
-			print("[CETMM] "..modNameConvert(mod).." has been enabled.")
+			print(i18n("console_msg_mod_enable", { modname = modNameConvert(mod) }))
 		else
-			print("Error")
+			print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mod) }))
 		end
 	elseif not enable then
 		local ok = os.rename(rootPath.ModsIO..mod.."/init.lua", rootPath.ModsIO..mod.."/init.lua_disabled")
 		if ok then
-			print("[CETMM] "..modNameConvert(mod).." has been disabled.")
+			print(i18n("console_msg_mod_disable", { modname = modNameConvert(mod) }))
 		else
-			print("[CETMM] Error when trying to enable/disable "..modNameConvert(mod))
+			print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mod) }))
 		end
 	end
 end
@@ -317,11 +153,6 @@ function print_table(tble)
 			print(tble[i])
 		end
 	end
-end
-
-function file_exists(name)
-   local f=io.open(name,"r")
-   if (f~=nil) then io.close(f) return true else return false end
 end
 
 function pushstylecolor(style, color)
@@ -354,10 +185,11 @@ function setThemeBegin()
 	pushstylecolor(ImGuiCol.ButtonActive,			theme.ButtonActive)
 	pushstylecolor(ImGuiCol.Separator,				theme.Separator)
 	ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 6*fontscale, 6*fontscale)
+	ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
 end
 
 function setThemeEnd()
-	ImGui.PopStyleVar(1)
+	ImGui.PopStyleVar(2)
 	ImGui.PopStyleColor(24)
 end
 
@@ -405,30 +237,6 @@ function btnToggleStyleEnd()
 	ImGui.PopStyleColor(3)
 end
 
-function loadConfig(name)
-	if file_exists(name) then
-		local file = io.open(name, "r")
-		io.input(file)
-		local config = json.decode(io.read("*a"))
-		file:close()
-			if type(config.autoscan) ~= "boolean" then
-				config.autoscan = false
-			end
-		return config
-	else
-		config = { autoscan = false }
-		return config
-	end
-end
-
-function saveConfig(name, config)
-	local file = io.open(name, "w")
-	io.output(file)
-	local jconfig = json.encode(config)
-	io.write(jconfig)
-	file:close()
-end
-
 function readRootPath()
   if file_exists("./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/init.lua") then
     rootPath.ModsIO = "./bin/x64/plugins/cyber_engine_tweaks/mods/"
@@ -444,3 +252,274 @@ function readRootPath()
     rootPath.Execute = ".\\"
   end
 end
+
+function file_exists(name)
+   local f=io.open(name,"r")
+   if (f~=nil) then io.close(f) return true else return false end
+end
+
+function saveConfig(name, config)
+	local file = io.open(name, "w")
+	io.output(file)
+	local jconfig = json.encode(config)
+	io.write(jconfig)
+	file:close()
+end
+
+function loadConfig(name)
+	if file_exists(name) then
+		local file = io.open(name, "r")
+		io.input(file)
+		local config = json.decode(io.read("*a"))
+		file:close()
+			if type(config.autoscan) ~= "boolean" then
+				config.autoscan = false
+			end
+			if config.lang ~= "en_us" and config.lang ~= "zh_cn" and config.lang ~= "zh_tw" and config.lang ~= "ja_jp" then
+				config.lang = "en_us"
+			end
+		saveConfig(name, config)
+		return config
+	else
+		config = { autoscan = false, lang = "en_us" }
+		saveConfig(name, config)
+		return config
+	end
+end
+
+function applyConfig(config)
+	if config.autoscan then
+		mods_data = get_mods_data()
+		dofile_names = scan_dofiles()
+		scanned = true
+	end
+	i18n.loadFile(rootPath.IO.."lang/"..config.lang..".lua")
+	i18n.setLocale(config.lang)
+end
+
+function setLang(lang)
+	i18n.loadFile(rootPath.IO.."lang/"..lang..".lua")
+	i18n.setLocale(lang)
+	config.lang = lang
+	saveConfig(rootPath.IO.."config.json", config)
+end
+
+config = loadConfig(rootPath.IO.."config.json")
+
+applyConfig(config)
+
+registerForEvent("onInit", function()
+	readRootPath()
+	draw = true
+	scanned = false
+	showHelp = false
+	showDofileMods = false
+	wWidth, wHeight = GetDisplayResolution()
+	theme = require(rootPath.Require.."theme")
+	fontscale = ImGui.GetFontSize()/13
+	ry2 = 0
+	print(i18n("console_msg_loaded1"))
+	print(i18n("console_msg_loaded2"))
+	print(i18n("console_msg_loaded3"))
+	print(i18n("console_msg_loaded4"))
+	print(i18n("console_msg_loaded5"))
+end)
+
+registerHotkey("mod_manager_interface", i18n("hotkey_manager"), function()
+	draw = not draw
+	showDofileMods = false
+end)
+
+registerHotkey("dofile_interface", i18n("hotkey_dofiles"), function()
+	draw = not draw
+	showDofileMods = true
+end)
+
+registerForEvent("onUpdate", function()
+	if btnScan then
+		mods_data = get_mods_data()
+		dofile_names = scan_dofiles()
+		scanned = true
+		print(i18n("console_msg_scan"))
+	end
+	if btnOpenMods then
+		os.execute("start explorer "..rootPath.Execute)
+	end
+	if btnOpenDofiles then
+		os.execute("start explorer "..rootPath.Execute.."cet_mod_manager\\dofiles")
+	end
+	if btnAutoScan then
+		config.autoscan = not config.autoscan
+		saveConfig(rootPath.IO.."config.json", config)
+		if config.autoscan then print(i18n("console_msg_autoscan_on")) else print(i18n("console_msg_autoscan_off")) end
+	end
+	if btnDofiles then
+		showDofileMods = not showDofileMods
+	end
+	if btnHelp then
+		showHelp = not showHelp
+	end
+	if btnRun ~= nil then
+		for i in pairs(btnRun) do
+			if btnRun[i] then
+				print(i18n("console_msg_dofile_run", { dofilename = modNameConvert(dofile_names[i]:match("(.+)%.lua$")) }))
+				dofile(rootPath.IO.."dofiles/"..dofile_names[i])
+				print(i18n("console_msg_dofile_done"))
+			end
+		end
+	end
+	if scanned then
+		for i in pairs(mods_data) do
+			if mods_data[i].pressed then
+				toggleMod(mods_data[i].name, mods_data[i].state)
+			end
+		end
+	end
+	if selLangEN then
+		setLang("en_us")
+		selLangEN = false
+	end
+	if selLangZHCN then
+		setLang("zh_cn")
+		selLangZHCN = false
+	end
+	if selLangZHTW then
+		setLang("zh_tw")
+		selLangZHTW = false
+	end
+	if selLangJP then
+		setLang("ja_jp")
+		selLangJP = false
+	end
+end)
+registerForEvent("onDraw", function()
+    if draw then
+		setThemeBegin()
+		draw = ImGui.Begin(i18n("window_title"), true , ImGuiWindowFlags.NoResize)
+		ImGui.SetWindowPos(wWidth/2-210*fontscale, wHeight/2-320*fontscale, ImGuiCond.FirstUseEver)
+		if 600*fontscale > wHeight*0.8 then
+			ImGui.SetWindowSize(420*fontscale, wHeight*0.8, ImGuiCond.Always)
+		else
+			ImGui.SetWindowSize(420*fontscale, 640*fontscale, ImGuiCond.Always)
+		end
+		ImGui.BeginGroup()
+		ImGui.Spacing()
+		local cursorbtnX, cursorbtnY = ImGui.GetCursorPos()
+		local cabtnx, cabtny = ImGui.GetContentRegionAvail()
+		btnToggleStyleBegin(showDofileMods)
+		btnDofiles = ImGui.Button(i18n("button_dofiles"), ImGui.CalcTextSize(i18n("button_dofiles"))+20*fontscale, 25*fontscale)
+		btnToggleStyleEnd()
+		ImGui.SetCursorPos(cursorbtnX + cabtnx - 65*fontscale - (ImGui.CalcTextSize(i18n("button_autoscan_off"))+20*fontscale) - (ImGui.CalcTextSize(i18n("button_scan"))+20*fontscale), cursorbtnY)
+		btnScan = ImGui.Button(i18n("button_scan"), ImGui.CalcTextSize(i18n("button_scan"))+20*fontscale, 25*fontscale)
+		ImGui.SetCursorPos(cursorbtnX + cabtnx - 60*fontscale - (ImGui.CalcTextSize(i18n("button_autoscan_off"))+20*fontscale), cursorbtnY)
+		btnToggleStyleBegin(config.autoscan)
+		btnAutoScan = btnToggle(i18n("button_autoscan_on"), i18n("button_autoscan_off"), config.autoscan, ImGui.CalcTextSize(i18n("button_autoscan_off"))+20*fontscale, 25*fontscale)
+		btnToggleStyleEnd()
+		ImGui.SetCursorPos(cursorbtnX + cabtnx - 55*fontscale, cursorbtnY)
+		if ImGui.Button("A", 25*fontscale, 25*fontscale) then
+			ImGui.OpenPopup("Select Language")
+		end
+		if ImGui.IsItemHovered() then
+			ImGui.SetTooltip(i18n("tooltip_btn_language"))
+		end
+		ImGui.SetCursorPos(cursorbtnX + cabtnx - 25*fontscale, cursorbtnY)
+		btnToggleStyleBegin(showHelp)
+		btnHelp = ImGui.Button("?", 25*fontscale, 25*fontscale)
+		btnToggleStyleEnd()
+		if ImGui.IsItemHovered() then
+			ImGui.SetTooltip(i18n("tooltip_btn_help"))
+		end
+		ImGui.Spacing()
+		ImGui.EndGroup()
+		if ImGui.BeginPopup("Select Language", ImGuiWindowFlags.NoMove) then
+			ImGui.Spacing()
+      ImGui.Text(i18n("text_select_lang"))
+			ImGui.Spacing()
+			ImGui.PushStyleVar(ImGuiStyleVar.SelectableTextAlign, 0, 0.5)
+      selLangEN = ImGui.Selectable("English", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
+			selLangZHCN = ImGui.Selectable("简体中文 (Simplified Chinese)", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
+			selLangZHTW = ImGui.Selectable("正體中文 (Traditional Chinese)", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
+			selLangJP = ImGui.Selectable("日本語 (Japanese)", false, ImGuiSelectableFlags.None, 0, 22*fontscale)
+			ImGui.PopStyleVar(1)
+      ImGui.EndPopup()
+    end
+
+		cax, cay = ImGui.GetContentRegionAvail()
+		ImGui.BeginChild("Mod List", cax, cay-ry2-5)
+
+		if showHelp then
+			if not showDofileMods then
+				pushstylecolor(ImGuiCol.Text, theme.Separator)
+				ImGui.TextWrapped(i18n("text_help_manager_1"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_2"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_3"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_4"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_5"))
+				ImGui.PopStyleColor(1)
+			else
+				ImGui.TextWrapped(i18n("text_help_dofiles_1"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_dofiles_2"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_dofiles_3"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_dofiles_4"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_dofiles_5"))
+			end
+			ImGui.Spacing()
+		end
+
+		if showLang then
+				pushstylecolor(ImGuiCol.Text, theme.Separator)
+				ImGui.TextWrapped(i18n("text_help_manager_1"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_2"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_3"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_4"))
+				ImGui.Spacing()
+				ImGui.TextWrapped(i18n("text_help_manager_5"))
+				ImGui.PopStyleColor(1)
+			ImGui.Spacing()
+		end
+
+		if scanned then
+			if showDofileMods then
+				if dofile_names[1] ~= nil then
+					btnRun = draw_dofile_list(dofile_names)
+				else
+					ImGui.Spacing()
+					ImGui.Text(i18n("text_no_dofiles"))
+				end
+			else
+				draw_mod_list(mods_data)
+			end
+		else
+			ImGui.Spacing()
+			if showDofileMods then
+				pushstylecolor(ImGuiCol.Text, theme.Separator)
+				ImGui.Text(i18n("text_please_scan"))
+				ImGui.PopStyleColor(1)
+			else
+				ImGui.Text(i18n("text_please_scan"))
+			end
+		end
+
+		ImGui.EndChild()
+		ImGui.BeginGroup()
+		ImGui.Spacing()
+		btnOpenMods = ImGui.Button(i18n("button_mods_folder"), ImGui.CalcTextSize(i18n("button_mods_folder"))+20*fontscale, 25*fontscale)
+		ImGui.SameLine()
+		btnOpenDofiles = ImGui.Button(i18n("button_dofile_folder"), ImGui.CalcTextSize(i18n("button_dofile_folder"))+20*fontscale, 25*fontscale)
+		ImGui.EndGroup()
+		rx2, ry2 = ImGui.GetItemRectSize()
+		ImGui.End()
+		setThemeEnd()
+    end
+end)
