@@ -184,7 +184,7 @@ function setThemeBegin()
 	pushstylecolor(ImGuiCol.Button,					theme.Button)
 	pushstylecolor(ImGuiCol.ButtonHovered,			theme.ButtonHovered)
 	pushstylecolor(ImGuiCol.ButtonActive,			theme.ButtonActive)
-	pushstylecolor(ImGuiCol.Separator,				theme.Separator)
+	pushstylecolor(ImGuiCol.Separator,				theme.Border)
 	ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 6*fontscale, 6*fontscale)
 	ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
 end
@@ -279,10 +279,13 @@ function loadConfig(name)
 			if config.lang == nil then
 				config.lang = "en_us"
 			end
+			if type(config.autoapear) ~= "boolean" then
+				config.autoapear = false
+			end
 		saveConfig(name, config)
 		return config
 	else
-		config = { autoscan = false, lang = "en_us" }
+		config = { autoscan = false, lang = "en_us", autoapear = false }
 		saveConfig(name, config)
 		return config
 	end
@@ -358,6 +361,11 @@ registerForEvent("onUpdate", function()
 		saveConfig(rootPath.IO.."config.json", config)
 		if config.autoscan then print(i18n("console_msg_autoscan_on")) else print(i18n("console_msg_autoscan_off")) end
 	end
+	if btnAutoApear then
+		config.autoapear = not config.autoapear
+		saveConfig(rootPath.IO.."config.json", config)
+		if config.autoscan then print(i18n("console_msg_autoapear_on")) else print(i18n("console_msg_autoapear_off")) end
+	end
 	if btnDofiles then
 		showDofileMods = not showDofileMods
 	end
@@ -404,18 +412,14 @@ registerForEvent("onDraw", function()
 		btnToggleStyleBegin(showDofileMods)
 		btnDofiles = ImGui.Button(i18n("button_dofiles"), ImGui.CalcTextSize(i18n("button_dofiles"))+20*fontscale, 25*fontscale)
 		btnToggleStyleEnd()
-		ImGui.SetCursorPos(cursorbtnX + cabtnx - 65*fontscale - (ImGui.CalcTextSize(i18n("button_autoscan_off"))+20*fontscale) - (ImGui.CalcTextSize(i18n("button_scan"))+20*fontscale), cursorbtnY)
+		ImGui.SetCursorPos(cursorbtnX + cabtnx - 60*fontscale - (ImGui.CalcTextSize(i18n("button_scan"))+20*fontscale), cursorbtnY)
 		btnScan = ImGui.Button(i18n("button_scan"), ImGui.CalcTextSize(i18n("button_scan"))+20*fontscale, 25*fontscale)
-		ImGui.SetCursorPos(cursorbtnX + cabtnx - 60*fontscale - (ImGui.CalcTextSize(i18n("button_autoscan_off"))+20*fontscale), cursorbtnY)
-		btnToggleStyleBegin(config.autoscan)
-		btnAutoScan = btnToggle(i18n("button_autoscan_on"), i18n("button_autoscan_off"), config.autoscan, ImGui.CalcTextSize(i18n("button_autoscan_off"))+20*fontscale, 25*fontscale)
-		btnToggleStyleEnd()
 		ImGui.SetCursorPos(cursorbtnX + cabtnx - 55*fontscale, cursorbtnY)
-		if ImGui.Button("A", 25*fontscale, 25*fontscale) then
-			ImGui.OpenPopup("Select Language")
+		if ImGui.Button("!", 25*fontscale, 25*fontscale) then
+			ImGui.OpenPopup("Settings")
 		end
 		if ImGui.IsItemHovered() then
-			ImGui.SetTooltip(i18n("tooltip_btn_language"))
+			ImGui.SetTooltip(i18n("tooltip_btn_settings"))
 		end
 		ImGui.SetCursorPos(cursorbtnX + cabtnx - 25*fontscale, cursorbtnY)
 		btnToggleStyleBegin(showHelp)
@@ -426,7 +430,19 @@ registerForEvent("onDraw", function()
 		end
 		ImGui.Spacing()
 		ImGui.EndGroup()
-		if ImGui.BeginPopup("Select Language", ImGuiWindowFlags.NoMove) then
+		if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
+			ImGui.Spacing()
+			ImGui.Text(i18n("text_select_settings"))
+			ImGui.Spacing()
+			btnToggleStyleBegin(config.autoscan)
+			btnAutoScan = btnToggle(i18n("button_autoscan_on"), i18n("button_autoscan_off"), config.autoscan, ImGui.CalcTextSize(i18n("button_autoscan_off"))+20*fontscale, 25*fontscale)
+			btnToggleStyleEnd()
+			ImGui.SameLine()
+			btnToggleStyleBegin(config.autoapear)
+			btnAutoApear = btnToggle(i18n("button_autoappear_on"), i18n("button_autoappear_off"), config.autoapear, ImGui.CalcTextSize(i18n("button_autoappear_off"))+20*fontscale, 25*fontscale)
+			btnToggleStyleEnd()
+			ImGui.Spacing()
+			ImGui.Separator()
 			ImGui.Spacing()
       ImGui.Text(i18n("text_select_lang"))
 			ImGui.Spacing()
@@ -439,7 +455,7 @@ registerForEvent("onDraw", function()
     end
 
 		cax, cay = ImGui.GetContentRegionAvail()
-		ImGui.BeginChild("Mod List", cax, cay-ry2-5)
+		ImGui.BeginChild("Mod List", cax+5, cay-ry2-5)
 
 		if showHelp then
 			if not showDofileMods then
@@ -465,21 +481,6 @@ registerForEvent("onDraw", function()
 				ImGui.Spacing()
 				ImGui.TextWrapped(i18n("text_help_dofiles_5"))
 			end
-			ImGui.Spacing()
-		end
-
-		if showLang then
-				pushstylecolor(ImGuiCol.Text, theme.Separator)
-				ImGui.TextWrapped(i18n("text_help_manager_1"))
-				ImGui.Spacing()
-				ImGui.TextWrapped(i18n("text_help_manager_2"))
-				ImGui.Spacing()
-				ImGui.TextWrapped(i18n("text_help_manager_3"))
-				ImGui.Spacing()
-				ImGui.TextWrapped(i18n("text_help_manager_4"))
-				ImGui.Spacing()
-				ImGui.TextWrapped(i18n("text_help_manager_5"))
-				ImGui.PopStyleColor(1)
 			ImGui.Spacing()
 		end
 
@@ -516,4 +517,16 @@ registerForEvent("onDraw", function()
 		ImGui.End()
 		setThemeEnd()
     end
+end)
+
+registerForEvent("onOverlayOpen", function()
+	if config.autoapear then
+		draw = true
+	end
+end)
+
+registerForEvent("onOverlayClose", function()
+	if config.autoapear then
+		draw = false
+	end
 end)

@@ -10,6 +10,8 @@ return {
     console_msg_scan                       = "[CETMM] Mod scan complete." ,
     console_msg_autoscan_on                = "[CETMM] Auto scan enabled." ,
     console_msg_autoscan_off               = "[CETMM] Auto scan disabled." ,
+    console_msg_autoapear_on               = "[CETMM] Now automatically opens with console." ,
+    console_msg_autoapear_off              = "[CETMM] No longer automatically opens with console." ,
     console_msg_dofile_run                 = "[CETMM] Executing %{dofilename}." ,
     console_msg_dofile_done                = "[CETMM] Done." ,
     window_title                           = "CyberEngineTWeaks Mod Manager" ,
@@ -17,6 +19,8 @@ return {
     button_scan                            = "Scan" ,
     button_autoscan_on                     = "Auto Scan On" ,
     button_autoscan_off                    = "Auto Scan Off" ,
+    button_autoappear_on                   = "Auto Appear On" ,
+    button_autoappear_off                  = "Auto Appear Off" ,
     text_help_manager_1                    = "Press [Scan] to scan the CyberEngineTweaks mods you have installed." ,
     text_help_manager_2                    = "Tick/untick the checkbox to enable/disable mods." ,
     text_help_manager_3                    = "Change [Windowed Mode] in Game\'s [Settings] - [Video] to [Windows Borderless] to avoid being thrown out to desktop when pressing [Scan]." ,
@@ -37,7 +41,8 @@ return {
     console_msg_mod_disable                = "[CETMM] %{modname} has been disabled." ,
     console_msg_mod_disable_error          = "[CETMM] Error when trying to disable %{modname}" ,
     text_select_lang                       = "Selecte a Language (Needs font support)",
-    tooltip_btn_language                   = "Language" ,
+    text_select_settings                   = "Settings" ,
+    tooltip_btn_settings                   = "Settings" ,
     tooltip_btn_help                       = "Help"
   }
 }

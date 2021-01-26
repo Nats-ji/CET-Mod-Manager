@@ -10,6 +10,8 @@ return {
     console_msg_scan                       = "[CETMM] モッドスキャンが完了しました。" ,
     console_msg_autoscan_on                = "[CETMM] 自動スキャンが有効化されました。" ,
     console_msg_autoscan_off               = "[CETMM] 自動スキャンが無効化されました。" ,
+    console_msg_autoapear_on               = "[CETMM] コンソールと一緒に自動的に開くようになりました。" ,
+    console_msg_autoapear_off              = "[CETMM] コンソールと一緒に自動的に開かないようになりました。" ,
     console_msg_dofile_run                 = "[CETMM] %{dofilename}実行中。" ,
     console_msg_dofile_done                = "[CETMM] 実行完了。" ,
     window_title                           = "Cyber Engine Tweaksモッドマネージャー" ,
@@ -17,6 +19,8 @@ return {
     button_scan                            = "スキャン" ,
     button_autoscan_on                     = "自動スキャンオン" ,
     button_autoscan_off                    = "自動スキャンオフ" ,
+    button_autoappear_on                   = "自動表示オン" ,
+    button_autoappear_off                  = "自動表示オフ" ,
     text_help_manager_1                    = "「スキャン」を押して、インストールしたCyber Engine Tweaksモッドをスキャンします。" ,
     text_help_manager_2                    = "チェックボックスをオン/オフにして、モッドを有効か/無効かにすることができます。" ,
     text_help_manager_3                    = "ゲームの「設定」-「ビデオ」-「画面モード」を「ボーダレスウィンドウ」に変更したら、「スキャン」を押したときにデスクトップに戻されないようなります。" ,
@@ -36,8 +40,9 @@ return {
     console_msg_mod_enable_error           = "[CETMM] %{modname}を有効化するときにエラーが発生されました。" ,
     console_msg_mod_disable                = "[CETMM] %{modname}が無効化されました。" ,
     console_msg_mod_disable_error          = "[CETMM] %{modname}を無効化するときにエラーが発生されました。" ,
+    text_select_settings                   = "設定" ,
     text_select_lang                       = "言語の選択（フォントのサポートが必要）" ,
-    tooltip_btn_language                   = "言語" ,
+    tooltip_btn_settings                   = "設定" ,
     tooltip_btn_help                       = "ヘルプ"
   }
 }

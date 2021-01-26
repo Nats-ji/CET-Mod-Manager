@@ -10,6 +10,8 @@ return {
     console_msg_scan                       = "[CETMM] 模组掃描完成。" ,
     console_msg_autoscan_on                = "[CETMM] 已啟用自動掃描。" ,
     console_msg_autoscan_off               = "[CETMM] 已禁用自動掃描。" ,
+    console_msg_autoapear_on               = "[CETMM] 現在隨著控制台自動打開。" ,
+    console_msg_autoapear_off              = "[CETMM] 不在隨著控制台自動打開。" ,
     console_msg_dofile_run                 = "[CETMM] 正在執行 %{dofilename}。" ,
     console_msg_dofile_done                = "[CETMM] 執行完畢。" ,
     window_title                           = "CyberEngineTWeaks模組管理器" ,
@@ -17,6 +19,8 @@ return {
     button_scan                            = "掃描" ,
     button_autoscan_on                     = "自動掃描已啟用" ,
     button_autoscan_off                    = "自動掃描已禁用" ,
+    button_autoappear_on                   = "自動顯示已啟用" ,
+    button_autoappear_off                  = "自動顯示已禁用" ,
     text_help_manager_1                    = "按【掃描】按鈕掃描您已安裝的Cyber Engine Tweaks模組。" ,
     text_help_manager_2                    = "勾選或取消勾選模組前的複選框以啟用或禁用該模組。" ,
     text_help_manager_3                    = "將游戲的【設定】-【影像】中的【視窗模式】更改為【無邊框視窗】，以避免在按【掃描】時被彈出到桌面上。" ,
@@ -36,8 +40,9 @@ return {
     console_msg_mod_enable_error           = "[CETMM] 嘗試啟用、%{modname}模组時出錯" ,
     console_msg_mod_disable                = "[CETMM] 模组%{modname}已禁用。" ,
     console_msg_mod_disable_error          = "[CETMM] 嘗試禁用%{modname}模组時出錯" ,
+    text_select_settings                   = "設置" ,
     text_select_lang                       = "選擇語言（需要字體支持）" ,
-    tooltip_btn_language                   = "語言" ,
+    tooltip_btn_settings                   = "設置" ,
     tooltip_btn_help                       = "幫助"
   }
 }
