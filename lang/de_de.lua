@@ -10,8 +10,8 @@ return {
     console_msg_scan                       = "[CETMM] Mod scan abgeschlossen." ,
     console_msg_autoscan_on                = "[CETMM] Auto scan aktiviert." ,
     console_msg_autoscan_off               = "[CETMM] Auto scan deaktiviert." ,
-    -- console_msg_autoapear_on               = "[CETMM] Now automaticaly opens with console." ,
-    -- console_msg_autoapear_off              = "[CETMM] No longer automaticaly opens with console." ,
+    console_msg_autoapear_on               = "[CETMM] Öffnet sich automatisch mit der Konsole." ,
+    console_msg_autoapear_off              = "[CETMM] Öffnet sich nicht mehr automatisch mit der Konsole." ,
     console_msg_dofile_run                 = "[CETMM] Führe %{dofilename} aus." ,
     console_msg_dofile_done                = "[CETMM] Fertig." ,
     window_title                           = "CyberEngineTWeaks Mod Manager" ,
@@ -19,8 +19,8 @@ return {
     button_scan                            = "Scan" ,
     button_autoscan_on                     = "Auto Scan an" ,
     button_autoscan_off                    = "Auto Scan aus" ,
-    -- button_autoappear_on                   = "Auto Appear On" ,
-    -- button_autoappear_off                  = "Auto Appear Off" ,
+    button_autoappear_on                   = "Automatisch öffnen an" ,
+    button_autoappear_off                  = "Automatisch öffnen aus" ,
     text_help_manager_1                    = "Drücke [Scan] um nach installierten CyberEngineTweaks Mods zu scannen." ,
     text_help_manager_2                    = "Nutze die Boxen um die Mods zu (de)aktivieren." ,
     text_help_manager_3                    = "Wechsele zu [Fenstermodus ohne Rand] in [Einstellungen] - [Video] um beim drücken von [Scan] nicht auf den Desktop geworfen zu werden." ,
@@ -40,9 +40,9 @@ return {
     console_msg_mod_enable_error           = "[CETMM] Fehler beim aktivieren von %{modname}" ,
     console_msg_mod_disable                = "[CETMM] %{modname} wurde deaktiviert." ,
     console_msg_mod_disable_error          = "[CETMM] Fehler beim deaktivieren von %{modname}" ,
-    -- text_select_settings                   = "Settings" ,
+    text_select_settings                   = "Einstellungen" ,
     text_select_lang                       = "Wähle eine Sprache aus (Benötigt evtl. Schriftart)",
-    -- tooltip_btn_settings                   = "Settings" ,
+    tooltip_btn_settings                   = "Einstellungen" ,
     tooltip_btn_help                       = "Hilfe"
   }
 }
