@@ -1,5 +1,5 @@
 return {
-  en_us = {
+  example = {
     console_msg_loaded1                    = "************************************************" ,
     console_msg_loaded2                    = "* CyberEngineTweaks Mod Manager Loaded...      *" ,
     console_msg_loaded3                    = "* Please bind a hotkey in Cyber Engine Tweaks, *" ,
