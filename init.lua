@@ -316,7 +316,7 @@ applyConfig(config)
 
 registerForEvent("onInit", function()
 	readRootPath()
-	draw = true
+	draw = false
 	showHelp = false
 	showDofileMods = false
 	wWidth, wHeight = GetDisplayResolution()
