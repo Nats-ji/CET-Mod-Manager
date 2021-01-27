@@ -1,3 +1,4 @@
+-- Translator : keanuWheeze
 return {
   de_de = {
     console_msg_loaded1                    = "**************************************************" ,

@@ -1,3 +1,4 @@
+-- Translator : Mingming Cui
 return {
   zh_tw = {
     console_msg_loaded1                    = "************************************************" ,

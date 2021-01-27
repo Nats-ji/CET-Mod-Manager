@@ -1,3 +1,4 @@
+-- Translator : Mingming Cui
 return {
   ja_jp = {
     console_msg_loaded1                    = "**********************************************************" ,
