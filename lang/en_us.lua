@@ -1,9 +1,9 @@
 return {
   en_us = {
     console_msg_loaded1                    = "************************************************" ,
-    console_msg_loaded2                    = "* CyberEngineTweaks Mod Manager Loaded...      *" ,
-    console_msg_loaded3                    = "* Please bind a hotkey in Cyber Engine Tweaks, *" ,
-    console_msg_loaded4                    = "* if this is your first time launch.           *" ,
+    console_msg_loaded2                    = " CyberEngineTweaks Mod Manager Loaded...      " ,
+    console_msg_loaded3                    = " Please bind a hotkey in Cyber Engine Tweaks, " ,
+    console_msg_loaded4                    = " if this is your first time launch.           " ,
     console_msg_loaded5                    = "************************************************" ,
     hotkey_manager                         = "Mod Manager Interface" ,
     hotkey_dofiles                         = "Dofile Interface" ,

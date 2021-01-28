@@ -2,9 +2,9 @@
 return {
   ru_ru = {
     console_msg_loaded1                    = "****************************************************" ,
-    console_msg_loaded2                    = "* Менеджер модов CyberEngineTweaks загружен...     *" ,
-    console_msg_loaded3                    = "* Привяжите горячую клавишу в Cyber Engine Tweaks, *" ,
-    console_msg_loaded4                    = "* если это ваш первый запуск.                      *" ,
+    console_msg_loaded2                    = " Менеджер модов CyberEngineTweaks загружен...     " ,
+    console_msg_loaded3                    = " Привяжите горячую клавишу в Cyber Engine Tweaks, " ,
+    console_msg_loaded4                    = " если это ваш первый запуск.                      " ,
     console_msg_loaded5                    = "****************************************************" ,
     hotkey_manager                         = "Интерфейс менеджера модов" ,
     hotkey_dofiles                         = "Интерфейс Dofile" ,

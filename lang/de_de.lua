@@ -2,9 +2,9 @@
 return {
   de_de = {
     console_msg_loaded1                    = "**************************************************" ,
-    console_msg_loaded2                    = "* CyberEngineTweaks Mod Manager geladen...       *" ,
-    console_msg_loaded3                    = "* Bitte lege einen Hotkey in Cyber Engine Tweaks *" ,
-    console_msg_loaded4                    = "* fest wenn dies der erste Start ist.            *" ,
+    console_msg_loaded2                    = " CyberEngineTweaks Mod Manager geladen...       " ,
+    console_msg_loaded3                    = " Bitte lege einen Hotkey in Cyber Engine Tweaks " ,
+    console_msg_loaded4                    = " fest wenn dies der erste Start ist.            " ,
     console_msg_loaded5                    = "**************************************************" ,
     hotkey_manager                         = "Mod Manager Fenster" ,
     hotkey_dofiles                         = "Dofile Fenster" ,
