@@ -1,5 +1,6 @@
+-- Translator : vanja-san
 return {
-  example = {
+  ru_ru = {
     console_msg_loaded1                    = "****************************************************" ,
     console_msg_loaded2                    = "* Менеджер модов CyberEngineTweaks загружен...     *" ,
     console_msg_loaded3                    = "* Привяжите горячую клавишу в Cyber Engine Tweaks, *" ,
