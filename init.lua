@@ -187,12 +187,12 @@ function loadConfig(name)
 				config.lang = "en_us"
 			end
 			if type(config.autoapear) ~= "boolean" then
-				config.autoapear = false
+				config.autoapear = true
 			end
 		saveConfig(name, config)
 		return config
 	else
-		config = { autoscan = false, lang = "en_us", autoapear = false }
+		config = { autoscan = false, lang = "en_us", autoapear = true }
 		saveConfig(name, config)
 		return config
 	end
@@ -290,7 +290,11 @@ registerForEvent("onUpdate", function()
 	if scanned then
 		for i in pairs(mods_data) do
 			if mods_data[i].pressed then
-				ImGui.CETMM.ToggleMod(mods_data[i])
+				local result = ImGui.CETMM.ToggleMod(mods_data[i])
+				if result == 1 then print(i18n("console_msg_mod_enable", { modname = modNameConvert(mods_data[i].name) }))
+				elseif result == 2 then print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mods_data[i].name) }))
+				elseif result == 3 then print(i18n("console_msg_mod_disable", { modname = modNameConvert(mods_data[i].name) }))
+				elseif result == 4 then print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mods_data[i].name) })) end
 			end
 		end
 	end

@@ -58,37 +58,16 @@ function CETMM.GetModsData()
 	return mods_data
 end
 
--- function CETMM.GetDofilesData()
---   local ModsPath = getModsPath()
--- 	local dofile_names = {}
--- 	local dofile_list = io.popen("dir "..ModsPath.."cet_mod_manager\\dofiles\\ /b /a-d")
--- 	for lua in dofile_list:lines() do
--- 		if lua:match("(.+)%.lua$") then
--- 			table.insert(dofile_names, lua)
--- 		end
--- 	end
--- 	dofile_list:close()
--- 	return dofile_names
--- end
-
 function CETMM.ToggleMod(mod_entry)
   local mod_name = mod_entry.name
   local mod_path = mod_entry.path
   local enable = mod_entry.state
 	if enable then
 		local ok = os.rename(mod_path.."/init.lua_disabled", mod_path.."/init.lua")
-		-- if ok then
-		-- 	print(i18n("console_msg_mod_enable", { modname = modNameConvert(mod) }))
-		-- else
-		-- 	print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mod) }))
-		-- end
+    if ok then return 1 else return 2 end
 	elseif not enable then
 		local ok = os.rename(mod_path.."/init.lua", mod_path.."/init.lua_disabled")
-		-- if ok then
-		-- 	print(i18n("console_msg_mod_disable", { modname = modNameConvert(mod) }))
-		-- else
-		-- 	print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mod) }))
-		-- end
+    if ok then return 3 else return 4 end
 	end
 end
 
