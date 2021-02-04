@@ -1,5 +1,5 @@
 json = require 'json/json'
-ImGui.CETMM = require 'cet_mod_manager'
+Game.CETMM = require 'cet_mod_manager'
 
 Game['DebugGiveHotkeys'] = Game['DebugGiveHotkeys;GameInstance']
 Game['DebugNPCs_NonExec'] = Game['DebugNPCs_NonExec;GameInstanceStringStringString;GameInstance']

@@ -200,7 +200,7 @@ end
 
 function applyConfig(config)
 	if config.autoscan then
-		mods_data = ImGui.CETMM.GetModsData()
+		mods_data = Game.CETMM.GetModsData()
 		dofile_names = scan_dofiles()
 		scanned = true
 	else
@@ -251,16 +251,16 @@ end)
 
 registerForEvent("onUpdate", function()
 	if btnScan then
-		mods_data = ImGui.CETMM.GetModsData()
+		mods_data = Game.CETMM.GetModsData()
 		dofile_names = scan_dofiles()
 		scanned = true
 		print(i18n("console_msg_scan"))
 	end
 	if btnOpenMods then
-		ImGui.CETMM.OpenFolder("mods")
+		Game.CETMM.OpenFolder("mods")
 	end
 	if btnOpenDofiles then
-		ImGui.CETMM.OpenFolder("dofiles")
+		Game.CETMM.OpenFolder("dofiles")
 	end
 	if btnAutoScan then
 		config.autoscan = not config.autoscan
@@ -290,7 +290,7 @@ registerForEvent("onUpdate", function()
 	if scanned then
 		for i in pairs(mods_data) do
 			if mods_data[i].pressed then
-				local result = ImGui.CETMM.ToggleMod(mods_data[i])
+				local result = Game.CETMM.ToggleMod(mods_data[i])
 				if result == 1 then print(i18n("console_msg_mod_enable", { modname = modNameConvert(mods_data[i].name) }))
 				elseif result == 2 then print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mods_data[i].name) }))
 				elseif result == 3 then print(i18n("console_msg_mod_disable", { modname = modNameConvert(mods_data[i].name) }))
