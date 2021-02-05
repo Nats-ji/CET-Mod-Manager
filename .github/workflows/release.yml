@@ -1,0 +1,31 @@
+name: Release
+on:
+  release:
+      types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Copy files
+        run: |
+          mkdir -p ./build/tmp/bin/x64/plugins/cyber_engine_tweaks/mods/ ./build/release/
+          cp LICENSE ./scripts/cet_mod_manager/
+          rm ./i18n/README.md
+          rsync -a ./ ./build/tmp/bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/ --exclude={.git/,scripts/,build/,.gitignore,.github/,README.md}
+          rsync -a scripts/ ./build/tmp/bin/x64/plugins/cyber_engine_tweaks/scripts/
+      - name: Zip Release
+        uses: TheDoctor0/zip-release@0.4.1
+        with:
+          filename: ../release/cet_mod_manager_${{ env.RELEASE_VERSION }}.zip
+          directory: ./build/tmp/
+
+      - name: Upload Artifacts
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "./build/release/cet_mod_manager_${{ env.RELEASE_VERSION }}.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
