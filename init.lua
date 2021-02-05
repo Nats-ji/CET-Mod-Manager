@@ -16,62 +16,18 @@
 -- along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
 
-rootPath = {
-	Require = "./plugins/cyber_engine_tweaks/mods/cet_mod_manager/",
-	ModsIO = "./",
-	IO = "./cet_mod_manager/",
-	Execute = ".\\"
-}
-
-i18n = require(rootPath.Require.."i18n")
-languages = require(rootPath.Require.."lang/lang")
-
-function scan_mods()
-	local i = 0
-	local mod_names = {}
-	local dir_list = io.popen("dir "..rootPath.Execute.." /b /ad")
-	for dir in dir_list:lines() do
-		i = i + 1
-		mod_names[i] = dir
-	end
-	dir_list:close()
-	return mod_names
-end
+i18n = require("i18n")
+languages = require("lang/lang")
 
 function scan_dofiles()
 	local dofile_names = {}
-	local dofile_list = io.popen("dir "..rootPath.Execute.."cet_mod_manager\\dofiles\\ /b /a-d")
-	for lua in dofile_list:lines() do
-		if lua:match("(.+)%.lua$") then
-			table.insert(dofile_names, lua)
+	local dofile_list = dir("./dofiles")
+	for i in pairs(dofile_list) do
+		if dofile_list[i].type == "file" and dofile_list[i].name:match("(.+)%.lua$") then
+			table.insert(dofile_names, dofile_list[i].name)
 		end
 	end
-	dofile_list:close()
 	return dofile_names
-end
-
-function check_mod_state(mod)
-	local modpath = rootPath.ModsIO..mod.."/init.lua"
-	local disabled_modpath = rootPath.ModsIO..mod.."/init.lua_disabled"
-	if file_exists(modpath) then
-		return true
-	elseif not file_exists(modpath) and file_exists(disabled_modpath) then
-		return false
-	else
-		return nil
-	end
-end
-
-function get_mods_data()
-	local mods_data = {}
-	local modList = scan_mods()
-	for i in pairs(modList) do
-		local mod_entry = {}
-		mod_entry.name = modList[i]
-		mod_entry.state = check_mod_state(modList[i])
-		table.insert(mods_data, mod_entry)
-	end
-	return mods_data
 end
 
 function draw_mod_list(mods_data)
@@ -123,37 +79,6 @@ function draw_dofile_list(dofile_names)
 		ImGui.PopID()
 	end
 	return btnRun
-end
-
-function toggleMod(mod, enable)
-	if enable then
-		local ok = os.rename(rootPath.ModsIO..mod.."/init.lua_disabled", rootPath.ModsIO..mod.."/init.lua")
-		if ok then
-			print(i18n("console_msg_mod_enable", { modname = modNameConvert(mod) }))
-		else
-			print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mod) }))
-		end
-	elseif not enable then
-		local ok = os.rename(rootPath.ModsIO..mod.."/init.lua", rootPath.ModsIO..mod.."/init.lua_disabled")
-		if ok then
-			print(i18n("console_msg_mod_disable", { modname = modNameConvert(mod) }))
-		else
-			print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mod) }))
-		end
-	end
-end
-
-
-function print_table(tble)
-	for i in pairs(tble) do
-		if type(tble[i])=="table" then
-			for t in pairs(tble[i]) do
-				print(tble[i][t])
-			end
-		else
-			print(tble[i])
-		end
-	end
 end
 
 function pushstylecolor(style, color)
@@ -238,22 +163,6 @@ function btnToggleStyleEnd()
 	ImGui.PopStyleColor(3)
 end
 
-function readRootPath()
-  if file_exists("./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/init.lua") then
-    rootPath.ModsIO = "./bin/x64/plugins/cyber_engine_tweaks/mods/"
-    rootPath.IO = "./bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/"
-    rootPath.Execute = ".\\bin\\x64\\plugins\\cyber_engine_tweaks\\mods\\"
-  elseif file_exists("./plugins/cyber_engine_tweaks/mods/cet_mod_manager/init.lua") then
-    rootPath.ModsIO = "./plugins/cyber_engine_tweaks/mods/"
-    rootPath.IO = "./plugins/cyber_engine_tweaks/mods/cet_mod_manager/"
-    rootPath.Execute = ".\\plugins\\cyber_engine_tweaks\\mods\\"
-  elseif  file_exists("./cet_mod_manager/init.lua") then
-    rootPath.ModsIO = "./"
-    rootPath.IO = "./cet_mod_manager/"
-    rootPath.Execute = ".\\"
-  end
-end
-
 function file_exists(name)
    local f=io.open(name,"r")
    if (f~=nil) then io.close(f) return true else return false end
@@ -261,17 +170,15 @@ end
 
 function saveConfig(name, config)
 	local file = io.open(name, "w")
-	io.output(file)
 	local jconfig = json.encode(config)
-	io.write(jconfig)
+	file:write(jconfig)
 	file:close()
 end
 
 function loadConfig(name)
 	if file_exists(name) then
 		local file = io.open(name, "r")
-		io.input(file)
-		local config = json.decode(io.read("*a"))
+		local config = json.decode(file:read("*a"))
 		file:close()
 			if type(config.autoscan) ~= "boolean" then
 				config.autoscan = false
@@ -280,12 +187,12 @@ function loadConfig(name)
 				config.lang = "en_us"
 			end
 			if type(config.autoapear) ~= "boolean" then
-				config.autoapear = false
+				config.autoapear = true
 			end
 		saveConfig(name, config)
 		return config
 	else
-		config = { autoscan = false, lang = "en_us", autoapear = false }
+		config = { autoscan = false, lang = "en_us", autoapear = true }
 		saveConfig(name, config)
 		return config
 	end
@@ -293,37 +200,36 @@ end
 
 function applyConfig(config)
 	if config.autoscan then
-		mods_data = get_mods_data()
+		mods_data = Game.CETMM.GetModsData()
 		dofile_names = scan_dofiles()
 		scanned = true
 	else
 		scanned = false
 	end
 	if config.lang ~= "en_us" then
-		i18n.loadFile(rootPath.IO.."lang/en_us.lua")
+		i18n.loadFile("lang/en_us.lua")
 	end
-	i18n.loadFile(rootPath.IO.."lang/"..config.lang..".lua")
+	i18n.loadFile("lang/"..config.lang..".lua")
 	i18n.setLocale(config.lang)
 end
 
 function setLang(lang)
-	i18n.loadFile(rootPath.IO.."lang/"..lang..".lua")
+	i18n.loadFile("lang/"..lang..".lua")
 	i18n.setLocale(lang)
 	config.lang = lang
-	saveConfig(rootPath.IO.."config.json", config)
+	saveConfig("config.json", config)
 end
 
-config = loadConfig(rootPath.IO.."config.json")
+config = loadConfig("config.json")
 
 applyConfig(config)
 
 registerForEvent("onInit", function()
-	readRootPath()
 	draw = false
 	showHelp = false
 	showDofileMods = false
 	wWidth, wHeight = GetDisplayResolution()
-	theme = require(rootPath.Require.."theme")
+	theme = require("theme")
 	fontscale = ImGui.GetFontSize()/13
 	ry2 = 0
 	print(i18n("console_msg_loaded1"))
@@ -345,25 +251,25 @@ end)
 
 registerForEvent("onUpdate", function()
 	if btnScan then
-		mods_data = get_mods_data()
+		mods_data = Game.CETMM.GetModsData()
 		dofile_names = scan_dofiles()
 		scanned = true
 		print(i18n("console_msg_scan"))
 	end
 	if btnOpenMods then
-		os.execute("start explorer "..rootPath.Execute)
+		Game.CETMM.OpenFolder("mods")
 	end
 	if btnOpenDofiles then
-		os.execute("start explorer "..rootPath.Execute.."cet_mod_manager\\dofiles")
+		Game.CETMM.OpenFolder("dofiles")
 	end
 	if btnAutoScan then
 		config.autoscan = not config.autoscan
-		saveConfig(rootPath.IO.."config.json", config)
+		saveConfig("config.json", config)
 		if config.autoscan then print(i18n("console_msg_autoscan_on")) else print(i18n("console_msg_autoscan_off")) end
 	end
 	if btnAutoApear then
 		config.autoapear = not config.autoapear
-		saveConfig(rootPath.IO.."config.json", config)
+		saveConfig("config.json", config)
 		if config.autoscan then print(i18n("console_msg_autoapear_on")) else print(i18n("console_msg_autoapear_off")) end
 	end
 	if btnDofiles then
@@ -376,7 +282,7 @@ registerForEvent("onUpdate", function()
 		for i in pairs(btnRun) do
 			if btnRun[i] then
 				print(i18n("console_msg_dofile_run", { dofilename = modNameConvert(dofile_names[i]:match("(.+)%.lua$")) }))
-				dofile(rootPath.IO.."dofiles/"..dofile_names[i])
+				dofile("./dofiles/"..dofile_names[i])
 				print(i18n("console_msg_dofile_done"))
 			end
 		end
@@ -384,7 +290,11 @@ registerForEvent("onUpdate", function()
 	if scanned then
 		for i in pairs(mods_data) do
 			if mods_data[i].pressed then
-				toggleMod(mods_data[i].name, mods_data[i].state)
+				local result = Game.CETMM.ToggleMod(mods_data[i])
+				if result == 1 then print(i18n("console_msg_mod_enable", { modname = modNameConvert(mods_data[i].name) }))
+				elseif result == 2 then print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mods_data[i].name) }))
+				elseif result == 3 then print(i18n("console_msg_mod_disable", { modname = modNameConvert(mods_data[i].name) }))
+				elseif result == 4 then print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mods_data[i].name) })) end
 			end
 		end
 	end
