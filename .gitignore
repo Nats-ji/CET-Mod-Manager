@@ -9,3 +9,4 @@ dofiles/*
 cet_mod_manager.log
 config.json
 db.sqlite3
+.github
