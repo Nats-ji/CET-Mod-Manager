@@ -43,6 +43,6 @@ return {
     text_select_lang                       = "Selecte a Language (Needs font support)",
     text_select_settings                   = "Settings" ,
     tooltip_btn_settings                   = "Settings" ,
-    tooltip_btn_help                       = "Help"
+    tooltip_btn_help                       = "Help",
   }
 }

@@ -44,6 +44,6 @@ return {
     text_select_settings                   = "設置" ,
     text_select_lang                       = "選擇語言（需要字體支持）" ,
     tooltip_btn_settings                   = "設置" ,
-    tooltip_btn_help                       = "幫助"
+    tooltip_btn_help                       = "幫助",
   }
 }

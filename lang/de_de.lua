@@ -44,6 +44,6 @@ return {
     text_select_settings                   = "Einstellungen" ,
     text_select_lang                       = "Wähle eine Sprache aus (Benötigt evtl. Schriftart)",
     tooltip_btn_settings                   = "Einstellungen" ,
-    tooltip_btn_help                       = "Hilfe"
+    tooltip_btn_help                       = "Hilfe",
   }
 }

@@ -44,6 +44,6 @@ return {
     text_select_lang                       = "Выберите язык (Требуется поддержка шрифтов)",
     text_select_settings                   = "Настройки" ,
     tooltip_btn_settings                   = "Настройки" ,
-    tooltip_btn_help                       = "Помощь"
+    tooltip_btn_help                       = "Помощь",
   }
 }
