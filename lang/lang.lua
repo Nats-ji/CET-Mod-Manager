@@ -5,6 +5,7 @@ return {
   { id = "ja_jp", name = "日本語 (Japanese)" },
   { id = "ru_ru", name = "Русский (Russian)" },
   { id = "de_de", name = "Deutsch (German)" },
-  { id = "tr_tc", name = "Turkish (Turkey)" },
+  { id = "tr_tc", name = "Türk dili (Turkish)" },
+  { id = "ro_ro", name = "Limba Română (Romanian)" },
   -- { id = "example", name = "Example Language (Example)"},
 }
