@@ -45,5 +45,11 @@ return {
     text_select_lang                       = "选择语言（需要字体支持）" ,
     tooltip_btn_settings                   = "设置" ,
     tooltip_btn_help                       = "帮助",
+    text_error_window_1                    = "错误!!" ,
+    text_error_window_2                    = "CET模组管理器无法加载运行库!" ,
+    text_error_window_3                    = "1. 你需要用文本编辑器打开以下文件：" ,
+    text_error_window_4                    = "2. 在文件的第2行，粘贴以下代码：" ,
+    text_error_window_5                    = "3. 保存文件并重启游戏！" ,
+    text_error_window_6                    = "或者你可以把autoexec.lua替换为CET模组管理器的版本!" ,
   }
 }

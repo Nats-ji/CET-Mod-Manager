@@ -18,6 +18,15 @@
 i18n = require("i18n")
 languages = require("lang/lang")
 
+function check_module()
+	local module = Game.CETMM
+	if type(module) == "table" then
+		return true
+	else
+		return false
+	end
+end
+
 function scan_dofiles()
 	local dofile_names = {}
 	local dofile_list = dir("./dofiles")
@@ -224,6 +233,7 @@ config = loadConfig("config.json")
 applyConfig(config)
 
 registerForEvent("onInit", function()
+	module = check_module()
 	draw = false
 	showHelp = false
 	showDofileMods = false
@@ -305,7 +315,73 @@ registerForEvent("onUpdate", function()
 	end
 end)
 registerForEvent("onDraw", function()
-    if draw then
+		if not module then
+			setThemeBegin()
+			ImGui.SetNextWindowSize(520*fontscale, 0, ImGuiCond.FirstUseEver)
+			ImGui.SetNextWindowPos(wWidth*0.5-260*fontscale, wHeight*0.5-150, ImGuiCond.FirstUseEver)
+			ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 10, 10)
+			if ImGui.Begin("CETMM Error", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoNav | ImGuiWindowFlags.NoMove) then
+				local win_width = ImGui.GetWindowSize()
+				pushstylecolor(ImGuiCol.Button, theme.Hidden)
+				pushstylecolor(ImGuiCol.ButtonHovered, theme.Hidden)
+				pushstylecolor(ImGuiCol.ButtonActive, theme.Hidden)
+				ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0)
+				ImGui.Button(i18n("window_title"), 0, 25*fontscale)
+				ImGui.PopStyleVar(1)
+				ImGui.PopStyleColor(3)
+				ImGui.SameLine()
+				ImGui.SetCursorPosX(win_width-25*fontscale-10)
+				if ImGui.Button("!", 25*fontscale, 25*fontscale) then
+					ImGui.OpenPopup("Settings")
+				end
+
+				if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
+					ImGui.Spacing()
+		      ImGui.Text(i18n("text_select_lang"))
+					ImGui.Spacing()
+					ImGui.Separator()
+					ImGui.Spacing()
+					ImGui.PushStyleVar(ImGuiStyleVar.SelectableTextAlign, 0, 0.5)
+					for l in pairs(languages) do
+						languages[l].selLang = ImGui.Selectable(languages[l].name, false, ImGuiSelectableFlags.None, 0, 22*fontscale)
+					end
+					ImGui.PopStyleVar(1)
+		      ImGui.EndPopup()
+		    end
+				pushstylecolor(ImGuiCol.FrameBg, {0.27, 0.05, 0.07, 1})
+				ImGui.Dummy(0,8)
+				ImGui.TextWrapped(i18n("text_error_window_1"))
+				ImGui.Dummy(0,6)
+				ImGui.TextWrapped(i18n("text_error_window_2"))
+				ImGui.Dummy(0,6)
+				ImGui.TextWrapped(i18n("text_error_window_3"))
+				ImGui.Spacing()
+				ImGui.PushItemWidth(ImGui.CalcTextSize([[Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\scripts\autoexec.lua]])+10)
+				ImGui.Indent(15)
+				ImGui.InputText("##filepath", [[Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\scripts\autoexec.lua]], 100, ImGuiInputTextFlags.ReadOnly)
+				ImGui.Unindent(15)
+				ImGui.PopItemWidth()
+				ImGui.Dummy(0,6)
+				ImGui.TextWrapped(i18n("text_error_window_4"))
+				ImGui.Spacing()
+				ImGui.PushItemWidth(ImGui.CalcTextSize([[Game.CETMM = require 'cet_mod_manager']])+10)
+				ImGui.Indent(15)
+				ImGui.InputText("##code", [[Game.CETMM = require 'cet_mod_manager']], 100, ImGuiInputTextFlags.ReadOnly)
+				ImGui.Unindent(15)
+				ImGui.PopItemWidth()
+				ImGui.Dummy(0,6)
+				ImGui.TextWrapped(i18n("text_error_window_5"))
+				ImGui.Dummy(0,6)
+				ImGui.TextWrapped(i18n("text_error_window_6"))
+				ImGui.Dummy(0,8)
+				ImGui.PopStyleColor(1)
+			end
+			ImGui.End()
+			ImGui.PopStyleVar(1)
+			setThemeEnd()
+		end
+
+    if draw and module then
 		setThemeBegin()
 		draw = ImGui.Begin(i18n("window_title"), true , ImGuiWindowFlags.NoResize)
 		ImGui.SetWindowPos(wWidth/2-210*fontscale, wHeight/2-320*fontscale, ImGuiCond.FirstUseEver)

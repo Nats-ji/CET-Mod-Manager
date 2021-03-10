@@ -84,7 +84,8 @@ local theme  =           {
 	CustomToggleOffText                 =           { 1   , 0.44, 0.4 , 1    },
 	CustomToggleOffDisable              =           { 0.1 , 0.04, 0.07, 1    },
 	CustomToggleOffDisableHovered       =           { 0.16, 0.06, 0.07, 1    },
-	CustomToggleOffDisableText          =           { 0.22, 0.07, 0.07, 1    }
+	CustomToggleOffDisableText          =           { 0.22, 0.07, 0.07, 1    },
+	Hidden                              =           { 0   , 0   , 0   , 0    },
 }
 
 return theme

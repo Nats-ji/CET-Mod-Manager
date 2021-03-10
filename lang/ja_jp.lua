@@ -45,5 +45,11 @@ return {
     text_select_lang                       = "言語の選択（フォントのサポートが必要）" ,
     tooltip_btn_settings                   = "設定" ,
     tooltip_btn_help                       = "ヘルプ",
+    text_error_window_1                    = "エラー！！" ,
+    text_error_window_2                    = "CETモッドマネージャーがモジュールのロードに失敗しました！" ,
+    text_error_window_3                    = "1. 次のファイルをテキストエディタで開く必要があります。" ,
+    text_error_window_4                    = "2. そして、ファイルの2行目に、次のコードを貼り付けます。" ,
+    text_error_window_5                    = "3. ファイルを保存してゲームを再起動してください！" ,
+    text_error_window_6                    = "または、autoexec.luaをこのmodに含まれているものに置き換えることもできます！" ,
   }
 }
