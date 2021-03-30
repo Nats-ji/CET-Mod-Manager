@@ -45,7 +45,7 @@ return {
     tooltip_btn_settings                   = "Settings" ,
     tooltip_btn_help                       = "Help" ,
     text_error_window_1                    = "Error!!" ,
-    text_error_window_2                    = "CET Mod Manager failed to load module!" ,
+    text_error_window_2                    = "CET Mod Manager failed to load it's file module!" ,
     text_error_window_3                    = "1. You need to open the following file in a text editor:" ,
     text_error_window_4                    = "2. And at the 2nd line of the file, paste the following code:" ,
     text_error_window_5                    = "3. Save the file and restart your game!" ,

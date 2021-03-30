@@ -97,4 +97,6 @@ function CETMM.OpenFolder(folder)
   end
 end
 
+print("CET file module loaded.")
+
 return CETMM
