@@ -47,9 +47,8 @@ return {
     tooltip_btn_help                       = "Помощь",
     text_error_window_1                    = "Ошибка!!!" ,
     text_error_window_2                    = "Менеджер модов CET: Не удалось загрузить модуль!" ,
-    text_error_window_3                    = "1. В текстовом редакторе откройте файл:" ,
-    text_error_window_4                    = "2. Во 2-й строке файла вставте следующий код:" ,
-    text_error_window_5                    = "3. Сохраните файл и перезапустите игру!" ,
-    text_error_window_6                    = "Или просто замените autoexec.lua на тот, который включён в этот мод!" ,
+    -- text_error_window_3                    = "Please make sure it's installed correctly." ,
+    -- text_error_window_4                    = "1. Try to uninstall the old version first, and make a clean installation." ,
+    -- text_error_window_5                    = "2. If you are using vortex, try to install manually." ,
   }
 }

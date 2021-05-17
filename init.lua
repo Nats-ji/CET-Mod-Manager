@@ -19,8 +19,8 @@ i18n = require("i18n")
 languages = require("lang/lang")
 
 function check_module()
-	local module = Game.CETMM
-	if type(module) == "table" then
+  CETMM_fs = json.CETMM_fs
+	if type(CETMM_fs) == "table" then
 		return true
 	else
 		return false
@@ -208,7 +208,7 @@ end
 
 function applyConfig(config)
 	if config.autoscan then
-		mods_data = Game.CETMM.GetModsData()
+		mods_data = CETMM_fs.GetModsData()
 		dofile_names = scan_dofiles()
 		scanned = true
 	else
@@ -260,16 +260,16 @@ end)
 
 registerForEvent("onUpdate", function()
 	if btnScan then
-		mods_data = Game.CETMM.GetModsData()
+		mods_data = CETMM_fs.GetModsData()
 		dofile_names = scan_dofiles()
 		scanned = true
 		print(i18n("console_msg_scan"))
 	end
 	if btnOpenMods then
-		Game.CETMM.OpenFolder("mods")
+		CETMM_fs.OpenFolder("mods")
 	end
 	if btnOpenDofiles then
-		Game.CETMM.OpenFolder("dofiles")
+		CETMM_fs.OpenFolder("dofiles")
 	end
 	if btnAutoScan then
 		config.autoscan = not config.autoscan
@@ -299,7 +299,7 @@ registerForEvent("onUpdate", function()
 	if scanned then
 		for i in pairs(mods_data) do
 			if mods_data[i].pressed then
-				local result = Game.CETMM.ToggleMod(mods_data[i])
+				local result = CETMM_fs.ToggleMod(mods_data[i])
 				if result == 1 then print(i18n("console_msg_mod_enable", { modname = modNameConvert(mods_data[i].name) }))
 				elseif result == 2 then print(i18n("console_msg_mod_enable_error", { modname = modNameConvert(mods_data[i].name) }))
 				elseif result == 3 then print(i18n("console_msg_mod_disable", { modname = modNameConvert(mods_data[i].name) }))
@@ -355,24 +355,10 @@ registerForEvent("onDraw", function()
 				ImGui.TextWrapped(i18n("text_error_window_2"))
 				ImGui.Dummy(0,6)
 				ImGui.TextWrapped(i18n("text_error_window_3"))
-				ImGui.Spacing()
-				ImGui.PushItemWidth(ImGui.CalcTextSize([[Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\scripts\autoexec.lua]])+10)
-				ImGui.Indent(15)
-				ImGui.InputText("##filepath", [[Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\scripts\autoexec.lua]], 100, ImGuiInputTextFlags.ReadOnly)
-				ImGui.Unindent(15)
-				ImGui.PopItemWidth()
 				ImGui.Dummy(0,6)
 				ImGui.TextWrapped(i18n("text_error_window_4"))
-				ImGui.Spacing()
-				ImGui.PushItemWidth(ImGui.CalcTextSize([[Game.CETMM = require 'cet_mod_manager/init']])+10)
-				ImGui.Indent(15)
-				ImGui.InputText("##code", [[Game.CETMM = require 'cet_mod_manager/init']], 100, ImGuiInputTextFlags.ReadOnly)
-				ImGui.Unindent(15)
-				ImGui.PopItemWidth()
 				ImGui.Dummy(0,6)
 				ImGui.TextWrapped(i18n("text_error_window_5"))
-				ImGui.Dummy(0,6)
-				ImGui.TextWrapped(i18n("text_error_window_6"))
 				ImGui.Dummy(0,8)
 				ImGui.PopStyleColor(1)
 			end

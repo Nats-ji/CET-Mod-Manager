@@ -47,9 +47,8 @@ return {
     tooltip_btn_help                       = "ヘルプ",
     text_error_window_1                    = "エラー！！" ,
     text_error_window_2                    = "CETモッドマネージャーがモジュールのロードに失敗しました！" ,
-    text_error_window_3                    = "1. 次のファイルをテキストエディタで開く必要があります。" ,
-    text_error_window_4                    = "2. そして、ファイルの2行目に、次のコードを貼り付けます。" ,
-    text_error_window_5                    = "3. ファイルを保存してゲームを再起動してください！" ,
-    text_error_window_6                    = "または、autoexec.luaをこのmodに含まれているものに置き換えることもできます！" ,
+    -- text_error_window_3                    = "Please make sure it's installed correctly." ,
+    -- text_error_window_4                    = "1. Try to uninstall the old version first, and make a clean installation." ,
+    -- text_error_window_5                    = "2. If you are using vortex, try to install manually." ,
   }
 }

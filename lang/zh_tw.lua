@@ -47,9 +47,8 @@ return {
     tooltip_btn_help                       = "幫助",
     text_error_window_1                    = "錯誤!!" ,
     text_error_window_2                    = "CET模組管理器無法加載運行庫!" ,
-    text_error_window_3                    = "1. 你需要用文本編輯器打開以下文件：" ,
-    text_error_window_4                    = "2. 在文件的第2行，粘貼以下代碼：" ,
-    text_error_window_5                    = "3. 保存文件並重啟遊戲！" ,
-    text_error_window_6                    = "或者你可以把autoexec.lua替換為CET模組管理器的版本!" ,
+    -- text_error_window_3                    = "Please make sure it's installed correctly." ,
+    -- text_error_window_4                    = "1. Try to uninstall the old version first, and make a clean installation." ,
+    -- text_error_window_5                    = "2. If you are using vortex, try to install manually." ,
   }
 }

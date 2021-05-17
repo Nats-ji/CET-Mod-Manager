@@ -46,9 +46,8 @@ return {
     tooltip_btn_help                       = "Help" ,
     text_error_window_1                    = "Error!!" ,
     text_error_window_2                    = "CET Mod Manager failed to load it's file module!" ,
-    text_error_window_3                    = "1. You need to open the following file in a text editor:" ,
-    text_error_window_4                    = "2. And at the 2nd line of the file, paste the following code:" ,
-    text_error_window_5                    = "3. Save the file and restart your game!" ,
-    text_error_window_6                    = "Or you can just replace the autoexec.lua with the one included in this mod!" ,
+    text_error_window_3                    = "Please make sure it's installed correctly." ,
+    text_error_window_4                    = "1. Try to uninstall the old version first, and make a clean installation." ,
+    text_error_window_5                    = "2. If you are using vortex, try to install manually." ,
   }
 }
