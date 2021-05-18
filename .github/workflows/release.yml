@@ -130,7 +130,7 @@ jobs:
           mod_tags: ${{ env.META_3DM_MOD_TAGS }}
           mod_desc: ${{ env.META_3DM_MOD_DESC }}
           mod_content: ${{ env.META_3DM_MOD_CONTENT }}
-          mod_filepath: ./build/release/${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
+          mod_filepath: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
 
       - name: Check 3DM upload status
         run: echo ${{ steps.upload_3dm.outputs.RESPONSE }}
