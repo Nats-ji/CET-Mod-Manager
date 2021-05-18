@@ -5,29 +5,132 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Copy files
+
+      - name: Setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+
+      - name: Update xmake repository and install dependencies
         run: |
-          mkdir -p ./build/tmp/bin/x64/plugins/cyber_engine_tweaks/mods/ ./build/release/
-          cp LICENSE ./scripts/cet_mod_manager/
-          rm ./i18n/README.md
-          rsync -a ./ ./build/tmp/bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager/ --exclude={.git/,scripts/,build/,.gitignore,.github/,README.md}
-          rsync -a scripts/ ./build/tmp/bin/x64/plugins/cyber_engine_tweaks/scripts/
-      - name: Zip Release
-        uses: TheDoctor0/zip-release@0.4.1
-        with:
-          filename: ../release/cet_mod_manager_${{ env.RELEASE_VERSION }}.zip
-          directory: ./build/tmp/
+          xmake.exe repo --update
+          xmake.exe q --yes
+
+      - name: Build and Package
+        run: xmake.exe package
 
       - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: package/
+
+  release-github:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set environment variables
+        uses: antifree/json-to-variables@v1.0.1
+        with:
+          filename: metadata.json
+          prefix: META
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v2.0.9
+
+      - name: Create zip
+        uses: ihiroky/archive-action@v1
+        with:
+          root_dir: "package/"
+          file_path: "${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip"
+
+      - name: Upload to Github Release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           omitNameDuringUpdate: true
           omitBodyDuringUpdate: true
-          artifacts: "./build/release/cet_mod_manager_${{ env.RELEASE_VERSION }}.zip"
+          artifacts: "${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
+
+  release-nexus:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set environment variables
+        uses: antifree/json-to-variables@v1.0.1
+        with:
+          filename: metadata.json
+          prefix: META
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v2.0.9
+
+      - name: Create zip
+        uses: ihiroky/archive-action@v1
+        with:
+          root_dir: "package/"
+          file_path: "${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip"
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      - name: Upload to Nexus Mods
+        env:
+            UNEX_APIKEY: ${{ secrets.UNEX_APIKEY }}
+            UNEX_COOKIES: ${{ secrets.UNEX_COOKIES }}
+            UNEX_GAME: ${{ env.META_UNEX_GAME }}
+            UNEX_MODID: ${{ env.META_UNEX_MODID }}
+            UNEX_PREVIOUSFILE: auto
+            UNEX_FILENAME: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
+            UNEX_FILEDESCRIPTION: ${{ env.META_UNEX_FILEDESCRIPTION }}
+            UNEX_FILEPATH: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
+            UNEX_VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          dotnet tool install -g NexusUploader
+          unex upload $UNEX_MODID $UNEX_FILEPATH -v $UNEX_VERSION
+
+  release-3dm:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set environment variables
+        uses: antifree/json-to-variables@v1.0.1
+        with:
+          filename: metadata.json
+          prefix: META
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v2.0.9
+
+      - name: Create zip
+        uses: ihiroky/archive-action@v1
+        with:
+          root_dir: "package/"
+          file_path: "${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip"
+
+      - name: Upload to 3DM Mods
+        id: upload_3dm
+        uses: Nats-ji/3dm-release-action@master
+        with:
+          appid: ${{ secrets.APPID_3DM }}
+          appkey: ${{ secrets.APPKEY_3DM }}
+          mod_id: ${{ env.META_3DM_MOD_ID }}
+          mod_title: ${{ env.META_3DM_MOD_TITLE }}
+          mod_version: ${{ github.event.release.tag_name }}
+          mod_tags: ${{ env.META_3DM_MOD_TAGS }}
+          mod_desc: ${{ env.META_3DM_MOD_DESC }}
+          mod_content: ${{ env.META_3DM_MOD_CONTENT }}
+          mod_filepath: ./build/release/${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
+
+      - name: Check 3DM upload status
+        run: echo ${{ steps.upload_3dm.outputs.RESPONSE }}

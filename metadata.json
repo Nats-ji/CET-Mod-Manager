@@ -1,0 +1,11 @@
+{
+  "3DM_MOD_ID": 172144,
+  "3DM_MOD_TITLE": "(已支持中文) Cyber Engine Tweaks 控制台 内置 MOD管理器",
+  "3DM_MOD_TAGS": "Cyber Engine Tweaks,赛博朋克2077,Cyberpunk 2077,MOD管理器,控制台",
+  "3DM_MOD_DESC": "在游戏中启用禁用基于Cyber Engine Tweaks的mod",
+  "3DM_MOD_CONTENT": "README_zh.md",
+  "UNEX_GAME": "cyberpunk2077",
+  "UNEX_MODID": 895,
+  "UNEX_FILEDESCRIPTION": "Check here for release note: https://github.com/Nats-ji/CET-Mod-Manager/releases/latest",
+  "MOD_FILE_NAME": "cet_mod_manager"
+}
