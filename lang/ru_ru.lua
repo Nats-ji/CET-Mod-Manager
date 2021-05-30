@@ -47,8 +47,8 @@ return {
     tooltip_btn_help                       = "Помощь",
     text_error_window_1                    = "Ошибка!!!" ,
     text_error_window_2                    = "Менеджер модов CET: Не удалось загрузить модуль!" ,
-    -- text_error_window_3                    = "Please make sure it's installed correctly." ,
-    -- text_error_window_4                    = "1. Try to uninstall the old version first, and make a clean installation." ,
-    -- text_error_window_5                    = "2. If you are using vortex, try to install manually." ,
+    text_error_window_3                    = "Убедитесь, что он установлен правильно." ,
+    text_error_window_4                    = "1. Попробуйте сначала удалить старую версию и произвести чистую установку." ,
+    text_error_window_5                    = "2. Если вы используете Vortex, попробуйте установить его вручную." ,
   }
 }
