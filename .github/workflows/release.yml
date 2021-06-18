@@ -62,6 +62,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Update release note
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: metadata.json
+          field: UNEX_FILEDESCRIPTION
+          value: ${{ github.event.release.body }}
+
       - name: Set environment variables
         uses: antifree/json-to-variables@v1.0.1
         with:
@@ -89,7 +96,7 @@ jobs:
             UNEX_GAME: ${{ env.META_UNEX_GAME }}
             UNEX_MODID: ${{ env.META_UNEX_MODID }}
             UNEX_PREVIOUSFILE: auto
-            UNEX_FILENAME: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
+            UNEX_FILENAME: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}
             UNEX_FILEDESCRIPTION: ${{ env.META_UNEX_FILEDESCRIPTION }}
             UNEX_FILEPATH: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
             UNEX_VERSION: ${{ github.event.release.tag_name }}
