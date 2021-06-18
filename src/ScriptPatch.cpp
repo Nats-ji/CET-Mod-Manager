@@ -11,9 +11,9 @@ bool ScriptPatch::ReadScript()
   std::string line;
   std::ifstream file (m_cwd / m_scriptPath);
 
-  if (file.fail())
+  if (!file.is_open())
   {
-    spdlog::error("Couldn't open autoexec.lua!");
+    spdlog::error("Couldn't open autoexec.lua at: {}.", (m_cwd / m_scriptPath).string());
     return false;
   }
 
@@ -52,7 +52,7 @@ void ScriptPatch::WriteScript()
   std::ofstream file (m_cwd / m_scriptPath);
   if (file.fail())
   {
-    spdlog::error("Couldn't write to autoexec.lua!");
+    spdlog::error("Couldn't write to autoexec.lua at: {}", (m_cwd / m_scriptPath).string());
     return;
   }
 
@@ -67,19 +67,25 @@ void ScriptPatch::WriteScript()
 
 void ScriptPatch::CopyModule()
 {
-  std::filesystem::create_directory(m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager");
-  std::filesystem::copy(m_cwd / "cyber_engine_tweaks/mods/cet_mod_manager/scripts/filesystem.lua", m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager/filesystem.lua");
+  if (!std::filesystem::create_directory(m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager"))
+    spdlog::error("Failed to create directory at: {}.", (m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager").string());
+
+  std::error_code ec;
+  std::filesystem::copy(m_cwd / "cyber_engine_tweaks/mods/cet_mod_manager/scripts/filesystem.lua", m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager/filesystem.lua", ec);
+
+  if (ec)
+    spdlog::error("Failed to copy {} to {}. Error message: {}.", (m_cwd / "cyber_engine_tweaks/mods/cet_mod_manager/scripts/filesystem.lua").string(), (m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager/filesystem.lua").string(), ec.message());
 }
 
 void ScriptPatch::RemoveModule()
 {
-  std::filesystem::remove_all(m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager");
+  if (!std::filesystem::remove_all(m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager"))
+    spdlog::error("Failed to remove {}.", (m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager").string());
 }
 
 void ScriptPatch::Initialize()
 {
   m_cwd = std::filesystem::current_path();
-  spdlog::info(m_cwd.string());
   m_scriptPath = "cyber_engine_tweaks/scripts/autoexec.lua";
   m_CETMM_require = "json.CETMM_fs = require 'cet_mod_manager/filesystem'";
   m_readSuccess = ReadScript();
