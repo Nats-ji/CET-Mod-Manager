@@ -228,12 +228,11 @@ function setLang(lang)
 	saveConfig("config.json", config)
 end
 
+module = check_module()
 config = loadConfig("config.json")
-
 applyConfig(config)
 
 registerForEvent("onInit", function()
-	module = check_module()
 	draw = false
 	showHelp = false
 	showDofileMods = false
