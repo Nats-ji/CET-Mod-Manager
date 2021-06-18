@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started with Actions
+
+name: UNEX Check
+
+# Controls when the action will run. 
+on:
+
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  check:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      - name: Check
+        env:
+            UNEX_APIKEY: ${{ secrets.UNEX_APIKEY }}
+            UNEX_COOKIES: ${{ secrets.UNEX_COOKIES }}
+        run: |
+          dotnet tool install -g NexusUploader
+          unex check
