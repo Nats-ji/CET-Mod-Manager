@@ -6,7 +6,7 @@
 # 如何更改字体：
 1. 用文本编辑器打开 `\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\config.json`
 
-2. 把 `font_path` 这一项改为：`"C:\Windows\Fonts\simhei.ttf"`
+2. 把 `font_path` 这一项改为：`"C:\\Windows\\Fonts\\simhei.ttf"`
 
 3. 把 `font_glyph_ranges` 这一项改为 `"ChineseFull"`
 
