@@ -17,11 +17,25 @@
 - 用不到的mod在游戏中一键关闭
 - 可以直接从mod管理器运行使用`dofile()`命令的脚本mod
 
-![](/ueditor/php/upload/image/20210114/1610567995552748.png) ![](/ueditor/php/upload/image/20210114/1610567995298943.png)
+![](https://mod.3dmgame.com/ueditor/php/upload/image/20210114/1610567995552748.png) ![](https://mod.3dmgame.com/ueditor/php/upload/image/20210114/1610567995298943.png)
 
 # 安装
 1. 首先安装 控制台MOD Cyber Engine Tweaks 最新版
-2. 解压后把 `bin` 文件夹放到游戏安装主路径 `Cyberpunk 2077\` 里，并替换重名文件`autoexec.lua`
+2. 解压后把 `bin` 文件夹放到游戏安装主路径
+
+- 安装后目录应该像这样
+
+   Cyberpunk 2077<br>
+   └── bin<br>
+   　　　└── x64<br>
+   　　　　　　└── plugins<br>
+   　　　　　　　　　├── cyber_engine_tweaks<br>
+   　　　　　　　　　│　　└── mods<br>
+   　　　　　　　　　│　　　　　└── **cet_mod_manager**<br>
+   　　　　　　　　　│　　　　　　　　└── **<文件>**<br>
+   　　　　　　　　　├── **cet_mod_manager.asi**<br>
+   　　　　　　　　　└── cyber_engine_tweaks.asi<br>
+
 
 # 使用方法
 1. 在游戏中按绑定的热键打开Mod管理界面
@@ -36,10 +50,8 @@
 
 # 卸载
 1. 先把所有mod都重新启用
-2. 删除 `<赛博朋克2077的安装路径>/bin/x64/plugins/cyber_engine_tweaks/scripts/` 里的 `cet_mod_manager`文件夹
-3. 用文本编辑器打开 `<赛博朋克2077的安装路径>/bin/x64/plugins/cyber_engine_tweaks/scripts/autoexec.lua`
-找到第二行的`Game.CETMM = require 'cet_mod_manager/init'`，删除并保存
-4. 删除 `<赛博朋克2077的安装路径>/bin/x64/plugins/cyber_engine_tweaks/mods/` 里的 `cet_mod_manager`文件夹
+2. 删除 `<赛博朋克2077的安装路径>/bin/x64/plugins/` 里的 `cet_mod_manager.asi`
+3. 删除 `<赛博朋克2077的安装路径>/bin/x64/plugins/cyber_engine_tweaks/mods/` 里的 `cet_mod_manager`文件夹
 
 # 目前支持的语言
 - 英文
