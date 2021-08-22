@@ -97,7 +97,7 @@ jobs:
             UNEX_MODID: ${{ env.META_UNEX_MODID }}
             UNEX_PREVIOUSFILE: auto
             UNEX_FILENAME: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}
-            UNEX_FILEDESCRIPTION: ${{ env.META_UNEX_FILEDESCRIPTION }}
+            UNEX_FILEDESCRIPTION: ${{ github.event.release.body }}
             UNEX_FILEPATH: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
             UNEX_VERSION: ${{ github.event.release.tag_name }}
         run: |
