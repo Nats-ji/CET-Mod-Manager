@@ -25,15 +25,15 @@
 
 - 安装后目录应该像这样
 
-   Cyberpunk 2077<br>
-   └── bin<br>
-   　　　└── x64<br>
-   　　　　　　└── plugins<br>
-   　　　　　　　　　├── <span style="color:yellow;">cyber_engine_tweaks</span><br>
-   　　　　　　　　　│　　└── mods<br>
-   　　　　　　　　　│　　　　　└── <span style="color:lightgreen;">cet_mod_manager</span><br>
-   　　　　　　　　　│　　　　　　　　└── <span style="color:lightgreen;"><文件></span><br>
-   　　　　　　　　　├── <span style="color:lightgreen;">cet_mod_manager.asi</span><br>
+   Cyberpunk 2077
+   └── bin
+   　　　└── x64
+   　　　　　　└── plugins
+   　　　　　　　　　├── <span style="color:yellow;">cyber_engine_tweaks</span>
+   　　　　　　　　　│　　└── mods
+   　　　　　　　　　│　　　　　└── <span style="color:lightgreen;">cet_mod_manager</span>
+   　　　　　　　　　│　　　　　　　　└── <span style="color:lightgreen;"><文件></span>
+   　　　　　　　　　├── <span style="color:lightgreen;">cet_mod_manager.asi</span>
    　　　　　　　　　└── <span style="color:yellow;">cyber_engine_tweaks.asi</span>
 
 
