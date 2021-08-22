@@ -29,12 +29,12 @@
    └── bin<br>
    　　　└── x64<br>
    　　　　　　└── plugins<br>
-   　　　　　　　　　├── cyber_engine_tweaks<br>
+   　　　　　　　　　├── <span style="color:yellow;">cyber_engine_tweaks</span><br>
    　　　　　　　　　│　　└── mods<br>
-   　　　　　　　　　│　　　　　└── **cet_mod_manager**<br>
-   　　　　　　　　　│　　　　　　　　└── **<文件>**<br>
-   　　　　　　　　　├── **cet_mod_manager.asi**<br>
-   　　　　　　　　　└── cyber_engine_tweaks.asi<br>
+   　　　　　　　　　│　　　　　└── <span style="color:lightgreen;">cet_mod_manager</span><br>
+   　　　　　　　　　│　　　　　　　　└── <span style="color:lightgreen;"><文件></span><br>
+   　　　　　　　　　├── <span style="color:lightgreen;">cet_mod_manager.asi</span><br>
+   　　　　　　　　　└── <span style="color:yellow;">cyber_engine_tweaks.asi</span>
 
 
 # 使用方法
