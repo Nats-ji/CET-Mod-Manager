@@ -1,0 +1,31 @@
+name: Update Mod info
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-3dm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set environment variables
+        uses: antifree/json-to-variables@v1.0.1
+        with:
+          filename: metadata.json
+          prefix: META
+
+      - name: Upload to 3DM Mods
+        id: upload_3dm
+        uses: Nats-ji/3dm-release-action@master
+        with:
+          appid: ${{ secrets.APPID_3DM }}
+          appkey: ${{ secrets.APPKEY_3DM }}
+          mod_id: ${{ env.META_3DM_MOD_ID }}
+          mod_title: ${{ env.META_3DM_MOD_TITLE }}
+          mod_tags: ${{ env.META_3DM_MOD_TAGS }}
+          mod_desc: ${{ env.META_3DM_MOD_DESC }}
+          mod_content: ${{ env.META_3DM_MOD_CONTENT }}
+
+      - name: Check 3DM upload status
+        run: echo ${{ steps.upload_3dm.outputs.RESPONSE }}
