@@ -15,8 +15,8 @@ jobs:
           filename: metadata.json
           prefix: META
 
-      - name: Upload to 3DM Mods
-        id: upload_3dm
+      - name: Update infomation on 3DM Mods
+        id: update_3dm
         uses: Nats-ji/3dm-release-action@master
         with:
           appid: ${{ secrets.APPID_3DM }}
@@ -27,5 +27,5 @@ jobs:
           mod_desc: ${{ env.META_3DM_MOD_DESC }}
           mod_content: ${{ env.META_3DM_MOD_CONTENT }}
 
-      - name: Check 3DM upload status
-        run: echo ${{ steps.upload_3dm.outputs.RESPONSE }}
+      - name: Check 3DM update status
+        run: echo ${{ steps.update_3dm.outputs.RESPONSE }}
