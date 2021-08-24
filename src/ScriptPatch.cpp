@@ -1,19 +1,14 @@
+#include "pch.h"
 #include "ScriptPatch.h"
-
-std::filesystem::path ScriptPatch::m_cwd;
-std::string ScriptPatch::m_scriptPath;
-std::string ScriptPatch::m_CETMM_require;
-bool ScriptPatch::m_readSuccess;
-std::vector<std::string> ScriptPatch::m_script_lines;
 
 bool ScriptPatch::ReadScript()
 {
   std::string line;
-  std::ifstream file (m_cwd / m_scriptPath);
+  std::ifstream file (m_scriptPath);
 
   if (!file.is_open())
   {
-    spdlog::error("Couldn't open autoexec.lua at: {}.", (m_cwd / m_scriptPath).string());
+    spdlog::error("Couldn't open autoexec.lua at: {}.", m_scriptPath.string());
     return false;
   }
 
@@ -49,10 +44,10 @@ void ScriptPatch::RevertScript()
 
 void ScriptPatch::WriteScript()
 {
-  std::ofstream file (m_cwd / m_scriptPath);
+  std::ofstream file (m_scriptPath);
   if (file.fail())
   {
-    spdlog::error("Couldn't write to autoexec.lua at: {}", (m_cwd / m_scriptPath).string());
+    spdlog::error("Couldn't write to autoexec.lua at: {}", m_scriptPath.string());
     return;
   }
 
@@ -67,27 +62,25 @@ void ScriptPatch::WriteScript()
 
 void ScriptPatch::CopyModule()
 {
-  if (!std::filesystem::create_directory(m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager"))
-    spdlog::error("Failed to create directory at: {}.", (m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager").string());
+  if (!std::filesystem::create_directory(CETMM::GetPaths().CETScripts() / "cet_mod_manager"))
+    spdlog::error("Failed to create directory at: {}.", (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string());
 
   std::error_code ec;
-  std::filesystem::copy(m_cwd / "cyber_engine_tweaks/mods/cet_mod_manager/scripts/filesystem.lua", m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager/filesystem.lua", ec);
+  std::filesystem::copy(CETMM::GetPaths().CETMMRoot() / "scripts" / "filesystem.lua", CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "filesystem.lua", ec);
 
   if (ec)
-    spdlog::error("Failed to copy {} to {}. Error message: {}.", (m_cwd / "cyber_engine_tweaks/mods/cet_mod_manager/scripts/filesystem.lua").string(), (m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager/filesystem.lua").string(), ec.message());
+    spdlog::error("Failed to copy {} to {}. Error message: {}.", (CETMM::GetPaths().CETMMRoot() / "scripts" / "filesystem.lua").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "filesystem.lua").string(), ec.message());
 }
 
 void ScriptPatch::RemoveModule()
 {
-  if (!std::filesystem::remove_all(m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager"))
-    spdlog::error("Failed to remove {}.", (m_cwd / "cyber_engine_tweaks/scripts/cet_mod_manager").string());
+  if (!std::filesystem::remove_all(CETMM::GetPaths().CETScripts() / "cet_mod_manager"))
+    spdlog::error("Failed to remove {}.", (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string());
 }
 
 void ScriptPatch::Initialize()
 {
-  m_cwd = std::filesystem::current_path();
-  m_scriptPath = "cyber_engine_tweaks/scripts/autoexec.lua";
-  m_CETMM_require = "json.CETMM_fs = require 'cet_mod_manager/filesystem'";
+  m_scriptPath = CETMM::GetPaths().CETScripts() / "autoexec.lua";
   m_readSuccess = ReadScript();
   if (m_readSuccess)
   {

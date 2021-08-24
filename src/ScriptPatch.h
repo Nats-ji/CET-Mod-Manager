@@ -1,24 +1,21 @@
 #pragma once
 
-#include "pch.h"
-
 struct ScriptPatch
 {
-  static void Initialize();
-  static void Shutdown();
+  void Initialize();
+  void Shutdown();
 
 private:
 
-  static std::filesystem::path m_cwd;
-  static std::string m_scriptPath;
-  static std::string m_CETMM_require;
-  static bool m_readSuccess;
-  static std::vector<std::string> m_script_lines;
+  std::filesystem::path m_scriptPath;
+  const std::string m_CETMM_require {"json.CETMM_fs = require 'cet_mod_manager/filesystem'"};
+  bool m_readSuccess;
+  std::vector<std::string> m_script_lines;
 
-  static bool ReadScript();
-  static void PatchScript();
-  static void RevertScript();
-  static void WriteScript();
-  static void CopyModule();
-  static void RemoveModule();
+  bool ReadScript();
+  void PatchScript();
+  void RevertScript();
+  void WriteScript();
+  void CopyModule();
+  void RemoveModule();
 };
