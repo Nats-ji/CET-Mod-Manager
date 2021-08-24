@@ -5,11 +5,13 @@
 void CETMM::Initialize()
 {
   GetScriptPatch().Initialize();
+  GetScanMods().Scan();
 }
 
 void CETMM::Shutdown()
 {
   GetScriptPatch().Shutdown();
+  GetScanMods().Shutdown();
 }
 
 CETMM& CETMM::Get()
@@ -21,6 +23,11 @@ CETMM& CETMM::Get()
 const Paths& CETMM::GetPaths()
 {
   return Get().m_paths;
+}
+
+ScanMods& CETMM::GetScanMods()
+{
+  return Get().m_scanMods;
 }
 
 ScriptPatch& CETMM::GetScriptPatch()

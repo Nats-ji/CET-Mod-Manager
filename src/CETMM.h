@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Paths.h"
+#include "ScanMods.h"
 #include "ScriptPatch.h"
 
 class CETMM
@@ -11,6 +12,7 @@ public:
   static CETMM& Get();
 
   static const Paths& GetPaths();
+  static ScanMods& GetScanMods();
   static ScriptPatch& GetScriptPatch();
 
   CETMM(const CETMM&) = delete;
@@ -23,5 +25,6 @@ private:
   ~CETMM() {}
 
   Paths m_paths;
+  ScanMods m_scanMods;
   ScriptPatch m_scriptPatch;
 };

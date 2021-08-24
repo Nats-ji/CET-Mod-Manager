@@ -232,6 +232,32 @@ module = check_module()
 config = loadConfig("config.json")
 applyConfig(config)
 
+-- Export mod lists
+
+function loadModlist()
+	if file_exists("mod_list.json") then
+		local file = io.open("mod_list.json", "r")
+		return json.decode(file:read("*a"))
+	end
+end
+
+local mod_list = loadModlist()
+local export = {}
+function export.GetModList()
+	return mod_list
+end
+
+function export.PrintModList()
+	for k, mods in pairs(mod_list) do
+		if mods then
+			print(k..": ")
+			for _, entry in ipairs(mods) do
+				print("\t"..entry)
+			end
+		end
+	end
+end
+
 registerForEvent("onInit", function()
 	draw = false
 	showHelp = false
@@ -313,6 +339,7 @@ registerForEvent("onUpdate", function()
 		end
 	end
 end)
+
 registerForEvent("onDraw", function()
 		if not module then
 			setThemeBegin()
@@ -500,3 +527,5 @@ registerForEvent("onOverlayClose", function()
 		draw = false
 	end
 end)
+
+return export
