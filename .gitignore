@@ -9,6 +9,8 @@ dofiles/*
 cet_mod_manager*.log
 config.json
 db.sqlite3
+cet_mod_manager.code-workspace
+.vscode/
 .xmake/
 build/
 package/
