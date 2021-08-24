@@ -1,4 +1,3 @@
-// dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
 HANDLE hMutexHandle = nullptr;
@@ -15,7 +14,7 @@ static void Initialize()
         }
 
         spdlog::set_default_logger(CreateLogger());
-        ScriptPatch::Initialize();
+        CETMM::Initialize();
     }
     catch (...)
     {}
@@ -23,7 +22,7 @@ static void Initialize()
 
 static void Shutdown()
 {
-    ScriptPatch::Shutdown();
+    CETMM::Shutdown();
 
     if (hMutexHandle)
     {

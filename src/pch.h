@@ -7,5 +7,5 @@
 #include <filesystem>
 #include <spdlog/spdlog.h>
 
-#include "ScriptPatch.h"
-#include "spdlog.h"
+#include "CETMM.h"
+#include "Logger.h"
