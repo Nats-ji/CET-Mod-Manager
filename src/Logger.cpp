@@ -1,4 +1,7 @@
-#include "spdlog.h"
+#include "pch.h"
+#include <spdlog/sinks/basic_file_sink.h>
+
+#include "Logger.h"
 
 std::shared_ptr<spdlog::logger> CreateLogger()
 {
