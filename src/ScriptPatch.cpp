@@ -66,7 +66,7 @@ void ScriptPatch::CopyModule()
     spdlog::error("Failed to create directory at: {}.", (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string());
 
   std::error_code ec;
-  std::filesystem::copy(CETMM::GetPaths().CETMMRoot() / "scripts" / "filesystem.lua", CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "filesystem.lua", ec);
+  std::filesystem::create_hard_link(CETMM::GetPaths().CETMMRoot() / "scripts" / "filesystem.lua", CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "filesystem.lua", ec);
 
   if (ec)
     spdlog::error("Failed to copy {} to {}. Error message: {}.", (CETMM::GetPaths().CETMMRoot() / "scripts" / "filesystem.lua").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "filesystem.lua").string(), ec.message());
