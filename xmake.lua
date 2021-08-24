@@ -1,7 +1,7 @@
 set_languages("cxx20")
 set_arch("x64")
 add_rules("mode.debug", "mode.release")
-add_requires("spdlog")
+add_requires("spdlog", "nlohmann_json")
 
 add_defines("UNICODE")
 
@@ -9,7 +9,7 @@ target("cet_mod_manager")
     set_kind("shared")
     set_filename("cet_mod_manager.asi")
     set_pcxxheader("src/pch.h")
-    add_packages("spdlog")
+    add_packages("spdlog", "nlohmann_json")
     add_files("src/**.cpp")
     add_headerfiles("src/**.h")
     add_includedirs("src/")
