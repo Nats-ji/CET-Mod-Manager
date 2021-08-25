@@ -9,6 +9,7 @@ Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/
 - A Mod Manager for CyberEngineTweaks based mods
 - Enable/Disable CyberEngineTweaks based mods inside game with a single click
 - Open the interface by pressing the hotkey you bound in CET
+- An API for other mods to request for a list of mods (Archive mods, ASI plugins, CET mods, Redscripts, Red4Ext plugins) loaded by the game.
 
 
 ![imgage](https://staticdelivery.nexusmods.com/mods/3333/images/895/895-1610480969-1242777005.png)
@@ -30,6 +31,27 @@ Restart the game. Or reload Mods from the CyberEngineTweaks Console.
 3. Tick/untick the checkbox in front of the mod name to enable/disable them.
 
 4. Press the `Reload ALL Mods` button on the console to reload the mods.
+
+### API
+
+1. To use the API (currently only supports CET) to query the mod list
+   ```lua
+   -- returns a table
+   modlist = GetMod("cet_mod_manager").GetModList()
+
+   -- print the mod list in console
+   GetMod("cet_mod_manager").PrintModList()
+   ```
+2. Return format by the API
+   ```lua
+   {
+      archive = { "a", "list", "of", "mods"},
+      asi = { "a", "list", "of", "mods"},
+      cet = { "a", "list", "of", "mods"},
+      red4ext = { "a", "list", "of", "mods"},
+      redscript = { "a", "list", "of", "mods"}
+   }
+   ```
 
 ## Uninstallation
 
