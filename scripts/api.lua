@@ -19,7 +19,7 @@ api.MODTYPE = {
       {
         name = "string",
         path = "string",
-        enabled = "boolen",
+        enabled = "boolean",
         type = "string",
         formated_name = "string",
       },
@@ -42,7 +42,7 @@ end
   {
     name = "string",
     path = "string",
-    enabled = "boolen",
+    enabled = "boolean",
     type = "string",
     formated_name = "string",
   }
