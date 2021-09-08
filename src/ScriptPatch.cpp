@@ -66,16 +66,34 @@ void ScriptPatch::CopyModule()
     spdlog::error("Failed to create directory at: {}.", (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string());
 
   std::error_code ec;
-  std::filesystem::create_hard_link(CETMM::GetPaths().CETMMRoot() / "scripts" / "filesystem.lua", CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "filesystem.lua", ec);
+  const auto copyOptions = std::filesystem::copy_options::recursive | std::filesystem::copy_options::create_hard_links;
+  std::filesystem::copy(CETMM::GetPaths().CETMMRoot() / "scripts" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", copyOptions, ec);
 
   if (ec)
-    spdlog::error("Failed to copy {} to {}. Error message: {}.", (CETMM::GetPaths().CETMMRoot() / "scripts" / "filesystem.lua").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "filesystem.lua").string(), ec.message());
+    spdlog::error("Failed to create hardlinks from {} to {}. Error message: {}.", (CETMM::GetPaths().CETMMRoot() / "scripts" / "core").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string(), ec.message());
 }
 
 void ScriptPatch::RemoveModule()
 {
   if (!std::filesystem::remove_all(CETMM::GetPaths().CETScripts() / "cet_mod_manager"))
     spdlog::error("Failed to remove {}.", (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string());
+}
+
+void ScriptPatch::ExportPaths()
+{
+    nlohmann::json j_paths;
+    j_paths["gameRoot"] = CETMM::GetPaths().GameRoot().string();
+    j_paths["archive"] = CETMM::GetPaths().Archives().string();
+    j_paths["plugins"] = CETMM::GetPaths().Plugins().string();
+    j_paths["cetmods"] = CETMM::GetPaths().CETMods().string();
+    j_paths["cetscripts"] = CETMM::GetPaths().CETScripts().string();
+    j_paths["cetmmRoot"] = CETMM::GetPaths().CETMMRoot().string();
+    j_paths["red4ext"] = CETMM::GetPaths().Red4Ext().string();
+    j_paths["redscript"] = CETMM::GetPaths().RedScript().string();
+
+    std::ofstream o(CETMM::GetPaths().CETScripts() / "cet_mod_manager" / "paths.json");
+    o << std::setw(4) << j_paths << std::endl;
+    o.close();
 }
 
 void ScriptPatch::Initialize()
@@ -85,6 +103,7 @@ void ScriptPatch::Initialize()
   if (m_readSuccess)
   {
     CopyModule();
+    ExportPaths();
     PatchScript();
     WriteScript();
   }

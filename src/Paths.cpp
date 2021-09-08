@@ -55,6 +55,8 @@ Paths::Paths()
   m_cetmods = m_plugins / "cyber_engine_tweaks" / "mods";
   m_cetscripts = m_plugins / "cyber_engine_tweaks" / "scripts";
   m_cetmmRoot = m_cetmods / "cet_mod_manager";
+  
+#ifdef DEBUG
   spdlog::info("m_exe: {}", m_exe.string());
   spdlog::info("m_exeRoot: {}", m_exeRoot.string());
   spdlog::info("m_gameRoot: {}", m_gameRoot.string());
@@ -65,4 +67,5 @@ Paths::Paths()
   spdlog::info("m_cetmods: {}", m_cetmods.string());
   spdlog::info("m_cetscripts: {}", m_cetscripts.string());
   spdlog::info("m_cetmmRoot: {}", m_cetmmRoot.string());
+#endif // DEBUG
 }
