@@ -2,8 +2,9 @@ local CETMM = {}
 
 local m_api
 local m_core
+local m_gui
+local m_event
 local m_auth = require ("scripts/auth")
-local m_gui = require ("scripts/gui")
 local m_options = require ("scripts/options")
 local m_locale
 
@@ -23,6 +24,14 @@ end
 
 function CETMM.GetScanSystem()
   return m_core.scan
+end
+
+function CETMM.GetModOpEx()
+  return m_core.modopex
+end
+
+function CETMM.GetPaths()
+  return m_core.paths
 end
 
 function CETMM.GetUISystem()
@@ -45,6 +54,7 @@ function CETMM.Initialize()
   m_core = m_auth.GetCore()
   m_api = require ("scripts/api")
   m_locale = require ("scripts/locale")
+  m_event = require ("scripts/event")
 
   -- Load config
   m_options.Load()
@@ -52,6 +62,8 @@ function CETMM.Initialize()
 
   registerForEvent("onInit", function()
   -- init
+  m_gui = require ("scripts/gui")
+  m_gui.Initialize()
   end)
 end
 
@@ -62,18 +74,14 @@ function CETMM.Update()
 end
 
 function CETMM.Event() -- Hotkey, Console event..
-
+  m_event.Register()
 end
 
 function CETMM.Render()
   registerForEvent("onDraw", function()
-    if ImGui.Button(i18n("button_scan")) then
-      CETMM.GetScanSystem().ScanALL()
-    end
-    if ImGui.Button("CN") then
-      CETMM.GetOptions().m_lang = "zh_cn"
-      CETMM.GetLocale().SetLocale()
-    end
+    m_gui.GetStyle().PushTheme()
+    m_gui.Render()
+    m_gui.GetStyle().PopTheme()
   end)
 end
 

@@ -63,6 +63,10 @@ function mod.SetEnabled(self, aEnabled)
   self.enabled = aEnabled
 end
 
+function mod.Toggle(self)
+  self.enabled = not self.enabled
+end
+
 function mod.SetType(self, aType)
   self.type = aType
 end

@@ -1,9 +1,5 @@
 local filesystem = {}
 
-function filesystem.OpenFolder(aPath) -- path: aPath
-  os.execute("start explorer " .. aPath:ToWinExcFormat())
-end
-
 function filesystem.FileExists(aPath) -- path: aPath
   local f=io.open(aPath:ToString(),"r")
   if (f~=nil) then io.close(f) return true else return false end
