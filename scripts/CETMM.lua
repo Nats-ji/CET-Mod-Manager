@@ -7,6 +7,7 @@ local m_event
 local m_auth = require ("scripts/auth")
 local m_options = require ("scripts/options")
 local m_locale
+local m_dofiles
 
 local i18n = require ("scripts/i18n")
 
@@ -50,11 +51,16 @@ function CETMM.GetLocale()
   return m_locale
 end
 
+function CETMM.GetDofiles()
+  return m_dofiles
+end
+
 function CETMM.Initialize()
   m_core = m_auth.GetCore()
   m_api = require ("scripts/api")
   m_locale = require ("scripts/locale")
   m_event = require ("scripts/event")
+  m_dofiles = require ("scripts/dofiles")
 
   -- Load config
   m_options.Load()
@@ -63,6 +69,7 @@ function CETMM.Initialize()
   registerForEvent("onInit", function()
   -- init
   m_gui = require ("scripts/gui")
+  m_dofiles.Scan()
   m_gui.Initialize()
   end)
 end

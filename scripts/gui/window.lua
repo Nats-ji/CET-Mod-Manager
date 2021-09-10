@@ -5,9 +5,10 @@ local languages = require("lang/lang")
 local widgets = require("scripts/gui/widgets")
 local style = require("scripts/gui/style")
 local theme = require("scripts/gui/theme")
+local enums = CETMM.GetEnums()
 local options = CETMM.GetOptions()
 local mods = CETMM.GetModList()
-local enums = CETMM.GetEnums()
+local dofiles = CETMM.GetDofiles()
 
 local window = {
   m_draw = true,
@@ -22,7 +23,7 @@ local layout = {
   tb_modlist_height = 0,
   tb_footer_heigh = 0,
   header_btn_height = 0,
-  selectable_height = 25
+  selectable_height = 25,
 }
 
 local function settings_popup()
@@ -59,12 +60,13 @@ local function settings_popup()
     ImGui.Spacing()
     ImGui.Separator()
     ImGui.Spacing()
-    if ImGui.Selectable("Check Update", false,ImGuiSelectableFlags.None, 0,
-    layout.selectable_height) then
-      CETMM.GetModOpEx().OpenLink("https://www.nexusmods.com/cyberpunk2077/mods/895?tab=files")
+    if ImGui.Selectable("Check Update", false, ImGuiSelectableFlags.None, 0,
+                        layout.selectable_height) then
+      CETMM.GetModOpEx().OpenLink(
+        "https://www.nexusmods.com/cyberpunk2077/mods/895?tab=files")
     end
-    if ImGui.Selectable("Buy me a coffee", false,ImGuiSelectableFlags.None, 0,
-    layout.selectable_height) then
+    if ImGui.Selectable("Buy me a coffee", false, ImGuiSelectableFlags.None, 0,
+                        layout.selectable_height) then
       CETMM.GetModOpEx().OpenLink("https://www.buymeacoffee.com/mingm")
     end
     ImGui.PopStyleVar(1)
@@ -109,6 +111,7 @@ function window.Render()
       -- Scan Button
       if ImGui.Button(i18n("button_scan")) then
         CETMM.GetScanSystem().ScanALL()
+        dofiles.Scan()
       end
 
       layout._, layout.header_btn_height = ImGui.GetItemRectSize()
@@ -178,19 +181,37 @@ function window.Render()
       ImGui.TableSetupColumn("cb", ImGuiTableColumnFlags.WidthFixed)
       ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch)
 
-      ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 5, 5)
+      -- Mod list
+      if not window.m_btn_Dofiles then
+        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 5, 5)
 
-      for _, entry in ipairs(mods.Get()[enums.MODTYPE.CET]) do
-        ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
-        ImGui.TableSetColumnIndex(0)
-        local state, pressed = ImGui.Checkbox("##" .. entry:GetName(), entry:IsEnabled())
-        if pressed then
-          CETMM.GetModOpEx().ToggleCETModState(entry)
+        for _, entry in ipairs(mods.Get()[enums.MODTYPE.CET]) do
+          ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
+          ImGui.TableSetColumnIndex(0)
+          local state, pressed = ImGui.Checkbox("##" .. entry:GetName(),
+                                                entry:IsEnabled())
+          if pressed then
+            CETMM.GetModOpEx().ToggleCETModState(entry)
+          end
+          ImGui.TableSetColumnIndex(1)
+          ImGui.Text(entry:GetFormatedName())
         end
-        ImGui.TableSetColumnIndex(1)
-        ImGui.Text(entry:GetFormatedName())
+
+        ImGui.PopStyleVar(1)
+
+        -- Dofile list
+      else
+        for _, entry in ipairs(dofiles.Get()) do
+          ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
+          ImGui.TableSetColumnIndex(0)
+          if ImGui.Button("Run##" .. entry:GetName()) then
+            entry:Run()
+          end
+          ImGui.TableSetColumnIndex(1)
+          ImGui.Text(entry:GetFormatedName())
+        end
       end
-      ImGui.PopStyleVar(1)
+
       ImGui.EndTable()
     end
 
