@@ -4,12 +4,10 @@ local m_api
 local m_core
 local m_gui
 local m_event
-local m_auth = require ("scripts/auth")
-local m_options = require ("scripts/options")
+local m_auth
+local m_options
 local m_locale
 local m_dofiles
-
-local i18n = require ("scripts/i18n")
 
 function CETMM.GetModList()
   return m_core.mods
@@ -56,8 +54,10 @@ function CETMM.GetDofiles()
 end
 
 function CETMM.Initialize()
+  m_auth = require ("scripts/auth")
   m_core = m_auth.GetCore()
   m_api = require ("scripts/api")
+  m_options = require ("scripts/options")
   m_locale = require ("scripts/locale")
   m_event = require ("scripts/event")
   m_dofiles = require ("scripts/dofiles")
