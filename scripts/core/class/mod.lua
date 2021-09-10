@@ -20,7 +20,7 @@ function mod.New(aName, aPath, aEnabled, aType) -- string: aName, path: aPath, b
   self.path = aPath
   self.enabled = aEnabled
   self.type = aType
-  self.formated_name = helper.format_name(aName)
+  self.formated_name = (aName == "cet_mod_manager") and "Cyber Engine Tweaks Mod Manager" or helper.format_name(aName)
   return self
 end
 

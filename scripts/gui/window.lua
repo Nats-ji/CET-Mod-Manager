@@ -144,8 +144,8 @@ function window.Render()
 
     -- Helper Text
     if window.m_btn_Help then
+      style.PushColor(ImGuiCol.Text, theme.Separator)
       if not window.m_btn_Dofiles then
-        style.PushColor(ImGuiCol.Text, theme.Separator)
         ImGui.TextWrapped(i18n("text_help_manager_1"))
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_manager_2"))
@@ -155,7 +155,6 @@ function window.Render()
         ImGui.TextWrapped(i18n("text_help_manager_4"))
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_manager_5"))
-        ImGui.PopStyleColor(1)
       else
         ImGui.TextWrapped(i18n("text_help_dofiles_1"))
         ImGui.Spacing()
@@ -167,6 +166,7 @@ function window.Render()
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_dofiles_5"))
       end
+      ImGui.PopStyleColor(1)
       ImGui.Spacing()
     end
 
@@ -190,7 +190,7 @@ function window.Render()
           ImGui.TableSetColumnIndex(0)
           local state, pressed = ImGui.Checkbox("##" .. entry:GetName(),
                                                 entry:IsEnabled())
-          if pressed then
+          if pressed and entry:GetName() ~= "cet_mod_manager" then
             CETMM.GetModOpEx().ToggleCETModState(entry)
           end
           ImGui.TableSetColumnIndex(1)

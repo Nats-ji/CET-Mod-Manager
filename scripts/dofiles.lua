@@ -24,7 +24,7 @@ function dofiles.Scan()
     end
   end
 
-  dofiles.Sort()
+  -- dofiles.Sort()
 end
 
 function dofiles.Clear()
