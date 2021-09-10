@@ -5,12 +5,6 @@ local dofiles = {
   data = {},
 }
 
--- private functions
-
-local function sort_algorithm(lhs, rhs)
-  return lhs:GetName():upper() < rhs:GetName():upper()
-end
-
 -- public methods
 
 function dofiles.Scan()
@@ -24,7 +18,6 @@ function dofiles.Scan()
     end
   end
 
-  -- dofiles.Sort()
 end
 
 function dofiles.Clear()
@@ -33,10 +26,6 @@ end
 
 function dofiles.Get()
   return dofiles.data
-end
-
-function dofiles.Sort()
-    table.sort(dofiles.data, sort_algorithm)
 end
 
 return dofiles
