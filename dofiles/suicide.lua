@@ -1,3 +1,3 @@
-player = Game.GetPlayer()
+local player = Game.GetPlayer()
 player:OnDied()
 print("YOLO")
