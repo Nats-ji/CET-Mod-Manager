@@ -2,22 +2,8 @@
 .vscode/
 .xmake/
 build/
-package/
 
 cet_mod_manager.code-workspace
 
-# user files
-cet_mod_manager*.log
-config.json
-db.sqlite3
-
-**.lua_disabled
-
-dofiles/*
-!dofiles/.just_some_example_files_delete_if_you_want.lua
-!dofiles/dont_run_this_one_without_saving_your_game.lua
-!dofiles/give_you_godmode.lua
-!dofiles/romance_mod.lua
-!dofiles/set_time_to_noon.lua
-!dofiles/suicide.lua
-!dofiles/to-the-moon.lua
+src/Version.h
+scripts/version.lua
