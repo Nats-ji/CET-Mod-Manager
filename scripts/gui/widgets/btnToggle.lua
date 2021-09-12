@@ -2,10 +2,10 @@ local dpi = require ("scripts/gui/dpi")
 local style = require ("scripts/gui/style")
 local theme = require ("scripts/gui/theme")
 
--- string: aLabel
--- table: aLabel = {string: label_on, string: label_off}
--- boolean: aValue
--- number: aSizeX, aSizeY
+---@param aLabel string|string[]
+---@param aValue boolean
+---@param aSizeX? number
+---@param aSizeY? number
 local function btnToggle(aLabel, aValue, aSizeX, aSizeY)
   if type(aLabel) == "table" then
     aLabel = aValue and aLabel[1] or aLabel[2]

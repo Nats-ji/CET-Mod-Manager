@@ -1,5 +1,8 @@
 -- enum class
 
+---@class enum
+---@field __STRING string[]
+---@field __COUNT number
 local enum = {}
 enum.__index = enum
 
@@ -39,6 +42,7 @@ end
 
 -- enum methods
 
+---@param aItem number
 function enum.ToString(self, aItem)
   return self.__STRING[aItem]
 end

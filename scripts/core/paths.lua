@@ -1,5 +1,14 @@
 local path = require("cet_mod_manager/class/path")
 
+---@class paths
+---@field gameRoot path
+---@field archive path
+---@field plugins path
+---@field cetmods path
+---@field cetscripts path
+---@field cetmmRoot path
+---@field red4ext path
+---@field redscript path
 local paths = {}
 
 -- private functions

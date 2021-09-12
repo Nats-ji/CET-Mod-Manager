@@ -1,5 +1,9 @@
 local version = require ("scripts/version")
 
+---@class options
+---@field m_lang string
+---@field m_autoscan boolean
+---@field m_autoappear boolean
 local options = {
   m_lang = "en_us",
   m_autoscan = false,
@@ -8,6 +12,7 @@ local options = {
 
 -- private functions
 
+-- set the option to default value if it doesn't exist in the config file
 local function setOption(val, def)
   if val == nil then
     return def

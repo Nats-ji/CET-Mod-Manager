@@ -1,5 +1,6 @@
 -- Save/restore cet binding settings for disabled mods
 
+---@class bindings
 local bindings = {}
 
 -- Save bindings

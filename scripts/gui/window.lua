@@ -10,6 +10,7 @@ local options = CETMM.GetOptions()
 local mods = CETMM.GetModList()
 local dofiles = CETMM.GetDofiles()
 
+---@class window
 local window = {
   m_draw = true,
   m_over_size = false,

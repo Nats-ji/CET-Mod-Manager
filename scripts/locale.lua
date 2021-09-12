@@ -1,6 +1,7 @@
 local CETMM = require ("scripts/CETMM")
 local i18n = require ("scripts/i18n")
 
+---@class locale
 local locale = {}
 
 function locale.Initialize()

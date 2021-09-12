@@ -1,7 +1,10 @@
+---@class style
 local style = {}
 local theme = require ("scripts/gui/theme")
 local dpi = require ("scripts/gui/dpi")
 
+---@param aStyle number
+---@param aColor number[]
 function style.PushColor(aStyle, aColor)
   ImGui.PushStyleColor(aStyle, aColor[1], aColor[2], aColor[3], aColor[4])
 end

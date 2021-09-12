@@ -1,3 +1,4 @@
+---@class dpi
 local dpi = {}
 local m_fontscale
 local m_displayRes = {}

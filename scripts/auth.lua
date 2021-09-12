@@ -1,3 +1,4 @@
+---@class auth
 local auth = {}
 
 function auth.GetCore()

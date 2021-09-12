@@ -1,10 +1,15 @@
 local filesystem = {}
 
-function filesystem.FileExists(aPath) -- path: aPath
+---@param aPath path
+function filesystem.FileExists(aPath)
   local f=io.open(aPath:ToString(),"r")
   if (f~=nil) then io.close(f) return true else return false end
 end
 
+---@param aPath path
+---@param aListFile? boolean
+---@param aFilter? string[]
+---@return path[]
 function filesystem.List(aPath, aListFile, aFilter) -- path: aPath, bool: aListFile, array<string>: aFilter
   local olist = {}
   -- list both files and dirs when aListFile == nil

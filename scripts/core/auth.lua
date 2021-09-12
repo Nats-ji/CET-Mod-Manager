@@ -14,6 +14,7 @@ local function writeHash()
   file:close()
 end
 
+---@param op number|string|nil
 function auth.Authenticate(op)
   if op == 0 then -- write hash
     writeHash()

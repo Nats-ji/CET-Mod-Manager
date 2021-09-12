@@ -1,5 +1,6 @@
 local CETMM = require("scripts/CETMM")
 
+---@class event
 local event = {}
 
 function event.Register()

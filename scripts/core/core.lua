@@ -6,6 +6,13 @@ local enums = require ("cet_mod_manager/enums")
 local helper = require ("cet_mod_manager/helper")
 local auth = require ("cet_mod_manager/auth")
 
+---@class core
+---@field scan scan
+---@field mods mods
+---@field enums enums
+---@field helper helper
+---@field modopex modopex
+---@field paths paths
 local core = {}
 
 core.scan = scan
@@ -15,6 +22,7 @@ core.helper = helper
 core.modopex = modopex
 core.paths = paths
 
+---@param op number|string|nil
 function json.CETMM_core(op)
   if auth.Authenticate(op) then return core end
 end

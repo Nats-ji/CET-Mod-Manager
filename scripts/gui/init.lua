@@ -1,3 +1,4 @@
+---@class gui
 local gui = {}
 local m_dpi = require ("scripts/gui/dpi")
 local m_style = require ("scripts/gui/style")

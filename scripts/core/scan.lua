@@ -22,8 +22,12 @@ mod_state_name.disabled[enums.MODTYPE.RED4EXT] = ".disabled_dll"
 mod_state_name.enabled[enums.MODTYPE.REDSCRIPT] = ".reds"
 mod_state_name.disabled[enums.MODTYPE.REDSCRIPT] = ".disabled_reds"
 
+
+---@class scan
 local scan = {}
 
+---@param aPath path
+---@param aModType ENUM_MODTYPE
 local function is_mod_enabled(aPath, aModType)
   local state = nil
   if aModType == enums.MODTYPE.CET then
@@ -46,6 +50,7 @@ local function is_mod_enabled(aPath, aModType)
   return state -- nil means mod doesn't exist
 end
 
+---@param aModType ENUM_MODTYPE
 local function scan_imp(aModType)
   local scan_dir
   local scan_mode = nil
@@ -104,11 +109,13 @@ function scan.ScanCET()
   mods.GenerateAPIData() -- recreate the const table
 end
 
+---@param aModType ENUM_MODTYPE
 function scan.Scan(aModType)
   scan_imp(aModType)
   mods.GenerateAPIData() -- recreate the const table
 end
 
+---@param aMod mod
 function scan.UpdateModState(aMod)
   aMod:SetEnabled(is_mod_enabled(aMod:GetPath(), aMod:GetType()))
   mods.GenerateAPIData() -- recreate the const table

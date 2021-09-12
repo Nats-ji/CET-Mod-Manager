@@ -1,3 +1,4 @@
+---@class CETMM
 local CETMM = {}
 
 local m_api

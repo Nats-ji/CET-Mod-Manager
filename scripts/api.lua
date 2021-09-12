@@ -1,5 +1,6 @@
 local CETMM = require ("scripts/CETMM")
 
+---@class api
 local api = {}
 
 
@@ -47,6 +48,10 @@ end
     formated_name = "string",
   }
 ]]
+
+---@param aName string
+---@param aModType ENUM_MODTYPE
+---@return table|boolean
 function api.HasMod(aName, aModType)
   return CETMM.GetModList().HasMod(aName, aModType)
 end
