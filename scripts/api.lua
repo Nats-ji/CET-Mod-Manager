@@ -5,12 +5,13 @@ local api = {}
 
 
 -- enum
+---@type ENUM_MODTYPE
 api.MODTYPE = {
-  ARCHIVE = 1,
-  ASI = 2,
-  CET = 3,
-  RED4EXT = 4,
-  REDSCRIPT = 5
+  ARCHIVE = CETMM.GetEnums().MODTYPE.ARCHIVE,
+  ASI = CETMM.GetEnums().MODTYPE.ASI,
+  CET = CETMM.GetEnums().MODTYPE.CET,
+  RED4EXT = CETMM.GetEnums().MODTYPE.RED4EXT,
+  REDSCRIPT = CETMM.GetEnums().MODTYPE.REDSCRIPT
 }
 
 --[[
