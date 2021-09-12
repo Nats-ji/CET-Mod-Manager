@@ -61,7 +61,7 @@ local function settings_popup()
     ImGui.Spacing()
     ImGui.Separator()
     ImGui.Spacing()
-    if ImGui.Selectable("Check Update", false, ImGuiSelectableFlags.None, 0,
+    if ImGui.Selectable(string.format([[%s (v%s)]], "Check Update", options.m_version), false, ImGuiSelectableFlags.None, 0,
                         layout.selectable_height) then
       CETMM.GetModOpEx().OpenLink(
         "https://www.nexusmods.com/cyberpunk2077/mods/895?tab=files")

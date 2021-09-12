@@ -1,13 +1,13 @@
-local version = require ("scripts/version")
-
 ---@class options
 ---@field m_lang string
 ---@field m_autoscan boolean
 ---@field m_autoappear boolean
+---@field m_version string
 local options = {
   m_lang = "en_us",
   m_autoscan = false,
   m_autoappear = true,
+  m_version = require ("scripts/version")
 }
 
 -- private functions
@@ -41,7 +41,7 @@ end
 function options.Save()
   local config = {}
 
-  config["version"] = version
+  config["version"] = options.m_version
   config["lang"] = options.m_lang
   config["autoscan"] = options.m_autoscan
   config["autoappear"] = options.m_autoappear
