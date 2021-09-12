@@ -12,8 +12,7 @@ local search_list = {
   "README_zh.md"
 }
 
-local function generate_version_lua()
-  local git_tag = os.iorun("git describe --tags"):gsub("\n", "")
+local function generate_version_lua(git_tag)
   local file = io.open("scripts/version.lua", "w")
 
   assert(file, "can't open file scripts/version.lua")
@@ -36,20 +35,24 @@ end
 -- Export functions
 
 function UpdateVersion()
-  generate_version_lua()
+  local git_tag = os.iorun("git describe --tags"):gsub("\n", "")
+  generate_version_lua(git_tag)
   cprint("generating scripts\\version.lua ... ${bright green}ok")
 
   local file_list_str = format("{ \"%s\" }", table.concat(get_file_list(), "\", \""):gsub("\\", "/"))
-  if os.exists("src/Version.h") then
-    local file = io.open("src/Version.h", "r")
+  if os.exists("src/Version.h.in") then
+    local file = io.open("src/Version.h.in", "r")
     local content = file:read("*a")
     file:close()
-    content = content:gsub("$%(FILE_LIST%)", file_list_str)
+    cprint("generating src\\Version.h.in ... ${bright green}ok")
+    content = content:gsub("${GIT_TAG}", git_tag)
+    cprint("updating the git tag in src\\Version.h ... ${bright green}ok")
+    content = content:gsub("${FILE_LIST}", file_list_str)
+    cprint("updating the file list in src\\Version.h ... ${bright green}ok")
     file = io.open("src/Version.h", "w")
     file:write(content)
     file:close()
   end
-  cprint("updating the file list in src\\Version.h ... ${bright green}ok")
 end
 
 

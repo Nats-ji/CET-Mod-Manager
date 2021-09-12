@@ -4,4 +4,4 @@
 #include <string>
 
 #define CETMM_VERSION "${GIT_TAG}"
-#define CETMM_FILE_LIST $(FILE_LIST)
+#define CETMM_FILE_LIST ${FILE_LIST}
