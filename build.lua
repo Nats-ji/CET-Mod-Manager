@@ -73,6 +73,6 @@ end
 function Install(install_path)
   cprint("${green bright}Installing CET Mod Manager ..")
   assert(install_path and os.isdir(install_path), format("The path in your configuration doesn't exist or isn't a directory.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
-  os.run([[xcopy "%s" "%s" /s /e /y /q]], path.join(package_path, "bin"), install_path) -- Don't use os.cp(), it will remove the contents from the destination directory.
+  os.run([[xcopy "%s" "%s" /s /e /y /q]], path.translate(package_path), path.translate(install_path)) -- Don't use os.cp(), it will remove the contents from the destination directory.
   cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
 end
