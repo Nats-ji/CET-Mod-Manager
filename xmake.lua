@@ -53,3 +53,10 @@ task("install-lua")
         build.InstallScript()
     end)
     set_menu { usage = "xmake install-lua", description = "Only Package and install CET Mod Manager scripts"}
+
+task("install-asi")
+    on_run(function ()
+        import("build")
+        build.InstallASI()
+    end)
+    set_menu { usage = "xmake install-lua", description = "Only install CET Mod Manager ASI"}

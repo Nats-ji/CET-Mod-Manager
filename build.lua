@@ -97,3 +97,15 @@ function InstallScript()
   Package()
   Install()
 end
+
+function InstallASI()
+  import("core.project.config")
+  import("core.project.project")
+  config.load()
+  local install_path = config.get("installpath")
+  assert(install_path and os.isdir(install_path), format("The path in your configuration doesn't exist or isn't a directory.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
+  local target = project.target("cet_mod_manager")
+  assert(os.exists(target:targetfile()), "target file doesn't exist, run xmake install to build the target first.")
+  os.cp(target:targetfile(), path.join(install_path, "bin/x64/plugins"))
+  cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
+end
