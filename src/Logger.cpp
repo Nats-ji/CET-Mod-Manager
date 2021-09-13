@@ -5,6 +5,9 @@
 
 std::shared_ptr<spdlog::logger> CreateLogger()
 {
-  auto logger = spdlog::basic_logger_mt("CETMM", "cyber_engine_tweaks/mods/cet_mod_manager/cet_mod_manager_asi.log");
+  const std::string pattern = std::format("[%Y-%m-%d %T UTC%z] [{}] [%l] %v",CETMM::GetUpdate().GetVersion());
+  const auto fileName = CETMM::GetPaths().CETMMRoot() / "cet_mod_manager_asi.log";
+  auto logger = spdlog::basic_logger_mt("CETMM", fileName.string());
+  logger->set_pattern(pattern);
   return logger;
 }

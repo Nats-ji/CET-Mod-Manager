@@ -1,14 +1,12 @@
 #include "pch.h"
 
 #include "CETMM.h"
-#include "Update.h"
 
 void CETMM::Initialize()
 {
   GetScriptPatch().Initialize();
   GetScanMods().Scan();
-  Update update;
-  update.LogVersion();
+  GetUpdate().LogVersion();
 }
 
 void CETMM::Shutdown()
@@ -36,4 +34,9 @@ ScanMods& CETMM::GetScanMods()
 ScriptPatch& CETMM::GetScriptPatch()
 {
   return Get().m_scriptPatch;
+}
+
+Update& CETMM::GetUpdate()
+{
+  return Get().m_update;
 }

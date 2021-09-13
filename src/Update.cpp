@@ -10,3 +10,8 @@ void Update::LogVersion()
     spdlog::info(file);
   }
 }
+
+const std::string Update::GetVersion() const
+{
+  return m_version;
+}

@@ -3,6 +3,7 @@
 #include "Paths.h"
 #include "ScanMods.h"
 #include "ScriptPatch.h"
+#include "Update.h"
 
 class CETMM
 {
@@ -14,6 +15,7 @@ public:
   static const Paths& GetPaths();
   static ScanMods& GetScanMods();
   static ScriptPatch& GetScriptPatch();
+  static Update& GetUpdate();
 
   CETMM(const CETMM&) = delete;
   CETMM(CETMM&&) = delete;
@@ -27,4 +29,5 @@ private:
   Paths m_paths;
   ScanMods m_scanMods;
   ScriptPatch m_scriptPatch;
+  Update m_update;
 };
