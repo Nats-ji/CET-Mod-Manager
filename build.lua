@@ -58,9 +58,9 @@ end
 
 function Package(target)
   if os.tryrm(path.join(package_path, "**")) then
-    cprint("clearing old package files ... ${bright green}ok")
+    cprint("cleaning old package files ... ${bright green}ok")
   else
-    cprint("clearing old package files ... ${bright red}failed")
+    cprint("cleaning old package files ... ${bright red}failed")
   end
   os.mkdir(path.join(package_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))
   cprint("creating file structure ... ${bright green}ok")
@@ -69,13 +69,31 @@ function Package(target)
     os.cp(entry, path.join(package_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))
   end
   cprint("copying lua files ... ${bright green}ok")
-  os.cp(target:targetfile(), path.join(package_path, "bin/x64/plugins"))
-  cprint("copying cet_mod_manager.asi ... ${bright green}ok")
+  if target then
+    os.cp(target:targetfile(), path.join(package_path, "bin/x64/plugins"))
+    cprint("copying cet_mod_manager.asi ... ${bright green}ok")
+  end
 end
 
-function Install(install_path)
+function Install()
+  import("core.project.config")
+  config.load()
+  local install_path = config.get("installpath")
   cprint("${green bright}Installing CET Mod Manager ..")
   assert(install_path and os.isdir(install_path), format("The path in your configuration doesn't exist or isn't a directory.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
   os.run([[xcopy "%s" "%s" /s /e /y /q]], path.translate(package_path), path.translate(install_path)) -- Don't use os.cp(), it will remove the contents from the destination directory.
   cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
+end
+
+function Clean()
+  if os.tryrm(path.join(package_path, "**")) then
+    cprint("cleaning package files ... ${bright green}ok")
+  else
+    cprint("cleaning package files ... ${bright red}failed")
+  end
+end
+
+function InstallScript()
+  Package()
+  Install()
 end
