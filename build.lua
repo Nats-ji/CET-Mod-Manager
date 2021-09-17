@@ -32,6 +32,12 @@ local function get_file_list()
   return file_list
 end
 
+local function check_game_installation(install_path)
+  assert(install_path, format("Install path not set.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
+  local exe_path = path.join(install_path, "bin", "x64", "Cyberpunk2077.exe")
+  assert(os.exists(exe_path), format("Can't find the game installation. Make sure the install path is set to game root directory.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
+end
+
 -- Export functions
 
 function UpdateVersion()
@@ -80,7 +86,7 @@ function Install()
   config.load()
   local install_path = config.get("installpath")
   cprint("${green bright}Installing CET Mod Manager ..")
-  assert(install_path and os.isdir(install_path), format("The path in your configuration doesn't exist or isn't a directory.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
+  check_game_installation(install_path)
   os.run([[xcopy "%s" "%s" /s /e /y /q]], path.translate(package_path), path.translate(install_path)) -- Don't use os.cp(), it will remove the contents from the destination directory.
   cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
 end
@@ -103,7 +109,7 @@ function InstallASI()
   import("core.project.project")
   config.load()
   local install_path = config.get("installpath")
-  assert(install_path and os.isdir(install_path), format("The path in your configuration doesn't exist or isn't a directory.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
+  check_game_installation(install_path)
   local target = project.target("cet_mod_manager")
   assert(os.exists(target:targetfile()), "target file doesn't exist, run xmake install to build the target first.")
   os.cp(target:targetfile(), path.join(install_path, "bin/x64/plugins"))
