@@ -61,8 +61,9 @@ local function settings_popup()
     ImGui.Spacing()
     ImGui.Separator()
     ImGui.Spacing()
-    if ImGui.Selectable(string.format([[%s (v%s)]], "Check Update", options.m_version), false, ImGuiSelectableFlags.None, 0,
-                        layout.selectable_height) then
+    if ImGui.Selectable(string.format([[%s (v%s)]], "Check Update",
+                                      options.m_version), false,
+                        ImGuiSelectableFlags.None, 0, layout.selectable_height) then
       CETMM.GetModOpEx().OpenLink(
         "https://www.nexusmods.com/cyberpunk2077/mods/895?tab=files")
     end
@@ -189,9 +190,11 @@ function window.Render()
         for _, entry in ipairs(mods.Get()[enums.MODTYPE.CET]) do
           ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
           ImGui.TableSetColumnIndex(0)
+          ImGui.BeginDisabled(entry:GetName() == "cet_mod_manager")
           local state, pressed = ImGui.Checkbox("##" .. entry:GetName(),
                                                 entry:IsEnabled())
-          if pressed and entry:GetName() ~= "cet_mod_manager" then
+          ImGui.EndDisabled()
+          if pressed then
             CETMM.GetModOpEx().ToggleCETModState(entry)
           end
           ImGui.TableSetColumnIndex(1)
