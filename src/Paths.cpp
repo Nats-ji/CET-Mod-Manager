@@ -41,6 +41,11 @@ const std::filesystem::path& Paths::CETMMRoot() const
   return m_cetmmRoot;
 }
 
+const std::filesystem::path& Paths::Config() const
+{
+  return m_config;
+}
+
 Paths::Paths()
 {
   TCHAR exePathBuf[MAX_PATH] = { 0 };
@@ -55,6 +60,7 @@ Paths::Paths()
   m_cetmods = m_plugins / "cyber_engine_tweaks" / "mods";
   m_cetscripts = m_plugins / "cyber_engine_tweaks" / "scripts";
   m_cetmmRoot = m_cetmods / "cet_mod_manager";
+  m_config = m_cetmmRoot / "config.json";
   
 #ifdef DEBUG
   spdlog::info("m_exe: {}", m_exe.string());
@@ -67,5 +73,6 @@ Paths::Paths()
   spdlog::info("m_cetmods: {}", m_cetmods.string());
   spdlog::info("m_cetscripts: {}", m_cetscripts.string());
   spdlog::info("m_cetmmRoot: {}", m_cetmmRoot.string());
+  spdlog::info("m_cetmmRoot: {}", m_config.string());
 #endif // DEBUG
 }
