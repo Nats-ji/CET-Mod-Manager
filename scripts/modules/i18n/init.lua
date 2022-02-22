@@ -6,7 +6,7 @@ local pluralizeFunction
 local defaultLocale = 'en_us'
 local fallbackLocale = defaultLocale
 
-local currentFilePath = "scripts/i18n"
+local currentFilePath = "modules/i18n"
 
 local plural      = require(currentFilePath .. '/plural')
 local interpolate = require(currentFilePath .. '/interpolate')

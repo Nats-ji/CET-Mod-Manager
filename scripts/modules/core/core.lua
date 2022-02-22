@@ -1,5 +1,6 @@
 local scan = require ("cet_mod_manager/scan")
 local paths = require ("cet_mod_manager/paths")
+local dofiles = require ("cet_mod_manager/dofiles")
 local mods = require ("cet_mod_manager/mods")
 local modopex = require ("cet_mod_manager/modopex")
 local enums = require ("cet_mod_manager/enums")
@@ -8,6 +9,7 @@ local auth = require ("cet_mod_manager/auth")
 
 ---@class core
 ---@field scan scan
+---@field dofiles dofiles
 ---@field mods mods
 ---@field enums enums
 ---@field helper helper
@@ -16,6 +18,7 @@ local auth = require ("cet_mod_manager/auth")
 local core = {}
 
 core.scan = scan
+core.dofiles = dofiles
 core.mods = mods
 core.enums = enums
 core.helper = helper

@@ -7,3 +7,4 @@ cet_mod_manager.code-workspace
 
 src/Version.h
 scripts/version.lua
+src/embeds/

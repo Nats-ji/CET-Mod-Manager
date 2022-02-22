@@ -4,7 +4,7 @@
 
 void ScanMods::Scan()
 {
-  m_modlistPath = CETMM::GetPaths().CETMMRoot() / "mod_list.json";
+  m_modlistPath = CETMM::GetPaths().CETMMASIRoot() / "mod_list.json";
   m_archive = scan_mods(CETMM::GetPaths().Archives(), ".archive");
   m_asi = scan_mods(CETMM::GetPaths().Plugins(), ".asi");
   m_cet = scan_mods(CETMM::GetPaths().CETMods(), "init.lua", true, true);
@@ -22,26 +22,29 @@ void ScanMods::Shutdown()
 std::vector<std::string> ScanMods::scan_mods(const std::filesystem::path aPath, const std::string aExtension, bool aCheckFolder, bool aCET)
 {
   std::vector<std::string> mod_list;
-  for (const auto& entry : std::filesystem::directory_iterator(aPath))
+  if (std::filesystem::is_directory(aPath))
   {
-    if (aCheckFolder && entry.is_directory())
+    for (const auto& entry : std::filesystem::directory_iterator(aPath))
     {
-      for (const auto& sub_entry : std::filesystem::directory_iterator(entry.path()))
+      if (aCheckFolder && entry.is_directory())
       {
-        if (aCET && sub_entry.is_regular_file() && sub_entry.path().filename() == aExtension)
+        for (const auto& sub_entry : std::filesystem::directory_iterator(entry.path()))
         {
-          mod_list.push_back(entry.path().filename().string());
-          break;
-        }
-        else if (sub_entry.is_regular_file() && sub_entry.path().extension() == aExtension)
-        {
-          mod_list.push_back(entry.path().filename().string());
-          break;
+          if (aCET && sub_entry.is_regular_file() && sub_entry.path().filename() == aExtension)
+          {
+            mod_list.push_back(entry.path().filename().string());
+            break;
+          }
+          else if (sub_entry.is_regular_file() && sub_entry.path().extension() == aExtension)
+          {
+            mod_list.push_back(entry.path().filename().string());
+            break;
+          }
         }
       }
+      else if (!aCET && entry.is_regular_file() && entry.path().extension() == aExtension)
+        mod_list.push_back(entry.path().filename().string());
     }
-    else if (!aCET && entry.is_regular_file() && entry.path().extension() == aExtension)
-      mod_list.push_back(entry.path().filename().string());
   }
   return mod_list;
 }

@@ -1,9 +1,9 @@
 ---@class gui
 local gui = {}
-local m_dpi = require ("scripts/gui/dpi")
-local m_style = require ("scripts/gui/style")
-local m_widgets = require ("scripts/gui/widgets")
-local m_window = require ("scripts/gui/window")
+local m_dpi = require ("modules/gui/dpi")
+local m_style = require ("modules/gui/style")
+local m_widgets = require ("modules/gui/widgets")
+local m_window = require ("modules/gui/window")
 
 function gui.GetDPI()
   return m_dpi

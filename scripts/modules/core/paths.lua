@@ -7,6 +7,7 @@ local path = require("cet_mod_manager/class/path")
 ---@field cetmods path
 ---@field cetscripts path
 ---@field cetmmRoot path
+---@field cetmmAsiRoot path
 ---@field red4ext path
 ---@field redscript path
 local paths = {}

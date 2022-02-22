@@ -7,7 +7,7 @@ local options = {
   m_lang = "en_us",
   m_autoscan = false,
   m_autoappear = true,
-  m_version = require ("scripts/version")
+  m_version = require ("modules/version")
 }
 
 -- private functions

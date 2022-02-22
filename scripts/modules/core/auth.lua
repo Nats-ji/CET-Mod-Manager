@@ -8,7 +8,7 @@ local m_hash
 
 local function writeHash()
   m_hash = helper.randomHash(12)
-  local hash_path = (paths.cetmmRoot / "scripts" / "hash"):ToString()
+  local hash_path = (paths.cetmmRoot / "modules" / "hash"):ToString()
   local file = io.open(hash_path, "w")
   file:write(m_hash)
   file:close()

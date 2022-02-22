@@ -1,7 +1,7 @@
 ---@class style
 local style = {}
-local theme = require ("scripts/gui/theme")
-local dpi = require ("scripts/gui/dpi")
+local theme = require ("modules/gui/theme")
+local dpi = require ("modules/gui/dpi")
 
 ---@param aStyle number
 ---@param aColor number[]

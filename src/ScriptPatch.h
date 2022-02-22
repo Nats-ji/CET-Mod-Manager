@@ -7,6 +7,7 @@ struct ScriptPatch
 
 private:
 
+  std::filesystem::path m_scriptDir;
   std::filesystem::path m_scriptPath;
   const std::string m_CETMM_require {"require 'cet_mod_manager/core'"};
 
@@ -17,6 +18,9 @@ private:
   void PatchScript();
   void RevertScript();
   void WriteScript();
+  std::string GetModuleVersion();
+  void ExtractModule();
+  void UpdateModule();
   void CopyModule();
   void RemoveModule();
   void ExportPaths();

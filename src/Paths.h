@@ -10,6 +10,7 @@ struct Paths
   const std::filesystem::path& CETMods() const;
   const std::filesystem::path& CETScripts() const;
   const std::filesystem::path& CETMMRoot() const;
+  const std::filesystem::path& CETMMASIRoot() const;
   const std::filesystem::path& Config() const;
 
 private:
@@ -19,6 +20,7 @@ private:
   std::filesystem::path m_exeRoot;
   std::filesystem::path m_gameRoot;
   std::filesystem::path m_cetmmRoot;
+  std::filesystem::path m_cetmmAsiRoot;
   std::filesystem::path m_archives;
   std::filesystem::path m_plugins;
   std::filesystem::path m_red4ext;

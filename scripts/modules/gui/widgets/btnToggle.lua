@@ -1,6 +1,6 @@
-local dpi = require ("scripts/gui/dpi")
-local style = require ("scripts/gui/style")
-local theme = require ("scripts/gui/theme")
+local dpi = require ("modules/gui/dpi")
+local style = require ("modules/gui/style")
+local theme = require ("modules/gui/theme")
 
 ---@param aLabel string|string[]
 ---@param aValue boolean

@@ -3,11 +3,11 @@ local auth = {}
 
 function auth.GetCore()
   if pcall(json.CETMM_core, 0) then
-    local file = io.open("scripts/hash", "r")
+    local file = io.open("modules/hash", "r")
     if file then
       local hash = file:read()
       file:close()
-      os.remove("scripts/hash")
+      os.remove("modules/hash")
       return json.CETMM_core(hash)
     end
   end

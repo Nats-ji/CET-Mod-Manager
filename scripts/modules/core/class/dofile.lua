@@ -1,4 +1,4 @@
-local helper = require ("scripts/core/helper")
+local helper = require ("cet_mod_manager/helper")
 
 ---@class dofile
 ---@field m_name string

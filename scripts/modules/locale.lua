@@ -1,5 +1,5 @@
-local CETMM = require ("scripts/CETMM")
-local i18n = require ("scripts/i18n")
+local CETMM = require ("modules/CETMM")
+local i18n = require ("modules/i18n")
 
 ---@class locale
 local locale = {}

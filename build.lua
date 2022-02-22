@@ -13,23 +13,12 @@ local search_list = {
 }
 
 local function generate_version_lua(git_tag)
-  local file = io.open("scripts/version.lua", "w")
+  local file = io.open("scripts/modules/version.lua", "w")
 
-  assert(file, "can't open file scripts/version.lua")
+  assert(file, "can't open file scripts/modules/version.lua")
   local content = format([[return "%s"]], git_tag)
   file:write(content)
   file:close()
-end
-
-local function get_file_list()
-  local file_list = {}
-  for _, entry in ipairs(search_list) do
-    file_list = table.join(file_list, os.filedirs(entry))
-    if os.isdir(entry) then
-      file_list = table.join(file_list, os.filedirs(entry .. "/**"))
-    end
-  end
-  return file_list
 end
 
 local function check_game_installation(install_path)
@@ -40,12 +29,22 @@ end
 
 -- Export functions
 
+function GenerateEmbeds()
+  local embeds_path = "src/embeds"
+  if os.isdir(embeds_path) then
+    os.tryrm(path.join(embeds_path, "**"))
+  else
+    os.mkdir(embeds_path)
+  end
+  os.run([[.\vendor\bin2cpp\bin2cpp.exe --dir=scripts --managerfile=EmbedFileManager.h --output=%s --keepdirs --noheader]], path.translate(embeds_path))
+  cprint("generating files for embedding to %s ... ${bright green}ok", embeds_path)
+end
+
 function UpdateVersion()
   local git_tag = os.iorun("git describe --tags"):gsub("\n", "")
   generate_version_lua(git_tag)
-  cprint("generating scripts\\version.lua ... ${bright green}ok")
+  cprint("generating scripts\\modules\\version.lua ... ${bright green}ok")
 
-  local file_list_str = format("{ \"%s\" }", table.concat(get_file_list(), "\", \""):gsub("\\", "/"))
   if os.exists("src/Version.h.in") then
     local file = io.open("src/Version.h.in", "r")
     local content = file:read("*a")
@@ -53,8 +52,6 @@ function UpdateVersion()
     cprint("generating src\\Version.h.in ... ${bright green}ok")
     content = content:gsub("${GIT_TAG}", git_tag)
     cprint("updating the git tag in src\\Version.h ... ${bright green}ok")
-    content = content:gsub("${FILE_LIST}", file_list_str)
-    cprint("updating the file list in src\\Version.h ... ${bright green}ok")
     file = io.open("src/Version.h", "w")
     file:write(content)
     file:close()

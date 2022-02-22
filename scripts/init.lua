@@ -1,4 +1,4 @@
-local CETMM = require ("scripts/CETMM")
+local CETMM = require ("modules/CETMM")
 
 CETMM.Initialize()
 CETMM.Event()

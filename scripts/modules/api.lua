@@ -1,4 +1,4 @@
-local CETMM = require ("scripts/CETMM")
+local CETMM = require ("modules/CETMM")
 
 ---@class api
 local api = {}

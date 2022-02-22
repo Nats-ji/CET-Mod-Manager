@@ -4,11 +4,7 @@
 
 void Update::LogVersion()
 {
-  spdlog::info(m_version);
-  for(auto file : m_file_list)
-  {
-    spdlog::info(file);
-  }
+  spdlog::info("CETMM version: {}", m_version);
 }
 
 void Update::RemoveOldFiles()

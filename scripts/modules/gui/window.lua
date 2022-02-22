@@ -1,10 +1,10 @@
-local CETMM = require("scripts/CETMM")
-local dpi = require("scripts/gui/dpi")
-local i18n = require("scripts/i18n")
+local CETMM = require("modules/CETMM")
+local dpi = require("modules/gui/dpi")
+local i18n = require("modules/i18n")
 local languages = require("lang/lang")
-local widgets = require("scripts/gui/widgets")
-local style = require("scripts/gui/style")
-local theme = require("scripts/gui/theme")
+local widgets = require("modules/gui/widgets")
+local style = require("modules/gui/style")
+local theme = require("modules/gui/theme")
 local enums = CETMM.GetEnums()
 local options = CETMM.GetOptions()
 local mods = CETMM.GetModList()
@@ -113,7 +113,6 @@ function window.Render()
       -- Scan Button
       if ImGui.Button(i18n("button_scan")) then
         CETMM.GetScanSystem().ScanALL()
-        dofiles.Scan()
       end
 
       layout._, layout.header_btn_height = ImGui.GetItemRectSize()
@@ -231,7 +230,7 @@ function window.Render()
       ImGui.SameLine()
 
       if ImGui.Button(i18n("button_dofile_folder")) then
-        CETMM.GetModOpEx().OpenFolder(CETMM.GetPaths().cetmmRoot / "dofiles")
+        CETMM.GetModOpEx().OpenFolder(CETMM.GetPaths().cetmmAsiRoot / "dofiles")
       end
 
       ImGui.EndTable()
