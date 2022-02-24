@@ -51,7 +51,7 @@ function CETMM.GetLocale()
 end
 
 function CETMM.GetDofiles()
-  return m_core.dofiles
+  return m_dofiles
 end
 
 function CETMM.Initialize()
@@ -60,6 +60,7 @@ function CETMM.Initialize()
   m_api = require ("modules/api")
   m_options = require ("modules/options")
   m_locale = require ("modules/locale")
+  m_dofiles = require ("modules/dofiles")
   m_event = require ("modules/event")
 
   -- Load config
@@ -69,6 +70,7 @@ function CETMM.Initialize()
   registerForEvent("onInit", function()
   -- init
   m_gui = require ("modules/gui")
+  m_dofiles.Scan()
   m_gui.Initialize()
   end)
 end

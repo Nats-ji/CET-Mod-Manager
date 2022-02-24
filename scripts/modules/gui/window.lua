@@ -113,6 +113,7 @@ function window.Render()
       -- Scan Button
       if ImGui.Button(i18n("button_scan")) then
         CETMM.GetScanSystem().ScanALL()
+        dofiles.Scan()
       end
 
       layout._, layout.header_btn_height = ImGui.GetItemRectSize()
@@ -230,7 +231,7 @@ function window.Render()
       ImGui.SameLine()
 
       if ImGui.Button(i18n("button_dofile_folder")) then
-        CETMM.GetModOpEx().OpenFolder(CETMM.GetPaths().cetmmAsiRoot / "dofiles")
+        CETMM.GetModOpEx().OpenFolder(CETMM.GetPaths().cetmmRoot / "dofiles")
       end
 
       ImGui.EndTable()

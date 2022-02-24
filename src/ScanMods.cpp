@@ -4,7 +4,7 @@
 
 void ScanMods::Scan()
 {
-  m_modlistPath = CETMM::GetPaths().CETMMASIRoot() / "mod_list.json";
+  m_modlistPath = CETMM::GetPaths().CETMMRoot() / "mod_list.json";
   m_archive = scan_mods(CETMM::GetPaths().Archives(), ".archive");
   m_asi = scan_mods(CETMM::GetPaths().Plugins(), ".asi");
   m_cet = scan_mods(CETMM::GetPaths().CETMods(), "init.lua", true, true);

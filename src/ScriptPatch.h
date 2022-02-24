@@ -15,13 +15,14 @@ private:
   std::vector<std::string> m_script_lines;
 
   bool ReadScript();
+  void WriteScript();
   void PatchScript();
   void RevertScript();
-  void WriteScript();
   std::string GetModuleVersion();
   void ExtractModule();
+  void RemoveOldModule();
   void UpdateModule();
-  void CopyModule();
-  void RemoveModule();
+  void CopyCoreModule();
+  void RemoveCoreModule();
   void ExportPaths();
 };

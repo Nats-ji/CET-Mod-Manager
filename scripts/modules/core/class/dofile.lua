@@ -1,4 +1,4 @@
-local helper = require ("cet_mod_manager/helper")
+local helper = require ("modules/core/helper")
 
 ---@class dofile
 ---@field m_name string
@@ -41,7 +41,10 @@ function _dofile.GetFormatedName(self)
 end
 
 function _dofile.Run(self)
-  dofile(self.m_path:ToString())
+  local rt, err = pcall(dofile, self.m_path:ToString())
+  if (not rt) then
+    print(string.format("Error executing \"%s\": %s.", self.m_formated_name, err))
+  end
 end
 
 return _dofile

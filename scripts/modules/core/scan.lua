@@ -5,7 +5,6 @@ local filesystem = require ("cet_mod_manager/filesystem")
 local paths = require ("cet_mod_manager/paths")
 local mod = require ("cet_mod_manager/class/mod")
 local mods = require ("cet_mod_manager/mods")
-local dofiles = require ("cet_mod_manager/dofiles")
 
 local mod_state_name = {
   enabled = {},
@@ -103,8 +102,6 @@ function scan.ScanALL()
     scan_imp(modtype)
   end
   mods.GenerateAPIData() -- recreate the const table
-
-  dofiles.Scan()
 end
 
 function scan.ScanCET()
