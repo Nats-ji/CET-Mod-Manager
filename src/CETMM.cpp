@@ -4,9 +4,9 @@
 
 void CETMM::Initialize()
 {
+  GetUpdate().UpdateModule();
   GetScriptPatch().Initialize();
   GetScanMods().Scan();
-  GetUpdate().LogVersion();
 }
 
 void CETMM::Shutdown()

@@ -18,10 +18,6 @@ private:
   void WriteScript();
   void PatchScript();
   void RevertScript();
-  std::string GetModuleVersion();
-  void ExtractModule();
-  void RemoveOldModule();
-  void UpdateModule();
   void CopyCoreModule();
   void RemoveCoreModule();
   void ExportPaths();

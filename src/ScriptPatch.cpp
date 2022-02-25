@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "ScriptPatch.h"
-#include "embeds/EmbedFileManager.h"
 
 bool ScriptPatch::ReadScript()
 {
@@ -64,67 +63,6 @@ void ScriptPatch::RevertScript()
   WriteScript();
 }
 
-std::string ScriptPatch::GetModuleVersion()
-{
-  std::filesystem::path script_version_file = m_scriptDir / "modules" / "version.lua";
-  std::string line;
-  std::ifstream file (script_version_file);
-
-  if (!file.is_open())
-  {
-    spdlog::error("Couldn't open version.lua at: {}.", script_version_file.string());
-    return "";
-  }
-  std::getline(file, line);
-  file.close();
-
-  std::size_t pos1 = line.find("\"");
-  std::size_t pos2 = line.find("\"", pos1 + 1);
-  std::string version = line.substr(pos1 + 1, pos2 - pos1 - 1);
-  return version;
-}
-
-void ScriptPatch::ExtractModule()
-{
-  bin2cpp::FileManager& mgr = bin2cpp::FileManager::getInstance();
-  bool saved = mgr.saveFiles(m_scriptDir.string().c_str());
-  if (saved)
-    spdlog::info("Extracted script files to \"{}\"", m_scriptDir.string());
-  else
-    spdlog::error("Failed to extract script files to \"{}\"", m_scriptDir.string());
-}
-
-void ScriptPatch::RemoveOldModule()
-{
-  std::vector<std::filesystem::path> exclude_files = {"dofiles", "config.json", "cet_mod_manager.log", "cet_mod_manager_asi.log"};
-  for (auto const& dir_entry : std::filesystem::directory_iterator{m_scriptDir}) 
-  {
-    if (std::find(exclude_files.begin(), exclude_files.end(), dir_entry.path().filename()) == exclude_files.end())
-    {
-      if (!std::filesystem::remove_all(dir_entry.path()))
-        spdlog::error("Failed to remove: {}.", dir_entry.path().string());
-    }
-  }
-}
-
-void ScriptPatch::UpdateModule()
-{
-  std::filesystem::create_directory(m_scriptDir / "dofiles");
-
-  if (!std::filesystem::exists(m_scriptDir / "modules" / "version.lua"))
-  {
-    spdlog::info("Scripts doesn't exist, extracting scripts..", m_scriptDir.string());
-    RemoveOldModule();
-    ExtractModule();
-  }
-  else if (GetModuleVersion() != CETMM::GetUpdate().GetVersion())
-  {
-    spdlog::info("Old scripts version found, updating scripts.");
-    RemoveOldModule();
-    ExtractModule();
-  }
-}
-
 void ScriptPatch::CopyCoreModule()
 {
   const auto copyOptions = std::filesystem::copy_options::recursive | std::filesystem::copy_options::create_hard_links;
@@ -164,7 +102,6 @@ void ScriptPatch::ExportPaths()
 void ScriptPatch::Initialize()
 {
   m_scriptDir = CETMM::GetPaths().CETMMRoot();
-  UpdateModule();
   m_scriptPath = CETMM::GetPaths().CETScripts() / "autoexec.lua";
   m_readSuccess = ReadScript();
   if (m_readSuccess)
