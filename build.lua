@@ -64,6 +64,8 @@ end
 
 function Install()
   import("core.project.config")
+  import("core.project.project")
+  local target = project.target("cet_mod_manager")
   config.load()
   local install_path = config.get("installpath")
   cprint("${green bright}Installing CET Mod Manager ..")
