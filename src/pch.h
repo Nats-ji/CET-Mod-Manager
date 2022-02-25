@@ -7,6 +7,7 @@
 #include <filesystem>
 
 #include <spdlog/spdlog.h>
+#include <fmt/core.h>
 #include <nlohmann/json.hpp>
 
 #include "CETMM.h"
