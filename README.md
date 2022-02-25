@@ -19,9 +19,9 @@ Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/
 
 This mod requires the latest version of **Cyber Engine Tweaks** Mod. Please Install it first. https://github.com/yamashi/CyberEngineTweaks/releases
 
-Put `cet_mod_manager` folder inside `\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\`
+Put `cet_mod_manager.asi` inside `\Cyberpunk 2077\bin\x64\plugins\`
 
-Restart the game. Or reload Mods from the CyberEngineTweaks Console.
+Restart the game.
 
 ## Usage
 
@@ -32,6 +32,9 @@ Restart the game. Or reload Mods from the CyberEngineTweaks Console.
 3. Tick/untick the checkbox in front of the mod name to enable/disable them.
 
 4. Press the `Reload ALL Mods` button on the console to reload the mods.
+
+### Change language
+Check this [guide](https://wiki.redmodding.org/cyber-engine-tweaks/getting-started/configuration/change-font-and-font-size#how-to-display-non-english-characters) for more information.
 
 ### API
 
@@ -58,15 +61,20 @@ Restart the game. Or reload Mods from the CyberEngineTweaks Console.
 
 1. Before you uninstall this mod, make sure you have **re-enabled** all the mods.
 
-2. Remove the `cet_mod_manager` folder from `\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\`
+2. Remove `cet_mod_manager.asi` from `\Cyberpunk 2077\bin\x64\plugins\`
 
-3. Restart the game. Or reload Mods from the CyberEngineTweaks Console.
+3. Remove the `cet_mod_manager` folder from `\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\`
 
-   *To uninstall CyberEngineTweaks please follow its uninstall instruction.
-   
-## Known Bug
-
-None
+## Translations
+- English
+- Simplified Chinese (Translator: Nats-ji)
+- Traditional Chinese (Translator: Nats-ji)
+- Japanese (Translator: Nats-ji)
+- German (Translator: keanuWheeze)
+- Russian (Translator: vanja-san)
+- Turkish (Translator: sebepne)
+- Romanian (Translator: Maddmaniak)
+- Brazilian Portuguese (Translator: mathfelin)
 
 ## Credits
 
@@ -74,3 +82,4 @@ None
 - WhySoSerious for answering every question I had about lua https://github.com/WSSDude420
 - Development Team behind CyberEngineTweaks and and RED4extSDK
 - CP77 Modding Tools Discord Community https://discord.gg/cp77modding
+- And people who translated for this project.

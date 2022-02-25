@@ -29,10 +29,6 @@
    └── bin
    　　　└── x64
    　　　　　　└── plugins
-   　　　　　　　　　├── <span style="color:yellow;">cyber_engine_tweaks</span>
-   　　　　　　　　　│　　└── mods
-   　　　　　　　　　│　　　　　└── <span style="color:lightgreen;">cet_mod_manager</span>
-   　　　　　　　　　│　　　　　　　　└── <span style="color:lightgreen;"><文件></span>
    　　　　　　　　　├── <span style="color:lightgreen;">cet_mod_manager.asi</span>
    　　　　　　　　　└── <span style="color:yellow;">cyber_engine_tweaks.asi</span>
 
