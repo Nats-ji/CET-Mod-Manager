@@ -12,7 +12,7 @@ local dofiles = CETMM.GetDofiles()
 
 ---@class window
 local window = {
-  m_draw = true,
+  m_draw = false,
   m_over_size = false,
   m_btn_Dofiles = false,
   m_btn_Scan = false,
