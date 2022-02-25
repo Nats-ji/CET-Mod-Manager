@@ -6,8 +6,7 @@
 local options = {
   m_lang = "en_us",
   m_autoscan = false,
-  m_autoappear = true,
-  m_version = require ("modules/version")
+  m_autoappear = true
 }
 
 -- private functions
@@ -41,7 +40,6 @@ end
 function options.Save()
   local config = {}
 
-  config["version"] = options.m_version
   config["lang"] = options.m_lang
   config["autoscan"] = options.m_autoscan
   config["autoappear"] = options.m_autoappear

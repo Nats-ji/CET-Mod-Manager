@@ -99,6 +99,4 @@ function CETMM.Shutdown()
   end)
 end
 
-print('loooooadeeeee')
-
 return CETMM
