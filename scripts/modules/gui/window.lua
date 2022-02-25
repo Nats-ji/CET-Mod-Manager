@@ -208,7 +208,7 @@ function window.Render()
         for _, entry in ipairs(dofiles.Get()) do
           ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
           ImGui.TableSetColumnIndex(0)
-          if ImGui.Button("Run##" .. entry:GetName()) then
+          if ImGui.Button(i18n("button_dofile_run").."##" .. entry:GetName()) then
             entry:Run()
           end
           ImGui.TableSetColumnIndex(1)
