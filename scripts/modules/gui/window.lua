@@ -33,6 +33,11 @@ local layout = {
 local function renderAboutWindow()
   window.m_draw_about = ImGui.Begin(window.m_about_title, window.m_draw_about, ImGuiWindowFlags.NoSavedSettings)
   if window.m_draw_about then
+    ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 300 * dpi.GetScale(),
+                         dpi.GetDisplayResolution().y * 0.1 * dpi.GetScale(),
+                         ImGuiCond.FirstUseEver)
+    ImGui.SetWindowSize(600 * dpi.GetScale(),
+                        dpi.GetDisplayResolution().y * 0.8, ImGuiCond.FirstUseEver)
     ImGui.Text(window.m_about_text)
   end
   ImGui.End()
