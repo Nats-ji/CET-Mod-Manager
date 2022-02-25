@@ -48,3 +48,10 @@ task("embed")
         build.GenerateEmbeds()
     end)
     set_menu { usage = "xmake embed", description = "Generate embed files"}
+
+task("install-lua")
+    on_run(function ()
+        import("build")
+        build.InstallScripts()
+    end)
+    set_menu { usage = "xmake install-lua", description = "Only Package and install CET Mod Manager scripts"}

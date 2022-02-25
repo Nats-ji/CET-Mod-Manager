@@ -86,6 +86,19 @@ function Install()
   cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
 end
 
+function InstallScripts()
+  import("core.project.config")
+  import("core.project.project")
+  local target = project.target("cet_mod_manager")
+  config.load()
+  local install_path = config.get("installpath")
+  cprint("${green bright}Installing CET Mod Manager Script ..")
+  check_game_installation(install_path)
+  assert(os.exists(target:targetfile()), "target file doesn't exist, run xmake install to build the target first.")
+  os.run([[xcopy "%s" "%s" /s /e /y /q]], path.translate("scripts"), path.translate(path.join(install_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))) -- Don't use os.cp(), it will remove the contents from the destination directory.
+  cprint("CET Mod Manager Scripts installed at: ${underline}%s", path.translate(path.join(install_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager")))
+end
+
 function Clean()
   if os.tryrm(path.join(embeds_path, "**")) then
     cprint("cleaning embed files ... ${bright green}ok")
