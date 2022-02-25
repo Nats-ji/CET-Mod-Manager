@@ -4,6 +4,7 @@
 
 void CETMM::Initialize()
 {
+  GetUpdate().UpdateModule();
   GetScriptPatch().Initialize();
   GetScanMods().Scan();
 }
@@ -33,4 +34,9 @@ ScanMods& CETMM::GetScanMods()
 ScriptPatch& CETMM::GetScriptPatch()
 {
   return Get().m_scriptPatch;
+}
+
+Update& CETMM::GetUpdate()
+{
+  return Get().m_update;
 }

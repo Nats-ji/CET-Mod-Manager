@@ -1,0 +1,3 @@
+#pragma once
+
+#define CETMM_VERSION "${GIT_TAG}"

@@ -15,6 +15,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+---@class theme
 local theme  =           {
 	Text                                =           { 1   , 0.44, 0.4 , 1    },
 	TextDisabled                        =           { 0.48, 0.39, 0.40, 1    },
