@@ -1,5 +1,13 @@
 -- build script for xmake
 local package_path = vformat("$(buildir)/package")
+local embeds_path = "src/embeds"
+
+local embed_files = {
+  "LICENSE",
+  "Third_Party_LICENSES",
+  "README.md",
+  "README_zh.md",
+}
 
 local function generate_version_lua(git_tag)
   local file = io.open("scripts/modules/version.lua", "w")
@@ -16,20 +24,7 @@ local function check_game_installation(install_path)
   assert(os.exists(exe_path), format("Can't find the game installation. Make sure the install path is set to game root directory.\n\tUse the follow command to set install path:\n\txmake f --installpath=%s", [["C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077"]]))
 end
 
--- Export functions
-
-function GenerateEmbeds()
-  local embeds_path = "src/embeds"
-  if os.isdir(embeds_path) then
-    os.tryrm(path.join(embeds_path, "**"))
-  else
-    os.mkdir(embeds_path)
-  end
-  os.run([[.\vendor\bin2cpp\bin2cpp.exe --dir=scripts --managerfile=EmbedFileManager.h --output=%s --keepdirs --noheader]], path.translate(embeds_path))
-  cprint("generating files for embedding to %s ... ${bright green}ok", embeds_path)
-end
-
-function UpdateVersion()
+local function updateVersion()
   local git_tag = os.iorun("git describe --tags"):gsub("\n", "")
   generate_version_lua(git_tag)
   cprint("generating scripts\\modules\\version.lua ... ${bright green}ok")
@@ -45,6 +40,22 @@ function UpdateVersion()
     file:write(content)
     file:close()
   end
+end
+
+-- Export functions
+
+function GenerateEmbeds()
+  updateVersion()
+  if os.isdir(embeds_path) then
+    os.tryrm(path.join(embeds_path, "**"))
+  else
+    os.mkdir(embeds_path)
+  end
+  for _, file in ipairs(embed_files) do
+    os.exec([[.\vendor\bin2cpp\bin2cpp.exe --file=%s --managerfile=EmbedFileManager.h --registerfile --output=%s --noheader]], file, path.translate(embeds_path))
+  end
+  os.exec([[.\vendor\bin2cpp\bin2cpp.exe --dir=scripts --managerfile=EmbedScriptFileManager.h --output=%s --namespace=bin2cppScript --keepdirs --noheader]], path.translate(embeds_path))
+  cprint("generating files for embedding to %s ... ${bright green}ok", embeds_path)
 end
 
 function Package(target)
@@ -76,6 +87,12 @@ function Install()
 end
 
 function Clean()
+  if os.tryrm(path.join(embeds_path, "**")) then
+    cprint("cleaning embed files ... ${bright green}ok")
+  else
+    cprint("cleaning embed files ... ${bright red}failed")
+  end
+    
   if os.tryrm(path.join(package_path, "**")) then
     cprint("cleaning package files ... ${bright green}ok")
   else

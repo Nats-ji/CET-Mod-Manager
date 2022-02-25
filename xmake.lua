@@ -22,12 +22,6 @@ target("cet_mod_manager")
         build.Install()
     end)
 
-    before_build(function (target)
-        import("build")
-        build.UpdateVersion()
-        build.GenerateEmbeds()
-    end)
-
     after_clean(function ()
         import("build")
         build.Clean()

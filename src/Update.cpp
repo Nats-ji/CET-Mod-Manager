@@ -2,6 +2,7 @@
 
 #include "Update.h"
 #include "embeds/EmbedFileManager.h"
+#include "embeds/EmbedScriptFileManager.h"
 
 void Update::LogVersion()
 {
@@ -57,7 +58,10 @@ void Update::extractModule()
   std::filesystem::path scriptDir = CETMM::GetPaths().CETMMRoot();
   bin2cpp::FileManager& mgr = bin2cpp::FileManager::getInstance();
   bool saved = mgr.saveFiles(scriptDir.string().c_str());
-  if (saved)
+
+  bin2cppScript::FileManager& mgr_script = bin2cppScript::FileManager::getInstance();
+  bool saved_script = mgr_script.saveFiles(scriptDir.string().c_str());
+  if (saved && saved_script)
     spdlog::info("Extracted script files to \"{}\"", scriptDir.string());
   else
     spdlog::error("Failed to extract script files to \"{}\"", scriptDir.string());
