@@ -13,6 +13,9 @@ local dofiles = CETMM.GetDofiles()
 ---@class window
 local window = {
   m_draw = false,
+  m_draw_about = false,
+  m_about_title = "",
+  m_about_text = "",
   m_over_size = false,
   m_btn_Dofiles = false,
   m_btn_Scan = false,
@@ -26,6 +29,23 @@ local layout = {
   header_btn_height = 0,
   selectable_height = 25,
 }
+
+local function renderAboutWindow()
+  window.m_draw_about = ImGui.Begin(window.m_about_title, window.m_draw_about, ImGuiWindowFlags.NoSavedSettings)
+  if window.m_draw_about then
+    ImGui.Text(window.m_about_text)
+  end
+  ImGui.End()
+end
+
+---@param aFile string
+---@return string
+local function loadFile(aFile)
+  local file = io.open(aFile)
+  local text = file:read("*a")
+  file:close()
+  return text
+end
 
 local function settings_popup()
   if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
@@ -47,7 +67,20 @@ local function settings_popup()
     ImGui.Spacing()
     ImGui.Separator()
     ImGui.Spacing()
+
+    -- Select language hint text and help button
     ImGui.Text(i18n("text_select_lang"))
+    ImGui.SameLine()
+    ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0)
+    if ImGui.Button("?", ImGui.GetFontSize() + 2 * dpi.GetScale(), ImGui.GetFontSize() + 2 * dpi.GetScale()) then
+      CETMM.GetModOpEx().OpenLink(
+        "https://wiki.redmodding.org/cyber-engine-tweaks/getting-started/configuration/change-font-and-font-size#how-to-display-non-english-characters")
+    end
+    if ImGui.IsItemHovered() then
+      ImGui.SetTooltip(i18n("tooltip_btn_howto_change_font"))
+    end
+    ImGui.PopStyleVar()
+
     ImGui.Spacing()
     ImGui.PushStyleVar(ImGuiStyleVar.SelectableTextAlign, 0, 0.5)
     for _, entry in ipairs(languages) do
@@ -61,12 +94,29 @@ local function settings_popup()
     ImGui.Spacing()
     ImGui.Separator()
     ImGui.Spacing()
+    if ImGui.Selectable("LICENSE", false,
+                        ImGuiSelectableFlags.None, 0, layout.selectable_height) then
+      window.m_about_title = "License"
+      window.m_draw_about = true
+      window.m_about_text = loadFile("LICENSE")
+    end
+    if ImGui.Selectable("Third Party License", false,
+                        ImGuiSelectableFlags.None, 0, layout.selectable_height) then
+      window.m_about_title = "Third Party License"
+      window.m_draw_about = true
+      window.m_about_text = loadFile("Third_Party_LICENSES")
+    end
     if ImGui.Selectable(string.format([[%s (v%s)]], "Check Update",
-                                      options.m_version), false,
+                                      CETMM.GetVersion()), false,
                         ImGuiSelectableFlags.None, 0, layout.selectable_height) then
       CETMM.GetModOpEx().OpenLink(
         "https://www.nexusmods.com/cyberpunk2077/mods/895?tab=files")
     end
+
+    ImGui.Spacing()
+    ImGui.Separator()
+    ImGui.Spacing()
+
     if ImGui.Selectable("Buy me a coffee", false, ImGuiSelectableFlags.None, 0,
                         layout.selectable_height) then
       CETMM.GetModOpEx().OpenLink("https://www.buymeacoffee.com/mingm")
@@ -85,8 +135,7 @@ function window.Initialize()
 end
 
 function window.Render()
-  window.m_draw = ImGui.Begin(i18n("window_title"), window.m_draw,
-                              ImGuiWindowFlags.NoResize)
+  window.m_draw = ImGui.Begin(i18n("window_title"), window.m_draw)
   if window.m_draw then
     -- Set window size and position
     ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 210 * dpi.GetScale(),
@@ -94,10 +143,10 @@ function window.Render()
                        ImGuiCond.FirstUseEver)
     if window.m_over_size then
       ImGui.SetWindowSize(420 * dpi.GetScale(),
-                          dpi.GetDisplayResolution().y * 0.8, ImGuiCond.Always)
+                          dpi.GetDisplayResolution().y * 0.8, ImGuiCond.FirstUseEver)
     else
       ImGui.SetWindowSize(420 * dpi.GetScale(), 640 * dpi.GetScale(),
-                          ImGuiCond.Always)
+                          ImGuiCond.FirstUseEver)
     end
 
     -- Header Buttons
@@ -187,32 +236,46 @@ function window.Render()
       if not window.m_btn_Dofiles then
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 5, 5)
 
-        for _, entry in ipairs(mods.Get()[enums.MODTYPE.CET]) do
+        if (#mods.Get()[enums.MODTYPE.CET]) == 0 then -- Hint text when not scanned
           ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
           ImGui.TableSetColumnIndex(0)
-          ImGui.BeginDisabled(entry:GetName() == "cet_mod_manager")
-          local state, pressed = ImGui.Checkbox("##" .. entry:GetName(),
-                                                entry:IsEnabled())
-          ImGui.EndDisabled()
-          if pressed then
-            CETMM.GetModOpEx().ToggleCETModState(entry)
+          ImGui.Text(i18n.translate("text_please_scan"))
+
+        else
+          for _, entry in ipairs(mods.Get()[enums.MODTYPE.CET]) do
+            ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
+            ImGui.TableSetColumnIndex(0)
+            ImGui.BeginDisabled(entry:GetName() == "cet_mod_manager")
+            local state, pressed = ImGui.Checkbox("##" .. entry:GetName(),
+                                                  entry:IsEnabled())
+            ImGui.EndDisabled()
+            if pressed then
+              CETMM.GetModOpEx().ToggleCETModState(entry)
+            end
+            ImGui.TableSetColumnIndex(1)
+            ImGui.Text(entry:GetFormatedName())
           end
-          ImGui.TableSetColumnIndex(1)
-          ImGui.Text(entry:GetFormatedName())
         end
 
         ImGui.PopStyleVar(1)
 
         -- Dofile list
       else
-        for _, entry in ipairs(dofiles.Get()) do
+        if (#dofiles.Get()) == 0 then -- Hint text when no dofiles
           ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
           ImGui.TableSetColumnIndex(0)
-          if ImGui.Button(i18n("button_dofile_run").."##" .. entry:GetName()) then
-            entry:Run()
+          ImGui.Text(i18n.translate("text_no_dofiles"))
+
+        else
+          for _, entry in ipairs(dofiles.Get()) do
+            ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
+            ImGui.TableSetColumnIndex(0)
+            if ImGui.Button(i18n("button_dofile_run").."##" .. entry:GetName()) then
+              entry:Run()
+            end
+            ImGui.TableSetColumnIndex(1)
+            ImGui.Text(entry:GetFormatedName())
           end
-          ImGui.TableSetColumnIndex(1)
-          ImGui.Text(entry:GetFormatedName())
         end
       end
 
@@ -239,6 +302,8 @@ function window.Render()
     layout._, layout.tb_footer_heigh = ImGui.GetItemRectSize()
   end
   ImGui.End()
+
+  renderAboutWindow()
 end
 
 return window

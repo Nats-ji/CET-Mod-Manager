@@ -9,6 +9,7 @@ local m_auth
 local m_options
 local m_locale
 local m_dofiles
+local m_version
 
 function CETMM.GetModList()
   return m_core.mods
@@ -54,6 +55,10 @@ function CETMM.GetDofiles()
   return m_dofiles
 end
 
+function CETMM.GetVersion()
+  return m_version
+end
+
 function CETMM.Initialize()
   m_auth = require ("modules/auth")
   m_core = m_auth.GetCore()
@@ -62,6 +67,7 @@ function CETMM.Initialize()
   m_locale = require ("modules/locale")
   m_dofiles = require ("modules/dofiles")
   m_event = require ("modules/event")
+  m_version = require ("modules/version")
 
   -- Load config
   m_options.Load()

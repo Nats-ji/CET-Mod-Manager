@@ -41,6 +41,7 @@ return {
     console_msg_mod_disable                = "[CETMM] %{modname} has been disabled." ,
     console_msg_mod_disable_error          = "[CETMM] Error when trying to disable %{modname}" ,
     text_select_lang                       = "Selecte a Language (Needs font support)",
+    tooltip_btn_howto_change_font          = "How to change font",
     text_select_settings                   = "Settings" ,
     tooltip_btn_settings                   = "Settings" ,
     tooltip_btn_help                       = "Help" ,
