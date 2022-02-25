@@ -8,6 +8,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Setup xmake
         uses: xmake-io/github-action-setup-xmake@v1
@@ -26,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: package/
+          path: build/package/
 
   release-github:
     runs-on: ubuntu-latest

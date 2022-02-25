@@ -64,7 +64,7 @@ function Package(target)
   else
     cprint("cleaning old package files ... ${bright red}failed")
   end
-  os.mkdir(path.join(package_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))
+  os.mkdir(path.join(package_path, "bin/x64/plugins"))
   cprint("creating file structure ... ${bright green}ok")
 
   if target then
