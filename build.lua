@@ -1,17 +1,6 @@
 -- build script for xmake
 local package_path = vformat("$(buildir)/package")
 
-local search_list = {
-  "scripts",
-  "dofiles",
-  "lang",
-  "init.lua",
-  "LICENSE",
-  "Third_Party_LICENSES",
-  "README.md",
-  "README_zh.md"
-}
-
 local function generate_version_lua(git_tag)
   local file = io.open("scripts/modules/version.lua", "w")
 
@@ -58,7 +47,6 @@ function UpdateVersion()
   end
 end
 
-
 function Package(target)
   if os.tryrm(path.join(package_path, "**")) then
     cprint("cleaning old package files ... ${bright green}ok")
@@ -68,10 +56,6 @@ function Package(target)
   os.mkdir(path.join(package_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))
   cprint("creating file structure ... ${bright green}ok")
 
-  for _, entry in ipairs(search_list) do
-    os.cp(entry, path.join(package_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))
-  end
-  cprint("copying lua files ... ${bright green}ok")
   if target then
     os.cp(target:targetfile(), path.join(package_path, "bin/x64/plugins"))
     cprint("copying cet_mod_manager.asi ... ${bright green}ok")
@@ -84,7 +68,8 @@ function Install()
   local install_path = config.get("installpath")
   cprint("${green bright}Installing CET Mod Manager ..")
   check_game_installation(install_path)
-  os.run([[xcopy "%s" "%s" /s /e /y /q]], path.translate(package_path), path.translate(install_path)) -- Don't use os.cp(), it will remove the contents from the destination directory.
+  assert(os.exists(target:targetfile()), "target file doesn't exist, run xmake install to build the target first.")
+  os.cp(target:targetfile(), path.join(install_path, "bin/x64/plugins"))
   cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
 end
 
@@ -94,21 +79,4 @@ function Clean()
   else
     cprint("cleaning package files ... ${bright red}failed")
   end
-end
-
-function InstallScript()
-  Package()
-  Install()
-end
-
-function InstallASI()
-  import("core.project.config")
-  import("core.project.project")
-  config.load()
-  local install_path = config.get("installpath")
-  check_game_installation(install_path)
-  local target = project.target("cet_mod_manager")
-  assert(os.exists(target:targetfile()), "target file doesn't exist, run xmake install to build the target first.")
-  os.cp(target:targetfile(), path.join(install_path, "bin/x64/plugins"))
-  cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
 end
