@@ -3,7 +3,7 @@ set_arch("x64")
 add_rules("mode.debug", "mode.release")
 add_requires("spdlog", "nlohmann_json", "fmt")
 
-add_defines("UNICODE")
+add_defines("UNICODE", "WIN32_LEAN_AND_MEAN")
 
 target("cet_mod_manager")
     set_kind("shared")

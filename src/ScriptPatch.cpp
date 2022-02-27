@@ -63,17 +63,45 @@ void ScriptPatch::RevertScript()
   WriteScript();
 }
 
+bool ScriptPatch::IsFileSystemNTFS()
+{
+  std::filesystem::path root_path_name = CETMM::GetPaths().CETMMRoot().root_path();
+  wchar_t file_system_name[MAX_PATH];
+  if (!GetVolumeInformation((LPCWSTR)root_path_name.wstring().c_str(), NULL, 0, NULL, NULL, NULL, file_system_name, MAX_PATH))
+    spdlog::error("Failed to get volume information.");
+  std::wstring fsn(file_system_name);
+  std::wstring ntfs = L"NTFS";
+  if(fsn == ntfs)
+  {
+    spdlog::info("File System is NTFS. Using hardlink.");
+    return true;
+  }
+  else
+  {
+    spdlog::info("File System not NTFS. Using copy.");
+    return false;
+  }
+}
+
 void ScriptPatch::CopyCoreModule()
 {
-  const auto copyOptions = std::filesystem::copy_options::recursive | std::filesystem::copy_options::create_hard_links;
-
   std::filesystem::create_directory(CETMM::GetPaths().CETScripts() / "cet_mod_manager");
 
   std::error_code ec_core;
-  std::filesystem::copy(m_scriptDir / "modules" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", copyOptions, ec_core);
 
-  if (ec_core)
-    spdlog::error("Failed to create hardlinks from {} to {}. Error message: {}.", (m_scriptDir / "modules" / "core").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string(), ec_core.message());
+  // use hardlink if filesystem is NTFS
+  if (IsFileSystemNTFS())
+  {
+    std::filesystem::copy(m_scriptDir / "modules" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", std::filesystem::copy_options::recursive | std::filesystem::copy_options::create_hard_links, ec_core);
+    if (ec_core)
+      spdlog::error("Failed to create hardlinks from {} to {}. Error message: {}.", (m_scriptDir / "modules" / "core").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string(), ec_core.message());
+  }
+  else
+  {
+    std::filesystem::copy(m_scriptDir / "modules" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", std::filesystem::copy_options::recursive, ec_core);
+    if (ec_core)
+      spdlog::error("Failed to copy files from {} to {}. Error message: {}.", (m_scriptDir / "modules" / "core").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string(), ec_core.message());
+  }
 }
 
 void ScriptPatch::RemoveCoreModule()

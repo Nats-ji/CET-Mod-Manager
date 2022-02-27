@@ -18,6 +18,7 @@ private:
   void WriteScript();
   void PatchScript();
   void RevertScript();
+  bool IsFileSystemNTFS();
   void CopyCoreModule();
   void RemoveCoreModule();
   void ExportPaths();

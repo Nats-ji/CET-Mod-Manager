@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <Windows.h>
 
 #include <spdlog/spdlog.h>
 #include <fmt/core.h>
