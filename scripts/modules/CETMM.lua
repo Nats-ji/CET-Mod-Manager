@@ -75,8 +75,11 @@ function CETMM.Initialize()
 
   registerForEvent("onInit", function()
   -- init
-  m_gui = require ("modules/gui")
   m_dofiles.Scan()
+  if m_options.m_autoscan then
+    m_core.scan.ScanALL()
+  end
+  m_gui = require ("modules/gui")
   m_gui.Initialize()
   end)
 end
