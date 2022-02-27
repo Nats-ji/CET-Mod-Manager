@@ -5,6 +5,7 @@ local m_api
 local m_core
 local m_gui
 local m_event
+local m_hotkeys
 local m_auth
 local m_options
 local m_locale
@@ -67,6 +68,7 @@ function CETMM.Initialize()
   m_locale = require ("modules/locale")
   m_dofiles = require ("modules/dofiles")
   m_event = require ("modules/event")
+  m_hotkeys = require("modules/hotkeys")
   m_version = require ("modules/version")
 
   -- Load config
@@ -92,6 +94,7 @@ end
 
 function CETMM.Event() -- Hotkey, Console event..
   m_event.Register()
+  m_hotkeys.Register()
 end
 
 function CETMM.Render()
