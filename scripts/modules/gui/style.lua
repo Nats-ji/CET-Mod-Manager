@@ -33,7 +33,8 @@ function style.PushTheme()
   style.PushColor(ImGuiCol.Button,               theme.Button)
   style.PushColor(ImGuiCol.ButtonHovered,        theme.ButtonHovered)
   style.PushColor(ImGuiCol.ButtonActive,         theme.ButtonActive)
-  style.PushColor(ImGuiCol.Separator,            theme.Border)
+  style.PushColor(ImGuiCol.Separator,            theme.Separator)
+  style.PushColor(ImGuiCol.PopupBg,              theme.PopupBg)
 
   ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 8, 8)
   ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
@@ -42,7 +43,7 @@ function style.PushTheme()
 end
 
 function style.PopTheme()
-  ImGui.PopStyleColor(24)
+  ImGui.PopStyleColor(25)
   ImGui.PopStyleVar(3)
   dpi.PopScale()
 end

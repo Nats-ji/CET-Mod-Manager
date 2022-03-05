@@ -16,16 +16,18 @@ local function btnToggle(aLabel, aValue, aSizeX, aSizeY)
   if aValue then
 		style.PushColor(ImGuiCol.Button, theme.CustomToggleOn)
 		style.PushColor(ImGuiCol.ButtonHovered, theme.CustomToggleOnHovered)
+		style.PushColor(ImGuiCol.ButtonActive, theme.CustomToggleOnActive)
 		style.PushColor(ImGuiCol.Text, theme.CustomToggleOnText)
 	else
 		style.PushColor(ImGuiCol.Button, theme.Button)
 		style.PushColor(ImGuiCol.ButtonHovered, theme.ButtonHovered)
+		style.PushColor(ImGuiCol.ButtonActive, theme.ButtonActive)
 		style.PushColor(ImGuiCol.Text, theme.Text)
 	end
   if ImGui.Button(aLabel, aSizeX, aSizeY) then
     aValue = not aValue
   end
-  ImGui.PopStyleColor(3)
+  ImGui.PopStyleColor(4)
   return aValue
 end
 

@@ -39,8 +39,8 @@ local function renderAboutWindow()
     ImGui.SetWindowSize(600 * dpi.GetScale(),
                         dpi.GetDisplayResolution().y * 0.8, ImGuiCond.FirstUseEver)
     ImGui.Text(window.m_about_text)
+    ImGui.End()
   end
-  ImGui.End()
 end
 
 ---@param aFile string
@@ -200,7 +200,6 @@ function window.Render()
 
     -- Helper Text
     if window.m_btn_Help then
-      style.PushColor(ImGuiCol.Text, theme.Separator)
       if not window.m_btn_Dofiles then
         ImGui.TextWrapped(i18n("text_help_manager_1"))
         ImGui.Spacing()
@@ -212,6 +211,7 @@ function window.Render()
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_manager_5"))
       else
+        style.PushColor(ImGuiCol.Text, theme.AltText)
         ImGui.TextWrapped(i18n("text_help_dofiles_1"))
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_dofiles_2"))
@@ -221,8 +221,8 @@ function window.Render()
         ImGui.TextWrapped(i18n("text_help_dofiles_4"))
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_dofiles_5"))
+        ImGui.PopStyleColor(1)
       end
-      ImGui.PopStyleColor(1)
       ImGui.Spacing()
     end
 
@@ -288,7 +288,9 @@ function window.Render()
     end
 
     -- Footer Buttons
-    if ImGui.BeginTable("footer_btns", 1, ImGuiTableFlags.NoSavedSettings) then
+    if ImGui.BeginTable("footer_btns", 2, ImGuiTableFlags.NoSavedSettings) then
+      ImGui.TableSetupColumn("col1", ImGuiTableColumnFlags.WidthStretch)
+      ImGui.TableSetupColumn("col2", ImGuiTableColumnFlags.WidthFixed)
       ImGui.TableNextRow()
       ImGui.TableSetColumnIndex(0)
 
@@ -302,11 +304,16 @@ function window.Render()
         CETMM.GetModOpEx().OpenFolder(CETMM.GetPaths().cetmmRoot / "dofiles")
       end
 
+      ImGui.TableSetColumnIndex(1)
+      style.PushColor(ImGuiCol.Text, theme.Border)
+      ImGui.Text("We stand with Ukraine!")
+      ImGui.PopStyleColor(1)
+
       ImGui.EndTable()
     end
     layout._, layout.tb_footer_heigh = ImGui.GetItemRectSize()
+    ImGui.End()
   end
-  ImGui.End()
 
   renderAboutWindow()
 end
