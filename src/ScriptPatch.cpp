@@ -44,15 +44,22 @@ void ScriptPatch::PatchScript()
   bool found_CETMM_require = false;
   for (unsigned int i = 0; i < m_script_lines.size(); i++)
   {
-      if (m_script_lines[i].find("CETMM") != std::string::npos && m_script_lines[i] != m_CETMM_require)
-      {
-          m_script_lines[i] = m_CETMM_require;
-      }
-      if (m_script_lines[i] == m_CETMM_require)
-          found_CETMM_require = true;
+    if (m_script_lines[i].find("CETMM") != std::string::npos && m_script_lines[i] != m_CETMM_require)
+    {
+      m_script_lines[i] = m_CETMM_require;
+      spdlog::info("Found leftover patched script for previous version, repatching..");
+    }
+    if (m_script_lines[i] == m_CETMM_require)
+    {
+      found_CETMM_require = true;
+      spdlog::info("Patched script already exists, skipping..");
+    }
   }
   if (!found_CETMM_require)
-      m_script_lines.insert(m_script_lines.begin() + 1, m_CETMM_require);
+  {
+    m_script_lines.insert(m_script_lines.begin() + 1, m_CETMM_require);
+    spdlog::info("Patching script..");
+  }
 
   WriteScript();
 }
@@ -85,20 +92,26 @@ bool ScriptPatch::IsFileSystemNTFS()
 
 void ScriptPatch::CopyCoreModule()
 {
-  std::filesystem::create_directory(CETMM::GetPaths().CETScripts() / "cet_mod_manager");
+  if (std::filesystem::exists(CETMM::GetPaths().CETScripts() / "cet_mod_manager"))
+  {
+    RemoveCoreModule();
+    spdlog::info("Found old core module, removing..");
+  }
+  else
+    std::filesystem::create_directory(CETMM::GetPaths().CETScripts() / "cet_mod_manager");
 
   std::error_code ec_core;
 
   // use hardlink if filesystem is NTFS
   if (IsFileSystemNTFS())
   {
-    std::filesystem::copy(m_scriptDir / "modules" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", std::filesystem::copy_options::recursive | std::filesystem::copy_options::create_hard_links, ec_core);
+    std::filesystem::copy(m_scriptDir / "modules" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive | std::filesystem::copy_options::create_hard_links, ec_core);
     if (ec_core)
       spdlog::error("Failed to create hardlinks from {} to {}. Error message: {}.", (m_scriptDir / "modules" / "core").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string(), ec_core.message());
   }
   else
   {
-    std::filesystem::copy(m_scriptDir / "modules" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", std::filesystem::copy_options::recursive, ec_core);
+    std::filesystem::copy(m_scriptDir / "modules" / "core", CETMM::GetPaths().CETScripts() / "cet_mod_manager", std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive, ec_core);
     if (ec_core)
       spdlog::error("Failed to copy files from {} to {}. Error message: {}.", (m_scriptDir / "modules" / "core").string(), (CETMM::GetPaths().CETScripts() / "cet_mod_manager").string(), ec_core.message());
   }
