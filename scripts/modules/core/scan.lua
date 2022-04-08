@@ -98,9 +98,10 @@ end
 -- output to mods
 
 function scan.ScanALL()
-  for modtype = 1, enums.MODTYPE:Count() do
-    scan_imp(modtype)
-  end
+  -- for modtype = 1, enums.MODTYPE:Count() do
+  --   scan_imp(modtype)
+  -- end
+  scan_imp(enums.MODTYPE.CET)
   mods.GenerateAPIData() -- recreate the const table
 end
 
