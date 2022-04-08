@@ -7,6 +7,7 @@ void CETMM::Initialize()
   GetUpdate().UpdateModule();
   GetScriptPatch().Initialize();
   GetScanMods().Scan();
+  GetFonts().Scan();
 }
 
 void CETMM::Shutdown()
@@ -39,4 +40,9 @@ ScriptPatch& CETMM::GetScriptPatch()
 Update& CETMM::GetUpdate()
 {
   return Get().m_update;
+}
+
+Fonts& CETMM::GetFonts()
+{
+  return Get().m_fonts;
 }

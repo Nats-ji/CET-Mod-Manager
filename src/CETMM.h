@@ -4,6 +4,7 @@
 #include "ScanMods.h"
 #include "ScriptPatch.h"
 #include "Update.h"
+#include "Fonts.h"
 
 class CETMM
 {
@@ -16,6 +17,7 @@ public:
   static ScanMods& GetScanMods();
   static ScriptPatch& GetScriptPatch();
   static Update& GetUpdate();
+  static Fonts& GetFonts();
 
   CETMM(const CETMM&) = delete;
   CETMM(CETMM&&) = delete;
@@ -30,4 +32,5 @@ private:
   ScanMods m_scanMods;
   ScriptPatch m_scriptPatch;
   Update m_update;
+  Fonts m_fonts;
 };
