@@ -14,9 +14,11 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
+local CETMM = require("modules/CETMM")
+local options = CETMM.GetOptions()
 
----@class theme
-local theme  =           {
+---@class theme_default
+local theme_default  =           {
 	Text                                =           { 1   , 0.44, 0.4 , 1    },
 	TextDisabled                        =           { 0.48, 0.39, 0.40, 1    },
 	WindowBg                            =           { 0.06, 0.04, 0.06, 0.9  },
@@ -46,8 +48,8 @@ local theme  =           {
 	Button                              =           { 0.57, 0.17, 0.16, 1    },
 	ButtonHovered                       =           { 0.45, 0.13, 0.14, 1    },
 	ButtonActive                        =           { 0.57, 0.17, 0.16, 1    },
-	Header                              =           { 0   , 0   , 0   , 0    },
-	HeaderHovered                       =           { 0.22, 0.64, 0.69, 0.25 },
+	Header                              =           { 0.22, 0.64, 0.69, 0.2  },
+	HeaderHovered                       =           { 0.22, 0.64, 0.69, 0.3  },
 	HeaderActive                        =           { 0.22, 0.64, 0.69, 0.5  },
 	Separator                           =           { 0.3 , 0.07, 0.08, 1    },
 	SeparatorHovered                    =           { 0.29, 0.77, 0.79, 1    },
@@ -91,8 +93,8 @@ local theme  =           {
 	Hidden                              =           { 0   , 0   , 0   , 0    },
 }
 
----@class theme_ukraine
-local theme_ukraine =           {
+---@class theme_ua_special
+local theme_ua_special =           {
 	Text                                =           { 0.96, 0.81, 0.00, 1    },
 	TextDisabled                        =           { 0.48, 0.39, 0.40, 1    },
 	WindowBg                            =           { 0.05, 0.11, 0.18, 0.9  },
@@ -122,7 +124,7 @@ local theme_ukraine =           {
 	Button                              =           { 0.00, 0.35, 0.71, 1    },
 	ButtonHovered                       =           { 0.00, 0.44, 0.90, 1    },
 	ButtonActive                        =           { 0.00, 0.35, 0.71, 1    },
-	Header                              =           { 0   , 0   , 0   , 0    },
+	Header                              =           { 0.00, 0.21, 0.43, 0.6 },
 	HeaderHovered                       =           { 0.00, 0.21, 0.43, 0.9 },
 	HeaderActive                        =           { 0.00, 0.21, 0.43, 0.9  },
 	Separator                           =           { 0.60, 0.51, 0.00, 0.5  },
@@ -167,4 +169,27 @@ local theme_ukraine =           {
 	Hidden                              =           { 0   , 0   , 0   , 0    },
 }
 
-return theme_ukraine
+
+---@class theme:theme_default
+local theme = {}
+
+local function load_impl(aTheme)
+	for key, value in pairs(aTheme) do
+		theme[key] = value
+	end
+end
+
+
+function theme.Load()
+	if options.m_theme == "ua_special" then
+		load_impl(theme_ua_special)
+	else
+		load_impl(theme_default)
+	end
+end
+
+theme.Load()
+
+print("theme loadded...")
+
+return theme

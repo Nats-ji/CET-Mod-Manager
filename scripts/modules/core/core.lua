@@ -1,5 +1,6 @@
 local scan = require ("cet_mod_manager/scan")
 local paths = require ("cet_mod_manager/paths")
+local cetconfig = require ("cet_mod_manager/cetconfig")
 local mods = require ("cet_mod_manager/mods")
 local modopex = require ("cet_mod_manager/modopex")
 local enums = require ("cet_mod_manager/enums")
@@ -13,6 +14,7 @@ local auth = require ("cet_mod_manager/auth")
 ---@field helper helper
 ---@field modopex modopex
 ---@field paths paths
+---@field cetconfig cetconfig
 local core = {}
 
 core.scan = scan
@@ -21,6 +23,7 @@ core.enums = enums
 core.helper = helper
 core.modopex = modopex
 core.paths = paths
+core.cetconfig = cetconfig
 
 ---@param op number|string|nil
 function json.CETMM_core(op)

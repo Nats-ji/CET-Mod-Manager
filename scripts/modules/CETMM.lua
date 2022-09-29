@@ -8,6 +8,7 @@ local m_event
 local m_hotkeys
 local m_auth
 local m_options
+local m_font
 local m_locale
 local m_dofiles
 local m_version
@@ -36,12 +37,20 @@ function CETMM.GetPaths()
   return m_core.paths
 end
 
+function CETMM.GetCETConfig()
+  return m_core.cetconfig
+end
+
 function CETMM.GetUISystem()
   return m_gui
 end
 
 function CETMM.GetOptions()
   return m_options
+end
+
+function CETMM.GetFont()
+  return m_font
 end
 
 function CETMM.GetAPI()
@@ -65,6 +74,7 @@ function CETMM.Initialize()
   m_core = m_auth.GetCore()
   m_api = require ("modules/api")
   m_options = require ("modules/options")
+  m_font = require("modules/font")
   m_locale = require ("modules/locale")
   m_dofiles = require ("modules/dofiles")
   m_event = require ("modules/event")
@@ -74,6 +84,8 @@ function CETMM.Initialize()
   -- Load config
   m_options.Load()
   m_locale.Initialize()
+
+  m_font.Initialize()
 
   registerForEvent("onInit", function()
   -- init

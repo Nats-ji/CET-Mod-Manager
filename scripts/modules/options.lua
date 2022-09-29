@@ -2,11 +2,12 @@
 ---@field m_lang string
 ---@field m_autoscan boolean
 ---@field m_autoappear boolean
----@field m_version string
+---@field m_theme string
 local options = {
   m_lang = "en_us",
   m_autoscan = false,
-  m_autoappear = true
+  m_autoappear = true,
+  m_theme = "default"
 }
 
 -- private functions
@@ -32,6 +33,7 @@ function options.Load()
     options.m_lang = setOption(config.lang, options.m_lang)
     options.m_autoscan = setOption(config.autoscan, options.m_autoscan)
     options.m_autoappear = setOption(config.autoappear, options.m_autoappear)
+    options.m_theme = setOption(config.theme, options.m_theme)
   end
 
   options.Save()
@@ -43,6 +45,7 @@ function options.Save()
   config["lang"] = options.m_lang
   config["autoscan"] = options.m_autoscan
   config["autoappear"] = options.m_autoappear
+  config["theme"] = options.m_theme
 
   local file = io.open("config.json", "w")
   file:write(json.encode(config))

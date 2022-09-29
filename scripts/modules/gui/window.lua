@@ -9,25 +9,31 @@ local enums = CETMM.GetEnums()
 local options = CETMM.GetOptions()
 local mods = CETMM.GetModList()
 local dofiles = CETMM.GetDofiles()
+local font = CETMM.GetFont()
 
 ---@class window
 local window = {
   m_draw = false,
   m_draw_about = false,
+  m_draw_font = false,
   m_about_title = "",
   m_about_text = "",
   m_over_size = false,
   m_btn_Dofiles = false,
   m_btn_Scan = false,
-  m_btn_Help = false,
+  m_btn_Help = false
+}
+
+local font_popup = {
+  m_fontlist_current_item = "",
+  m_fontstyle_current_item = ""
 }
 
 local layout = {
   _ = 0,
   tb_modlist_height = 0,
   tb_footer_heigh = 0,
-  header_btn_height = 0,
-  selectable_height = 25,
+  header_btn_height = 0
 }
 
 local function renderAboutWindow()
@@ -52,91 +58,164 @@ local function loadFile(aFile)
   return text
 end
 
-local function settings_popup()
-  if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
-    ImGui.Spacing()
-    ImGui.Text(i18n("text_select_settings"))
-    ImGui.Spacing()
+local function renderFontWidnow()
+  window.m_draw_font = ImGui.Begin("Font", window.m_draw_font, ImGuiWindowFlags.NoSavedSettings)
+  if window.m_draw_font then
+    ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 300 * dpi.GetScale(),
+                         dpi.GetDisplayResolution().y * 0.1 * dpi.GetScale(),
+                         ImGuiCond.FirstUseEver)
+    ImGui.Text("Font:")
+    if ImGui.BeginCombo("Font", font_popup.m_fontlist_current_item) then
 
+      if ImGui.Selectable("Default", font_popup.m_fontlist_current_item == "Default") then
+        font_popup.m_fontlist_current_item = "Default"
+        font_popup.m_fontstyle_current_item = "Regular"
+      end
+      if font_popup.m_fontlist_current_item == "Default" then
+        ImGui.SetItemDefaultFocus()
+      end
+
+      for _, fontfamily in ipairs(font.fontfamilies) do
+        local is_selected = font_popup.m_fontlist_current_item == fontfamily
+        if ImGui.Selectable(fontfamily, is_selected) then
+          font_popup.m_fontlist_current_item = fontfamily
+          for fontstyle, _ in pairs(font.list[fontfamily]) do
+            font_popup.m_fontstyle_current_item = fontstyle
+            break
+          end
+        end
+        if is_selected then
+          ImGui.SetItemDefaultFocus()
+        end
+      end
+      ImGui.EndCombo()
+    end
+    ImGui.Text("Font Style:")
+    if ImGui.BeginCombo("Font Style", font_popup.m_fontstyle_current_item) then
+      if font_popup.m_fontlist_current_item == "Default" then
+        ImGui.Selectable("Regular", true)
+        ImGui.SetItemDefaultFocus()
+      elseif type(font.list[font_popup.m_fontlist_current_item]) == "table" then
+        for fontstyle, _ in pairs(font.list[font_popup.m_fontlist_current_item]) do
+          local is_selected = font_popup.m_fontstyle_current_item == fontstyle
+          if ImGui.Selectable(fontstyle, is_selected) then
+            font_popup.m_fontstyle_current_item = fontstyle
+          end
+          if is_selected then
+            ImGui.SetItemDefaultFocus()
+          end
+        end
+      end
+      ImGui.EndCombo()
+    end
+    ImGui.Text("Size:")
+    ImGui.Text("Font Range:")
+
+    ImGui.Button("Ok")
+    ImGui.SameLine()
+    ImGui.Button("Cancel")
+    ImGui.End()
+  end
+end
+
+local function settings_popup()
+  ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 8 * dpi.GetScale(), 12 * dpi.GetScale())
+  if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
+    ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, 8 * dpi.GetScale(), 15 * dpi.GetScale())
+    ImGui.Text(i18n("text_select_settings"))
+    
     options.m_autoscan = widgets.btnToggle({
       i18n("button_autoscan_on"), i18n("button_autoscan_off"),
     }, options.m_autoscan)
-
+    
     ImGui.SameLine()
-
+    
     options.m_autoappear = widgets.btnToggle({
       i18n("button_autoappear_on"), i18n("button_autoappear_off"),
     }, options.m_autoappear)
-
-    -- Language list
-    ImGui.Spacing()
+    
     ImGui.Separator()
-    ImGui.Spacing()
+    
+    -- Font
+    if ImGui.MenuItem("Font") then
+      window.m_draw_font = true
+    end
+
+    -- Theme
+    if ImGui.BeginMenu("Theme") then
+      if ImGui.MenuItem("Default", "", options.m_theme == "default") then
+        options.m_theme = "default"
+        theme.Load()
+      end
+      if ImGui.MenuItem("UA Special", "", options.m_theme == "ua_special") then
+        options.m_theme = "ua_special"
+        theme.Load()
+      end
+      ImGui.EndMenu()
+    end
+    
+    -- Language menu
+    if ImGui.BeginMenu("Language") then
+      ImGui.Text(i18n("text_select_lang"))
+      ImGui.SameLine()
+      
+      ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0) -- Menu item height
+      if ImGui.Button("?", ImGui.GetFontSize() + 2 * dpi.GetScale(), ImGui.GetFontSize() + 2 * dpi.GetScale()) then
+        CETMM.GetModOpEx().OpenLink(
+          "https://wiki.redmodding.org/cyber-engine-tweaks/getting-started/configuration/change-font-and-font-size#how-to-display-non-english-characters")
+      end
+      if ImGui.IsItemHovered() then
+        ImGui.SetTooltip(i18n("tooltip_btn_howto_change_font"))
+      end
+
+      for _, entry in ipairs(languages) do
+        if ImGui.MenuItem(entry.name, "", options.m_lang == entry.id) then
+          options.m_lang = entry.id
+          CETMM.GetLocale().SetLocale()
+        end
+      end
+
+      ImGui.EndMenu()
+    end
 
     -- Select language hint text and help button
-    ImGui.Text(i18n("text_select_lang"))
-    ImGui.SameLine()
-    ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0)
-    if ImGui.Button("?", ImGui.GetFontSize() + 2 * dpi.GetScale(), ImGui.GetFontSize() + 2 * dpi.GetScale()) then
-      CETMM.GetModOpEx().OpenLink(
-        "https://wiki.redmodding.org/cyber-engine-tweaks/getting-started/configuration/change-font-and-font-size#how-to-display-non-english-characters")
-    end
-    if ImGui.IsItemHovered() then
-      ImGui.SetTooltip(i18n("tooltip_btn_howto_change_font"))
-    end
-    ImGui.PopStyleVar()
 
-    ImGui.Spacing()
-    ImGui.PushStyleVar(ImGuiStyleVar.SelectableTextAlign, 0, 0.5)
-    for _, entry in ipairs(languages) do
-      if ImGui.Selectable(entry.name, false, ImGuiSelectableFlags.None, 0,
-                          layout.selectable_height) then
-        options.m_lang = entry.id
-        CETMM.GetLocale().SetLocale()
-      end
-    end
-
-    ImGui.Spacing()
     ImGui.Separator()
-    ImGui.Spacing()
-    if ImGui.Selectable("LICENSE", false,
-                        ImGuiSelectableFlags.None, 0, layout.selectable_height) then
+
+    if ImGui.MenuItem("LICENSE") then
       window.m_about_title = "License"
       window.m_draw_about = true
       window.m_about_text = loadFile("LICENSE")
     end
-    if ImGui.Selectable("Third Party License", false,
-                        ImGuiSelectableFlags.None, 0, layout.selectable_height) then
+    if ImGui.MenuItem("Third Party License") then
       window.m_about_title = "Third Party License"
       window.m_draw_about = true
       window.m_about_text = loadFile("Third_Party_LICENSES")
     end
-    if ImGui.Selectable(string.format([[%s (v%s)]], "Check Update",
-                                      CETMM.GetVersion()), false,
-                        ImGuiSelectableFlags.None, 0, layout.selectable_height) then
+    if ImGui.MenuItem(string.format([[%s (v%s)]], "Check Update",
+                                      CETMM.GetVersion())) then
       CETMM.GetModOpEx().OpenLink(
         "https://www.nexusmods.com/cyberpunk2077/mods/895?tab=files")
     end
 
-    ImGui.Spacing()
     ImGui.Separator()
-    ImGui.Spacing()
 
-    if ImGui.Selectable("Buy me a coffee", false, ImGuiSelectableFlags.None, 0,
-                        layout.selectable_height) then
+    if ImGui.MenuItem("Buy me a coffee") then
       CETMM.GetModOpEx().OpenLink("https://www.buymeacoffee.com/mingm")
     end
-    ImGui.PopStyleVar(1)
 
+    ImGui.PopStyleVar() -- Pop menu item height
     ImGui.EndPopup()
   end
+  ImGui.PopStyleVar()
 end
 
 -- public methods
 
 function window.Initialize()
   window.m_over_size = 600 * dpi.GetScale() > dpi.GetDisplayResolution().y * 0.8
-  layout.selectable_height = 25 * dpi.GetScale()
+  font_popup.m_fontlist_current_item = font.current_settings.fontfamily
+  font_popup.m_fontstyle_current_item = font.current_settings.style
 end
 
 function window.Render()
@@ -304,10 +383,12 @@ function window.Render()
         CETMM.GetModOpEx().OpenFolder(CETMM.GetPaths().cetmmRoot / "dofiles")
       end
 
+      if options.m_theme == "ua_special" then
       ImGui.TableSetColumnIndex(1)
       style.PushColor(ImGuiCol.Text, theme.Border)
       ImGui.Text("We stand with Ukraine!")
       ImGui.PopStyleColor(1)
+      end
 
       ImGui.EndTable()
     end
@@ -316,6 +397,7 @@ function window.Render()
   end
 
   renderAboutWindow()
+  renderFontWidnow()
 end
 
 return window
