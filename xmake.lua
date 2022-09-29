@@ -1,7 +1,7 @@
 set_languages("cxx20")
 set_arch("x64")
 add_rules("mode.debug", "mode.release")
-add_requires("spdlog", "nlohmann_json", "fmt")
+add_requires("spdlog 1.10.*", "nlohmann_json 3.11.*", "fmt 9.1.*")
 
 add_defines("UNICODE", "WIN32_LEAN_AND_MEAN")
 
