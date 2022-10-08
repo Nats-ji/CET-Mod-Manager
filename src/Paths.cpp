@@ -46,6 +46,16 @@ const std::filesystem::path& Paths::Config() const
   return m_config;
 }
 
+const std::filesystem::path& Paths::AuthCode() const
+{
+  return m_authCode;
+}
+
+const std::filesystem::path& Paths::RandNames() const
+{
+  return m_randNames;
+}
+
 Paths::Paths()
 {
   TCHAR exePathBuf[MAX_PATH] = { 0 };
@@ -61,6 +71,8 @@ Paths::Paths()
   m_cetscripts = m_plugins / "cyber_engine_tweaks" / "scripts";
   m_cetmmRoot = m_cetmods / "cet_mod_manager";
   m_config = m_cetmmRoot / "config.json";
+  m_authCode = m_cetmmRoot / "authCode.lua";
+  m_randNames = m_cetmmRoot / "coreFunc.lua";
   
 #ifdef DEBUG
   spdlog::info("m_exe: {}", m_exe.string());

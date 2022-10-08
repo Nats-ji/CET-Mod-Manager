@@ -1,20 +1,15 @@
 #include "pch.h"
-
 #include "CETMM.h"
 
 void CETMM::Initialize()
 {
-  GetUpdate().UpdateModule();
-  GetScriptPatch().Initialize();
-  GetScanMods().Scan();
-  GetFonts().Scan();
+  // GetUpdate().UpdateModule();
+  GetMods().Scan();
+  // GetFonts().Scan();
 }
 
 void CETMM::Shutdown()
-{
-  GetScriptPatch().Shutdown();
-  GetScanMods().Shutdown();
-}
+{}
 
 CETMM& CETMM::Get()
 {
@@ -27,14 +22,9 @@ const Paths& CETMM::GetPaths()
   return Get().m_paths;
 }
 
-ScanMods& CETMM::GetScanMods()
+Mods& CETMM::GetMods()
 {
-  return Get().m_scanMods;
-}
-
-ScriptPatch& CETMM::GetScriptPatch()
-{
-  return Get().m_scriptPatch;
+  return Get().m_mods;
 }
 
 Update& CETMM::GetUpdate()
@@ -45,4 +35,9 @@ Update& CETMM::GetUpdate()
 Fonts& CETMM::GetFonts()
 {
   return Get().m_fonts;
+}
+
+CETMMEXT& CETMM::GetCETMMEXT()
+{
+  return Get().m_cetmmext;
 }

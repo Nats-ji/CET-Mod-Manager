@@ -1,4 +1,7 @@
+// adopted from https://github.com/foliojs/font-manager
+
 #define WINVER 0x0600
+#include "pch.h"
 #include "FontManager.h"
 
 namespace FontManager

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Paths.h"
-#include "ScanMods.h"
-#include "ScriptPatch.h"
+#include "EXT/Mods.h"
 #include "Update.h"
 #include "Fonts.h"
+#include "EXT/CETMMEXT.h"
 
 class CETMM
 {
@@ -14,10 +14,10 @@ public:
   static CETMM& Get();
 
   static const Paths& GetPaths();
-  static ScanMods& GetScanMods();
-  static ScriptPatch& GetScriptPatch();
+  static Mods& GetMods();
   static Update& GetUpdate();
   static Fonts& GetFonts();
+  static CETMMEXT& GetCETMMEXT();
 
   CETMM(const CETMM&) = delete;
   CETMM(CETMM&&) = delete;
@@ -29,8 +29,8 @@ private:
   ~CETMM() {}
 
   Paths m_paths;
-  ScanMods m_scanMods;
-  ScriptPatch m_scriptPatch;
+  Mods m_mods;
   Update m_update;
   Fonts m_fonts;
+  CETMMEXT m_cetmmext;
 };

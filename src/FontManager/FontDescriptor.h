@@ -1,6 +1,6 @@
-#pragma once
+// adopted from https://github.com/foliojs/font-manager
 
-#include "pch.h"
+#pragma once
 
 namespace FontManager {
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "pch.h"
 #include "FontDescriptor.h"
 
 namespace FontManager

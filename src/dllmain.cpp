@@ -1,18 +1,10 @@
 #include "pch.h"
-
-HANDLE hMutexHandle = nullptr;
+#include "EXT/TypeRegister.h"
 
 static void Initialize()
 {
     try
     {
-        //Single instance check
-        hMutexHandle = CreateMutex(NULL, TRUE, L"CETMM");
-        if (GetLastError() == ERROR_ALREADY_EXISTS)
-        {
-            return;
-        }
-
         spdlog::set_default_logger(CreateLogger());
         CETMM::Initialize();
     }
@@ -23,29 +15,52 @@ static void Initialize()
 static void Shutdown()
 {
     CETMM::Shutdown();
-
-    if (hMutexHandle)
-    {
-        ReleaseMutex(hMutexHandle);
-        CloseHandle(hMutexHandle);
-    }
 }
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+RED4EXT_C_EXPORT void RED4EXT_CALL RegisterTypes()
 {
-    switch (ul_reason_for_call)
+    TypeRegister::Register();
+}
+
+RED4EXT_C_EXPORT void RED4EXT_CALL PostRegisterTypes()
+{
+    TypeRegister::PostRegister();
+}
+
+RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle, RED4ext::EMainReason aReason,
+                                        const RED4ext::Sdk* aSdk)
+{
+    RED4EXT_UNUSED_PARAMETER(aHandle);
+    RED4EXT_UNUSED_PARAMETER(aSdk);
+
+    switch (aReason)
     {
-    case DLL_PROCESS_ATTACH:
+    case RED4ext::EMainReason::Load:
+    {
         Initialize();
-        break;
-    case DLL_PROCESS_DETACH:
-        Shutdown();
-        break;
-    default:
+        RED4ext::RTTIRegistrator::Add(RegisterTypes, PostRegisterTypes);
         break;
     }
-    return TRUE;
+    case RED4ext::EMainReason::Unload:
+    {
+        Shutdown();
+        break;
+    }
+    }
+
+    return true;
+}
+
+RED4EXT_C_EXPORT void RED4EXT_CALL Query(RED4ext::PluginInfo* aInfo)
+{
+    aInfo->name = L"CET Mod Manager";
+    aInfo->author = L"Ming";
+    aInfo->version = RED4EXT_SEMVER(1, 0, 0); // Set your version here.
+    aInfo->runtime = RED4EXT_RUNTIME_LATEST;
+    aInfo->sdk = RED4EXT_SDK_LATEST;
+}
+
+RED4EXT_C_EXPORT uint32_t RED4EXT_CALL Supports()
+{
+    return RED4EXT_API_VERSION_LATEST;
 }

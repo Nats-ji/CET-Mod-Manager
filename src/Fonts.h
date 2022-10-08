@@ -1,6 +1,5 @@
 #pragma once
 
-#include "pch.h"
 #include "FontManager/FontManager.h"
 
 class Fonts

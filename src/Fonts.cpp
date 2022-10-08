@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Fonts.h"
 
 void Fonts::Scan()

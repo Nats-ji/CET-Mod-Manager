@@ -11,6 +11,8 @@ struct Paths
   const std::filesystem::path& CETScripts() const;
   const std::filesystem::path& CETMMRoot() const;
   const std::filesystem::path& Config() const;
+  const std::filesystem::path& AuthCode() const;
+  const std::filesystem::path& RandNames() const;
 
 private:
   friend class CETMM;
@@ -26,4 +28,6 @@ private:
   std::filesystem::path m_cetmods;
   std::filesystem::path m_cetscripts;
   std::filesystem::path m_config;
+  std::filesystem::path m_authCode;
+  std::filesystem::path m_randNames;
 };
