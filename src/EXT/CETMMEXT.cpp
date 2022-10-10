@@ -69,6 +69,13 @@ void RED4ext_CETMM::OpenUrl(RED4ext::IScriptable* aContext, RED4ext::CStackFrame
     Misc::openUrl("https://wiki.redmodding.org/cyber-engine-tweaks/getting-started/configuration/change-font-and-font-size#how-to-display-non-english-characters");
 }
 
+void RED4ext_CETMM::RestartGame(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, void* aOut, int64_t a4)
+{
+  aFrame->code++;
+  CETMM::SetRestart(true);
+}
+
+
 // register
 
 void RED4ext_CETMM::Register()
@@ -95,4 +102,7 @@ void RED4ext_CETMM::PostRegister()
   auto func_openUrl = RED4ext::CClassStaticFunction::Create(&cls, "OpenUrl", "OpenUrl", &OpenUrl, {.isNative = true, .isStatic = true});
   func_openUrl->AddParam("String", "URLName");
   cls.RegisterFunction(func_openUrl);
+
+  auto func_restarGame = RED4ext::CClassStaticFunction::Create(&cls, "RestartGame", "RestartGame", &RestartGame, {.isNative = true, .isStatic = true});
+  cls.RegisterFunction(func_restarGame);
 }

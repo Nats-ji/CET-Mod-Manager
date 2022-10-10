@@ -41,3 +41,13 @@ CETMMEXT& CETMM::GetCETMMEXT()
 {
   return Get().m_cetmmext;
 }
+
+const bool CETMM::ShouldRestart()
+{
+  return Get().m_restart;
+}
+
+void CETMM::SetRestart(bool aRestart)
+{
+  Get().m_restart = aRestart;
+}

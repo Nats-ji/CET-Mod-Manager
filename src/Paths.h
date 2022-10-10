@@ -13,6 +13,7 @@ struct Paths
   const std::filesystem::path& Config() const;
   const std::filesystem::path& AuthCode() const;
   const std::filesystem::path& RandNames() const;
+  const std::filesystem::path& EXE() const;
 
 private:
   friend class CETMM;

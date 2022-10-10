@@ -56,6 +56,11 @@ const std::filesystem::path& Paths::RandNames() const
   return m_randNames;
 }
 
+const std::filesystem::path& Paths::EXE() const
+{
+  return m_exe;
+}
+
 Paths::Paths()
 {
   TCHAR exePathBuf[MAX_PATH] = { 0 };

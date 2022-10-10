@@ -19,6 +19,9 @@ public:
   static Fonts& GetFonts();
   static CETMMEXT& GetCETMMEXT();
 
+  static const bool ShouldRestart();
+  static void SetRestart(bool aRestart);
+
   CETMM(const CETMM&) = delete;
   CETMM(CETMM&&) = delete;
   CETMM& operator=(const CETMM&) = delete;
@@ -33,4 +36,5 @@ private:
   Update m_update;
   Fonts m_fonts;
   CETMMEXT m_cetmmext;
+  bool m_restart;
 };

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "EXT/TypeRegister.h"
+#include "EXT/Misc.h"
 
 static void Initialize()
 {
@@ -15,6 +16,9 @@ static void Initialize()
 static void Shutdown()
 {
     CETMM::Shutdown();
+    spdlog::info("should restart? : {}", CETMM::ShouldRestart());
+    if (CETMM::ShouldRestart())
+        Misc::restartGame();
 }
 
 RED4EXT_C_EXPORT void RED4EXT_CALL RegisterTypes()
