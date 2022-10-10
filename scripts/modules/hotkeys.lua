@@ -15,11 +15,6 @@ function hotkeys.Register()
     CETMM.GetUISystem().GetWindow().m_btn_Dofiles = true
     CETMM.GetUISystem().GetWindow().m_draw = not CETMM.GetUISystem().GetWindow().m_draw
   end)
-
-  registerHotkey("hotkey_scan", i18n.translate("button_scan"), function ()
-    CETMM.GetScanSystem().ScanALL()
-    CETMM.GetDofiles().Scan()
-  end)
 end
 
 return hotkeys

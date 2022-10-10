@@ -6,4 +6,4 @@ CETMM.Update()
 CETMM.Render()
 CETMM.Shutdown()
 
-return CETMM.GetAPI()
+-- return CETMM.GetAPI()

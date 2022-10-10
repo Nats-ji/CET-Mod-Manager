@@ -147,60 +147,45 @@ RED4ext::CClass* Mod::GetNativeType()
 
 void red4ext_GetName(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, RED4ext::CString* aOut, int64_t a4)
 {
-    RED4EXT_UNUSED_PARAMETER(aContext);
-    RED4EXT_UNUSED_PARAMETER(a4);
-
-    Mod* mod;
-    RED4ext::GetParameter(aFrame, &mod);
-
     aFrame->code++;
 
-    *aOut = mod->GetName();
+    if (aOut)
+    {
+        *aOut =  reinterpret_cast<Mod*>(aContext)->GetName();
+    }
 }
 
 void red4ext_GetFormatedName(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, RED4ext::CString* aOut, int64_t a4)
 {
-    RED4EXT_UNUSED_PARAMETER(aContext);
-    RED4EXT_UNUSED_PARAMETER(a4);
-
-    Mod* mod;
-    RED4ext::GetParameter(aFrame, &mod);
-
     aFrame->code++;
 
-    *aOut = mod->GetFormatedName();
+    if (aOut)
+    {
+        *aOut =  reinterpret_cast<Mod*>(aContext)->GetFormatedName();
+    }
 }
 
 void red4ext_IsEnabled(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, bool* aOut, int64_t a4)
 {
-    RED4EXT_UNUSED_PARAMETER(aContext);
-    RED4EXT_UNUSED_PARAMETER(a4);
-
-    Mod* mod;
-    RED4ext::GetParameter(aFrame, &mod);
-
     aFrame->code++;
 
-    *aOut = mod->IsEnabled();
+    if (aOut)
+    {
+        *aOut =  reinterpret_cast<Mod*>(aContext)->IsEnabled();
+    }
 }
 
 void red4ext_Toggle(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, void* aOut, int64_t a4)
 {
-    RED4EXT_UNUSED_PARAMETER(aContext);
-    RED4EXT_UNUSED_PARAMETER(a4);
-    RED4EXT_UNUSED_PARAMETER(aOut);
-
-    Mod* mod;
-    RED4ext::GetParameter(aFrame, &mod);
-
     aFrame->code++;
 
-    mod->Toggle();
+    reinterpret_cast<Mod*>(aContext)->Toggle();
 }
 
 void RED4ext_Mod::Register()
 {
   RED4ext::CNamePool::Add("Mod");
+  RED4ext::CNamePool::Add("handle:Mod");
   RED4ext::CRTTISystem::Get()->RegisterType(&cls);
 }
 
@@ -209,24 +194,20 @@ void RED4ext_Mod::PostRegister()
   auto rtti = RED4ext::CRTTISystem::Get();
   auto func_getName = RED4ext::CClassFunction::Create(&cls, "GetName", "GetName",
                                                        &red4ext_GetName, {.isNative = true});
-  func_getName->AddParam("Mod", "self");
   func_getName->SetReturnType("String");
   cls.RegisterFunction(func_getName);
 
   auto func_getFormatedName = RED4ext::CClassFunction::Create(&cls, "GetFormatedName", "GetFormatedName",
                                                        &red4ext_GetFormatedName, {.isNative = true});
-  func_getFormatedName->AddParam("Mod", "self");
   func_getFormatedName->SetReturnType("String");
   cls.RegisterFunction(func_getFormatedName);
   
   auto func_isEnabled = RED4ext::CClassFunction::Create(&cls, "IsEnabled", "IsEnabled",
                                                        &red4ext_IsEnabled, {.isNative = true});
-  func_isEnabled->AddParam("Mod", "self");
   func_isEnabled->SetReturnType("Bool");
   cls.RegisterFunction(func_isEnabled);
 
   auto func_toggle = RED4ext::CClassFunction::Create(&cls, "Toggle", "Toggle",
                                                        &red4ext_Toggle, {.isNative = true});
-  func_toggle->AddParam("Mod", "self");
   cls.RegisterFunction(func_toggle);
 }

@@ -4,7 +4,7 @@
 void CETMM::Initialize()
 {
   // GetUpdate().UpdateModule();
-  GetMods().Scan();
+  // GetMods().Scan();
   // GetFonts().Scan();
 }
 

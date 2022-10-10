@@ -11,14 +11,15 @@ void Mods::Scan()
   // m_redmod = scan_mods(MODTYPE::REDMOD);
 }
 
-RED4ext::DynArray<Mod> &Mods::GetCETMods()
+RED4ext::DynArray<RED4ext::Handle<Mod>> &Mods::GetCETMods()
 {
   return m_cet;
 }
 
-RED4ext::DynArray<Mod> Mods::scan_mods(MODTYPE aType)
+RED4ext::DynArray<RED4ext::Handle<Mod>> Mods::scan_mods(MODTYPE aType)
 {
-  RED4ext::DynArray<Mod> mod_list;
+  RED4ext::DynArray<RED4ext::Handle<Mod>> mod_hnds;
+  auto modType = RED4ext::CRTTISystem::Get()->GetClass("Mod");
   switch (aType)
   {
   case MODTYPE::CET:
@@ -26,29 +27,45 @@ RED4ext::DynArray<Mod> Mods::scan_mods(MODTYPE aType)
     {
       if (entry.is_directory() && std::filesystem::exists(entry.path() / "init.lua"))
       {
-        mod_list.PushBack(Mod(RED4ext::CString(entry.path().filename().string().c_str()), entry.path(), true, MODTYPE::CET));
-      } else if (entry.is_directory() && std::filesystem::exists(entry.path() / "init.lua_disabled"))
+        auto mod = reinterpret_cast<Mod*>(modType->AllocInstance());
+        modType->ConstructCls(mod);
+        mod->SetName(RED4ext::CString(entry.path().filename().string().c_str()));
+        mod->SetPath(entry.path());
+        mod->SetEnabled(true);
+        mod->SetType(MODTYPE::CET);
+        mod_hnds.EmplaceBack(mod);
+      }
+
+      else if (entry.is_directory() && std::filesystem::exists(entry.path() / "init.lua_disabled"))
       {
-        mod_list.PushBack(Mod(RED4ext::CString(entry.path().filename().string().c_str()), entry.path(), false, MODTYPE::CET));
+        auto mod = reinterpret_cast<Mod*>(modType->AllocInstance());
+        modType->ConstructCls(mod);
+        mod->SetName(RED4ext::CString(entry.path().filename().string().c_str()));
+        mod->SetPath(entry.path());
+        mod->SetEnabled(false);
+        mod->SetType(MODTYPE::CET);
+        mod_hnds.EmplaceBack(mod);
       }
     }
-    return mod_list;
+    break;
 
   case MODTYPE::ARCHIVE:
-    return mod_list;
+    break;
 
   case MODTYPE::REDSCRIPT:
-    return mod_list;
+    break;
 
   case MODTYPE::ASI:
-    return mod_list;
+    break;
 
   case MODTYPE::RED4EXT:
-    return mod_list;
+    break;
 
   case MODTYPE::REDMOD:
-    return mod_list;
+    break;
   }
+
+  return mod_hnds;
 }
 
 // red4ext impl
@@ -65,26 +82,22 @@ void red4ext_Scan(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, 
     RED4EXT_UNUSED_PARAMETER(aContext);
     RED4EXT_UNUSED_PARAMETER(a4);
     RED4EXT_UNUSED_PARAMETER(aOut);
-
-    Mods* mods;
-    RED4ext::GetParameter(aFrame, &mods);
+    RED4EXT_UNUSED_PARAMETER(aFrame);
 
     aFrame->code++;
 
-    mods->Scan();
+    CETMM::GetMods().Scan();
 }
 
 void red4ext_GetCETMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, RED4ext::DynArray<Mod>* aOut, int64_t a4)
 {
-    RED4EXT_UNUSED_PARAMETER(aContext);
-    RED4EXT_UNUSED_PARAMETER(a4);
-
-    Mods* mods;
-    RED4ext::GetParameter(aFrame, &mods);
-
     aFrame->code++;
 
-    *aOut = mods->GetCETMods();
+    if (aOut)
+    {
+      auto type = RED4ext::CRTTISystem::Get()->GetType("array:handle:Mod");
+      type->Assign(aOut, &CETMM::GetMods().GetCETMods());
+    }
 }
 
 void red4ext_GetMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, Mods* aOut, int64_t a4)
@@ -95,29 +108,28 @@ void red4ext_GetMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFram
 
     aFrame->code++;
 
-    *aOut = CETMM::GetMods();
+    if (aOut)
+      *aOut = CETMM::GetMods();
 }
 
 void RED4ext_Mods::Register()
 {
   RED4ext::CNamePool::Add("Mods");
-  RED4ext::CNamePool::Add("array:Mod");
+  RED4ext::CNamePool::Add("array:handle:Mod");
   RED4ext::CRTTISystem::Get()->RegisterType(&cls);
 }
 
 void RED4ext_Mods::PostRegister()
 {
   auto rtti = RED4ext::CRTTISystem::Get();
-  auto func_scan = RED4ext::CClassFunction::Create(&cls, "Scan", "Scan",
-                                                       &red4ext_Scan, {.isNative = true});
-  func_scan->AddParam("Mods", "self");
+  auto func_scan = RED4ext::CClassStaticFunction::Create(&cls, "Scan", "Scan",
+                                                       &red4ext_Scan, {.isNative = true, .isStatic = true});
   cls.RegisterFunction(func_scan);
 
   
-  auto func_getCETMods = RED4ext::CClassFunction::Create(&cls, "GetCETMods", "GetCETMods",
-                                                       &red4ext_GetCETMods, {.isNative = true});
-  func_getCETMods->AddParam("Mods", "self");
-  func_getCETMods->SetReturnType("array:Mod");
+  auto func_getCETMods = RED4ext::CClassStaticFunction::Create(&cls, "GetCETMods", "GetCETMods",
+                                                       &red4ext_GetCETMods, {.isNative = true, .isStatic = true});
+  func_getCETMods->SetReturnType("array:handle:Mod");
   cls.RegisterFunction(func_getCETMods);
 
   auto func_getMods = RED4ext::CGlobalFunction::Create("GetM", "GetM", &red4ext_GetMods);
