@@ -9,7 +9,12 @@ void CETMM::Initialize()
 }
 
 void CETMM::Shutdown()
-{}
+{
+
+  // final execute;
+  if (ShouldRestart())
+    Get().restartGame();
+}
 
 CETMM& CETMM::Get()
 {
@@ -50,4 +55,23 @@ const bool CETMM::ShouldRestart()
 void CETMM::SetRestart(bool aRestart)
 {
   Get().m_restart = aRestart;
+}
+
+
+void CETMM::restartGame()
+{
+  STARTUPINFO lpStartupInfo;
+  PROCESS_INFORMATION lpProcessInfo;
+
+  ZeroMemory( &lpStartupInfo, sizeof( lpStartupInfo ) );
+  lpStartupInfo.cb = sizeof( lpStartupInfo );
+  ZeroMemory( &lpProcessInfo, sizeof( lpProcessInfo ) );
+
+  LPWSTR cmdArgs = LPWSTR(L" -modded"); // launch game with redmod enabled
+  CreateProcess( GetPaths().EXE().wstring().c_str(),
+                  cmdArgs, NULL, NULL,
+                  NULL, NULL, NULL, NULL,
+                  &lpStartupInfo,
+                  &lpProcessInfo
+                  );
 }

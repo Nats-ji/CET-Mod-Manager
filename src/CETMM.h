@@ -31,10 +31,12 @@ private:
   CETMM() {}
   ~CETMM() {}
 
+  void restartGame();
+
   Paths m_paths;
   Mods m_mods;
   Update m_update;
   Fonts m_fonts;
   CETMMEXT m_cetmmext;
-  bool m_restart;
+  bool m_restart {false};
 };
