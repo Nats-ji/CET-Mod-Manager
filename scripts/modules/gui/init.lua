@@ -4,6 +4,7 @@ local m_dpi = require ("modules/gui/dpi")
 local m_style = require ("modules/gui/style")
 local m_widgets = require ("modules/gui/widgets")
 local m_window = require ("modules/gui/window")
+local m_initialized = false
 
 function gui.GetDPI()
   return m_dpi
@@ -18,8 +19,11 @@ function gui.GetWindow()
 end
 
 function gui.Initialize()
-  m_dpi.Initialize()
-  m_window.Initialize()
+  if not m_initialized then
+    m_dpi.Initialize()
+    m_window.Initialize()
+    m_initialized = true
+  end
 end
 
 function gui.Render()

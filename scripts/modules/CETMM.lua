@@ -2,15 +2,15 @@
 local CETMM = {}
 
 -- local m_api
-local m_gui
-local m_event
-local m_hotkeys
-local m_options
+local m_gui     ---@type gui
+local m_event   ---@type event
+local m_hotkeys ---@type hotkeys
+local m_options ---@type options
 -- local m_font
-local m_locale
-local m_dofiles
-local m_version
-local m_backend
+local m_locale  ---@type locale
+local m_dofiles ---@type dofiles
+local m_version ---@type string
+local m_backend ---@type backend
 
 -- function CETMM.GetModList()
 --   return m_core.mods
@@ -94,7 +94,6 @@ function CETMM.Initialize()
   m_backend.GetMods().Scan()
   m_dofiles.Scan()
   m_gui = require ("modules/gui")
-  m_gui.Initialize()
   end)
 end
 
@@ -111,6 +110,7 @@ end
 
 function CETMM.Render()
   registerForEvent("onDraw", function()
+    m_gui.Initialize()
     m_gui.GetStyle().PushTheme()
     m_gui.Render()
     m_gui.GetStyle().PopTheme()
