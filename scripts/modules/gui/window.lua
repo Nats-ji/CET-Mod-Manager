@@ -135,10 +135,10 @@ local function settings_popup()
     
     ImGui.Separator()
     
-    -- Font
-    if ImGui.MenuItem("Font") then
-      -- window.m_draw_font = true
-    end
+    -- Font #not ready
+    -- if ImGui.MenuItem("Font") then
+    --   -- window.m_draw_font = true
+    -- end
 
     -- Theme
     if ImGui.BeginMenu("Theme") then

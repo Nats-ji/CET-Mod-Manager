@@ -115,6 +115,7 @@ void red4ext_GetMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFram
 void RED4ext_Mods::Register()
 {
   RED4ext::CNamePool::Add("Mods");
+  RED4ext::CNamePool::Add("handle:Mods");
   RED4ext::CNamePool::Add("array:handle:Mod");
   RED4ext::CRTTISystem::Get()->RegisterType(&cls);
 }

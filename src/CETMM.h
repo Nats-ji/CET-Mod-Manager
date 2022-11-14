@@ -3,7 +3,7 @@
 #include "Paths.h"
 #include "EXT/Mods.h"
 #include "Update.h"
-#include "Fonts.h"
+#include "EXT/Fonts.h"
 #include "EXT/CETMMEXT.h"
 
 class CETMM

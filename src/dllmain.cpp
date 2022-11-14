@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "EXT/TypeRegister.h"
-#include "EXT/Misc.h"
 
 static void Initialize()
 {
@@ -16,6 +15,23 @@ static void Initialize()
 static void Shutdown()
 {
     CETMM::Shutdown();
+}
+
+bool BaseInit_OnEnter(RED4ext::CGameApplication* aApp)
+{
+    CETMM::GetFonts().LoadSystemFonts();
+    CETMM::GetFonts().LoadFontFromCET();
+    return true;
+}
+
+bool BaseInit_OnUpdate(RED4ext::CGameApplication* aApp)
+{
+    return true;
+}
+
+bool BaseInit_OnExit(RED4ext::CGameApplication* aApp)
+{
+    return true;
 }
 
 RED4EXT_C_EXPORT void RED4EXT_CALL RegisterTypes()
@@ -40,6 +56,13 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle, RED4ext::
     {
         Initialize();
         RED4ext::RTTIRegistrator::Add(RegisterTypes, PostRegisterTypes);
+    
+        // RED4ext::GameState initState;
+        // initState.OnEnter = &BaseInit_OnEnter;
+        // initState.OnUpdate = &BaseInit_OnUpdate;
+        // initState.OnExit = &BaseInit_OnExit;
+        // aSdk->gameStates->Add(aHandle, RED4ext::EGameStateType::BaseInitialization, &initState);
+
         break;
     }
     case RED4ext::EMainReason::Unload:

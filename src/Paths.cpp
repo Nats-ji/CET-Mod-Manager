@@ -31,9 +31,9 @@ const std::filesystem::path& Paths::CETMods() const
   return m_cetmods;
 }
 
-const std::filesystem::path& Paths::CETScripts() const
+const std::filesystem::path& Paths::CETConfig() const
 {
-  return m_cetscripts;
+  return m_cetconfig;
 }
 
 const std::filesystem::path& Paths::CETMMRoot() const
@@ -73,7 +73,7 @@ Paths::Paths()
   m_red4ext = m_gameRoot / "red4ext" / "plugins";
   m_redscript = m_gameRoot / "r6" / "scripts";
   m_cetmods = m_plugins / "cyber_engine_tweaks" / "mods";
-  m_cetscripts = m_plugins / "cyber_engine_tweaks" / "scripts";
+  m_cetconfig = m_plugins / "cyber_engine_tweaks" / "config.json";
   m_cetmmRoot = m_cetmods / "cet_mod_manager";
   m_config = m_cetmmRoot / "config.json";
   m_authCode = m_cetmmRoot / "authCode.lua";
@@ -88,7 +88,7 @@ Paths::Paths()
   spdlog::info("m_red4ext: {}", m_red4ext.string());
   spdlog::info("m_redscript: {}", m_redscript.string());
   spdlog::info("m_cetmods: {}", m_cetmods.string());
-  spdlog::info("m_cetscripts: {}", m_cetscripts.string());
+  spdlog::info("m_cetconfig: {}", m_cetconfig.string());
   spdlog::info("m_cetmmRoot: {}", m_cetmmRoot.string());
   spdlog::info("m_config: {}", m_config.string());
 #endif // DEBUG

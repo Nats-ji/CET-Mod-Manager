@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Misc.h"
 #include "CETMMEXT.h"
+#include "RED4ext/Scripting/Natives/Generated/ink/ISystemRequestsHandler.hpp"
 
 // RED4ext impl
 
@@ -13,24 +14,32 @@ RED4ext::CClass* CETMMEXT::GetNativeType()
 
 
 // functions
-void RED4ext_CETMM::GetMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, Mods* aOut, int64_t a4)
+void RED4ext_CETMM::GetMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, RED4ext::Handle<Mods>* aOut, int64_t a4)
 {
-  RED4EXT_UNUSED_PARAMETER(aContext);
-  RED4EXT_UNUSED_PARAMETER(aFrame);
-  RED4EXT_UNUSED_PARAMETER(a4);
-
   aFrame->code++;
 
-  *aOut = CETMM::GetMods();
+  if (aOut)
+  {
+    RED4ext::Handle<Mods> handle(&CETMM::GetMods());
+    auto type = RED4ext::CRTTISystem::Get()->GetType("handle:Mods");
+    type->Assign(aOut, &handle);
+  }
+}
+
+void RED4ext_CETMM::GetFonts(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, RED4ext::Handle<Fonts>* aOut, int64_t a4)
+{
+  aFrame->code++;
+
+  if (aOut)
+  {
+    RED4ext::Handle<Fonts> handle(&CETMM::GetFonts());
+    auto type = RED4ext::CRTTISystem::Get()->GetType("handle:Fonts");
+    type->Assign(aOut, &handle);
+  }
 }
 
 void RED4ext_CETMM::OpenModsFolder(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, void* aOut, int64_t a4)
 {
-  RED4EXT_UNUSED_PARAMETER(aContext);
-  RED4EXT_UNUSED_PARAMETER(aFrame);
-  RED4EXT_UNUSED_PARAMETER(aOut);
-  RED4EXT_UNUSED_PARAMETER(a4);
-
   aFrame->code++;
 
   Misc::openFolder(CETMM::GetPaths().CETMods());
@@ -38,11 +47,6 @@ void RED4ext_CETMM::OpenModsFolder(RED4ext::IScriptable* aContext, RED4ext::CSta
 
 void RED4ext_CETMM::OpenDofilesFolder(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, void* aOut, int64_t a4)
 {
-  RED4EXT_UNUSED_PARAMETER(aContext);
-  RED4EXT_UNUSED_PARAMETER(aFrame);
-  RED4EXT_UNUSED_PARAMETER(aOut);
-  RED4EXT_UNUSED_PARAMETER(a4);
-
   aFrame->code++;
 
   Misc::openFolder(CETMM::GetPaths().CETMMRoot() / "dofiles");
@@ -50,10 +54,6 @@ void RED4ext_CETMM::OpenDofilesFolder(RED4ext::IScriptable* aContext, RED4ext::C
 
 void RED4ext_CETMM::OpenUrl(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, void* aOut, int64_t a4)
 {
-  RED4EXT_UNUSED_PARAMETER(aContext);
-  RED4EXT_UNUSED_PARAMETER(aOut);
-  RED4EXT_UNUSED_PARAMETER(a4);
-  
   RED4ext::CString* url_name;
   RED4ext::GetParameter(aFrame, &url_name);
 
@@ -90,8 +90,12 @@ void RED4ext_CETMM::PostRegister()
   auto rtti = RED4ext::CRTTISystem::Get();
 
   auto func_getMods = RED4ext::CClassStaticFunction::Create(&cls, "GetMods", "GetMods", &GetMods, {.isNative = true, .isStatic = true});
-  func_getMods->SetReturnType("Mods");
+  func_getMods->SetReturnType("handle:Mods");
   cls.RegisterFunction(func_getMods);
+
+  auto func_getFonts = RED4ext::CClassStaticFunction::Create(&cls, "GetFonts", "GetFonts", &GetFonts, {.isNative = true, .isStatic = true});
+  func_getFonts->SetReturnType("handle:Fonts");
+  cls.RegisterFunction(func_getFonts);
 
   auto func_openModsFolder = RED4ext::CClassStaticFunction::Create(&cls, "OpenModsFolder", "OpenModsFolder", &OpenModsFolder, {.isNative = true, .isStatic = true});
   cls.RegisterFunction(func_openModsFolder);
