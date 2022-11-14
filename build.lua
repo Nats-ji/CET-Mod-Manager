@@ -64,11 +64,12 @@ function Package(target)
   else
     cprint("cleaning old package files ... ${bright red}failed")
   end
-  os.mkdir(path.join(package_path, "bin/x64/plugins"))
+  local output_path = path.join(package_path, "red4ext/plugins/cet_mod_manager")
+  os.mkdir(output_path)
   cprint("creating file structure ... ${bright green}ok")
 
   if target then
-    os.cp(target:targetfile(), path.join(package_path, "bin/x64/plugins"))
+    os.cp(target:targetfile(), output_path)
     cprint("copying cet_mod_manager.asi ... ${bright green}ok")
   end
 end
@@ -82,7 +83,7 @@ function Install()
   cprint("${green bright}Installing CET Mod Manager ..")
   check_game_installation(install_path)
   assert(os.exists(target:targetfile()), "target file doesn't exist, run xmake install to build the target first.")
-  os.cp(target:targetfile(), path.join(install_path, "red4ext/plugins"))
+  os.cp(target:targetfile(), path.join(install_path, "red4ext/plugins/cet_mod_manager"))
   cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
 end
 
