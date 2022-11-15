@@ -26,7 +26,8 @@ local function generate_version_lua(git_tag)
   file:close()
 end
 
-local function updateVersion()
+-- Export functions
+function UpdateVersion()
   local git_tag = os.iorun("git describe --tags"):gsub("\n", "")
   generate_version_lua(git_tag)
   cprint("generating scripts\\modules\\version.lua ... ${bright green}ok")
@@ -44,12 +45,7 @@ local function updateVersion()
   end
 end
 
--- Export functions
-
 function GenerateEmbeds()
-  -- update version
-  updateVersion()
-
   -- clear embed directories
   if os.isdir(embeds_path) then
     os.tryrm(path.join(embeds_path, "**"))
