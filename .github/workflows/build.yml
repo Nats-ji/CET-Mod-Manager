@@ -24,8 +24,9 @@ jobs:
 
       - name: Build and Package
         run: |
+          xmake.exe build cet_mod_manager
           xmake.exe embed
-          xmake.exe package
+          xmake.exe package installer
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2

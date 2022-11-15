@@ -15,6 +15,7 @@ static void Initialize()
 static void Shutdown()
 {
     CETMM::Shutdown();
+    // Uninstall();
 }
 
 bool BaseInit_OnEnter(RED4ext::CGameApplication* aApp)
@@ -67,7 +68,7 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle, RED4ext::
     }
     case RED4ext::EMainReason::Unload:
     {
-        Shutdown();
+        // Shutdown();
         break;
     }
     }

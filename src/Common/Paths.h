@@ -2,6 +2,7 @@
 
 struct Paths
 {
+  Paths();
   const std::filesystem::path& GameRoot() const;
   const std::filesystem::path& Archives() const;
   const std::filesystem::path& Plugins() const;
@@ -15,9 +16,6 @@ struct Paths
   const std::filesystem::path& RandNames() const;
   const std::filesystem::path& EXE() const;
 
-private:
-  friend class CETMM;
-  Paths();
   std::filesystem::path m_exe;
   std::filesystem::path m_exeRoot;
   std::filesystem::path m_gameRoot;

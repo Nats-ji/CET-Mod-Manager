@@ -5,6 +5,6 @@ build/
 
 cet_mod_manager.code-workspace
 
-src/Version.h
+src/Common/Version.h
 scripts/modules/version.lua
-src/embeds/
+src/Installer/embeds/

@@ -2,7 +2,6 @@
 
 #include "Paths.h"
 #include "EXT/Mods.h"
-#include "Update.h"
 #include "EXT/Fonts.h"
 #include "EXT/CETMMEXT.h"
 
@@ -15,7 +14,6 @@ public:
 
   static const Paths& GetPaths();
   static Mods& GetMods();
-  static Update& GetUpdate();
   static Fonts& GetFonts();
   static CETMMEXT& GetCETMMEXT();
 
@@ -32,10 +30,10 @@ private:
   ~CETMM() {}
 
   void restartGame();
+  void uninstall();
 
   Paths m_paths;
   Mods m_mods;
-  Update m_update;
   Fonts m_fonts;
   CETMMEXT m_cetmmext;
   bool m_restart {false};

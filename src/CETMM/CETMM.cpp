@@ -3,7 +3,6 @@
 
 void CETMM::Initialize()
 {
-  GetUpdate().UpdateModule();
   // GetFonts().Scan();
 }
 
@@ -29,11 +28,6 @@ const Paths& CETMM::GetPaths()
 Mods& CETMM::GetMods()
 {
   return Get().m_mods;
-}
-
-Update& CETMM::GetUpdate()
-{
-  return Get().m_update;
 }
 
 Fonts& CETMM::GetFonts()
@@ -73,4 +67,29 @@ void CETMM::restartGame()
                   &lpStartupInfo,
                   &lpProcessInfo
                   );
+}
+
+void CETMM::uninstall()
+{
+    STARTUPINFO lpStartupInfo;
+    PROCESS_INFORMATION lpProcessInfo;
+
+    ZeroMemory( &lpStartupInfo, sizeof( lpStartupInfo ) );
+    lpStartupInfo.cb = sizeof( lpStartupInfo );
+    ZeroMemory( &lpProcessInfo, sizeof( lpProcessInfo ) );
+
+    auto path = GetPaths().Red4Ext() / "cet_mod_manager";
+
+    wchar_t cmdArgs [2 * MAX_PATH];
+    // some hax to self delete
+    swprintf ( cmdArgs, 2 * MAX_PATH, L"/c ping localhost -n 5 > nul & rmdir /s /q \"%s\"", path.wstring().c_str());
+
+    CreateProcess( L"C:\\Windows\\System32\\cmd.exe",
+                    cmdArgs, NULL, NULL,
+                    FALSE, CREATE_NO_WINDOW, NULL, NULL,
+                    &lpStartupInfo,
+                    &lpProcessInfo
+                    );
+    CloseHandle(lpProcessInfo.hThread);
+    CloseHandle(lpProcessInfo.hProcess);
 }
