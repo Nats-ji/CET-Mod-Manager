@@ -83,8 +83,10 @@ function Install()
   cprint("${green bright}Installing CET Mod Manager ..")
   check_game_installation(install_path)
   assert(os.exists(target:targetfile()), "target file doesn't exist, run xmake install to build the target first.")
-  os.cp(target:targetfile(), path.join(install_path, "red4ext/plugins/cet_mod_manager"))
-  cprint("CET Mod Manager installed at: ${underline}%s", "$(installpath)")
+  local output_dir = path.join(install_path, "red4ext/plugins/cet_mod_manager/")
+  os.mkdir(output_dir)
+  os.cp(target:targetfile(), output_dir)
+  cprint("CET Mod Manager installed at: ${underline}%s", output_dir)
 end
 
 function InstallScripts()
