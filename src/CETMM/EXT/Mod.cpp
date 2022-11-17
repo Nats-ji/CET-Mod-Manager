@@ -191,7 +191,6 @@ void RED4ext_Mod::Register()
 
 void RED4ext_Mod::PostRegister()
 {
-  auto rtti = RED4ext::CRTTISystem::Get();
   auto func_getName = RED4ext::CClassFunction::Create(&cls, "GetName", "GetName",
                                                        &red4ext_GetName, {.isNative = true});
   func_getName->SetReturnType("String");

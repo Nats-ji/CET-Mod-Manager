@@ -5,6 +5,7 @@ local backend = {
     OpenDofilesFolder = CETMMEXT.OpenDofilesFolder, ---@type fun(): void
     OpenUrl = CETMMEXT.OpenUrl,                     ---@type fun(url: string): void
     GetFonts = CETMMEXT.GetFonts,                   ---@type fun(): Fonts
+    GetUninstall = CETMMEXT.GetUninstall            ---@type fun(): Uninstall
 }
 
 return backend

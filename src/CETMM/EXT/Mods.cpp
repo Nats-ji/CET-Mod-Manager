@@ -100,18 +100,6 @@ void red4ext_GetCETMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aF
     }
 }
 
-void red4ext_GetMods(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, Mods* aOut, int64_t a4)
-{
-    RED4EXT_UNUSED_PARAMETER(aContext);
-    RED4EXT_UNUSED_PARAMETER(a4);
-    RED4EXT_UNUSED_PARAMETER(aFrame);
-
-    aFrame->code++;
-
-    if (aOut)
-      *aOut = CETMM::GetMods();
-}
-
 void RED4ext_Mods::Register()
 {
   RED4ext::CNamePool::Add("Mods");
@@ -122,19 +110,12 @@ void RED4ext_Mods::Register()
 
 void RED4ext_Mods::PostRegister()
 {
-  auto rtti = RED4ext::CRTTISystem::Get();
   auto func_scan = RED4ext::CClassStaticFunction::Create(&cls, "Scan", "Scan",
                                                        &red4ext_Scan, {.isNative = true, .isStatic = true});
   cls.RegisterFunction(func_scan);
 
-  
   auto func_getCETMods = RED4ext::CClassStaticFunction::Create(&cls, "GetCETMods", "GetCETMods",
                                                        &red4ext_GetCETMods, {.isNative = true, .isStatic = true});
   func_getCETMods->SetReturnType("array:handle:Mod");
   cls.RegisterFunction(func_getCETMods);
-
-  auto func_getMods = RED4ext::CGlobalFunction::Create("GetM", "GetM", &red4ext_GetMods);
-  func_getMods->flags = {.isNative = true, .isStatic = true};
-  func_getMods->SetReturnType("Mods");
-  rtti->RegisterFunction(func_getMods);
 }

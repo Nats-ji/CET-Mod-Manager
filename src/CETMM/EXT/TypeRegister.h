@@ -12,6 +12,7 @@ namespace TypeRegister
     RED4ext_Mods::Register();
     RED4ext_CETMM::Register();
     RED4ext_Fonts::Register();
+    RED4ext_Uninstall::Register();
   }
 
   void PostRegister()
@@ -20,5 +21,6 @@ namespace TypeRegister
     RED4ext_Mods::PostRegister();
     RED4ext_CETMM::PostRegister();
     RED4ext_Fonts::PostRegister();
+    RED4ext_Uninstall::PostRegister();
   }
 }

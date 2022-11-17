@@ -28,3 +28,7 @@
 ---@class Mods
 ---@field Scan fun(): nil
 ---@field GetCETMods fun(): Mod[]
+
+---@class Uninstall
+---@field IsAsiRemoved fun(): bool
+---@field SetFilesToRemove fun(aRemoveFiles: bool, aRemoveConfig: bool, aRemoveDofiles: bool): nil

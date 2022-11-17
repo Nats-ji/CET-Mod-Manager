@@ -17,8 +17,9 @@
 #include <dwrite_1.h>
 #include <shellapi.h>
 
-#include <spdlog/spdlog.h>
 #include <fmt/core.h>
+#include <fmt/xchar.h>
+#include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 
 #include <RED4ext/RED4ext.hpp>

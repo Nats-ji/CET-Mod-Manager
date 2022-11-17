@@ -1,7 +1,7 @@
 #include "pch.h"
+#include "RED4ext/Scripting/Natives/Generated/ink/ISystemRequestsHandler.hpp"
 #include "Misc.h"
 #include "CETMMEXT.h"
-#include "RED4ext/Scripting/Natives/Generated/ink/ISystemRequestsHandler.hpp"
 
 // RED4ext impl
 
@@ -34,6 +34,18 @@ void RED4ext_CETMM::GetFonts(RED4ext::IScriptable* aContext, RED4ext::CStackFram
   {
     RED4ext::Handle<Fonts> handle(&CETMM::GetFonts());
     auto type = RED4ext::CRTTISystem::Get()->GetType("handle:Fonts");
+    type->Assign(aOut, &handle);
+  }
+}
+
+void RED4ext_CETMM::GetUninstall(RED4ext::IScriptable* aContext, RED4ext::CStackFrame* aFrame, RED4ext::Handle<Uninstall>* aOut, int64_t a4)
+{
+  aFrame->code++;
+
+  if (aOut)
+  {
+    RED4ext::Handle<Uninstall> handle(&CETMM::GetUninstall());
+    auto type = RED4ext::CRTTISystem::Get()->GetType("handle:Uninstall");
     type->Assign(aOut, &handle);
   }
 }
@@ -87,8 +99,6 @@ void RED4ext_CETMM::Register()
 
 void RED4ext_CETMM::PostRegister()
 {
-  auto rtti = RED4ext::CRTTISystem::Get();
-
   auto func_getMods = RED4ext::CClassStaticFunction::Create(&cls, "GetMods", "GetMods", &GetMods, {.isNative = true, .isStatic = true});
   func_getMods->SetReturnType("handle:Mods");
   cls.RegisterFunction(func_getMods);
@@ -96,6 +106,10 @@ void RED4ext_CETMM::PostRegister()
   auto func_getFonts = RED4ext::CClassStaticFunction::Create(&cls, "GetFonts", "GetFonts", &GetFonts, {.isNative = true, .isStatic = true});
   func_getFonts->SetReturnType("handle:Fonts");
   cls.RegisterFunction(func_getFonts);
+
+  auto func_getUninstall = RED4ext::CClassStaticFunction::Create(&cls, "GetUninstall", "GetUninstall", &GetUninstall, {.isNative = true, .isStatic = true});
+  func_getUninstall->SetReturnType("handle:Uninstall");
+  cls.RegisterFunction(func_getUninstall);
 
   auto func_openModsFolder = RED4ext::CClassStaticFunction::Create(&cls, "OpenModsFolder", "OpenModsFolder", &OpenModsFolder, {.isNative = true, .isStatic = true});
   cls.RegisterFunction(func_openModsFolder);

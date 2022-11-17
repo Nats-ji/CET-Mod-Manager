@@ -1,5 +1,6 @@
 local windows = {
-    fonts = require ("modules/gui/windows/fonts")
+    fonts = require ("modules/gui/windows/fonts"),
+    uninstall = require("modules/gui/windows/uninstall"),
 }
 
 
