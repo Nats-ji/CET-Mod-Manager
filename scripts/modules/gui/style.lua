@@ -1,7 +1,6 @@
 ---@class style
 local style = {}
 local theme = require ("modules/gui/theme")
-local dpi = require ("modules/gui/dpi")
 
 ---@param aStyle number
 ---@param aColor number[]
@@ -38,14 +37,11 @@ function style.PushTheme()
 
   ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 8, 8)
   ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
-  ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 8, 8)
-  dpi.PushScale()
 end
 
 function style.PopTheme()
   ImGui.PopStyleColor(25)
-  ImGui.PopStyleVar(3)
-  dpi.PopScale()
+  ImGui.PopStyleVar(2)
 end
 
 return style

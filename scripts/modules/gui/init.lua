@@ -23,9 +23,11 @@ end
 
 function gui.Initialize()
   if not m_initialized then
-    m_showUninstall = CETMM.GetBackEnd().GetUninstall().IsAsiRemoved()
+    m_showUninstall = CETMM.IsUninstalled()
     m_dpi.Initialize()
-    m_window.Initialize()
+    if not m_showUninstall then
+      m_window.Initialize()
+    end
     m_initialized = true
   end
 end

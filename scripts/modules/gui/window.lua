@@ -36,12 +36,12 @@ local layout = {
 }
 
 local function renderAboutWindow()
-  window.m_draw_about = ImGui.Begin(window.m_about_title, window.m_draw_about, ImGuiWindowFlags.NoSavedSettings)
+  window.m_draw_about = ImGui.Begin(window.m_about_title, window.m_draw_about, bit32.bor(ImGuiWindowFlags.NoSavedSettings, ImGuiWindowFlags.NoResize))
   if window.m_draw_about then
-    ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 300 * dpi.GetScale(),
-                         dpi.GetDisplayResolution().y * 0.1 * dpi.GetScale(),
+    ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - dpi.Scale(300),
+                          dpi.Scale(dpi.GetDisplayResolution().y * 0.1),
                          ImGuiCond.FirstUseEver)
-    ImGui.SetWindowSize(600 * dpi.GetScale(),
+    ImGui.SetWindowSize(dpi.Scale(600),
                         dpi.GetDisplayResolution().y * 0.8, ImGuiCond.FirstUseEver)
     ImGui.Text(window.m_about_text)
     ImGui.End()
@@ -51,9 +51,12 @@ end
 ---@param aFile string
 ---@return string
 local function loadFile(aFile)
+  local text = ""
   local file = io.open(aFile)
-  local text = file:read("*a")
-  file:close()
+  if file ~= nil then
+    text = file:read("*a")
+    file:close()
+  end
   return text
 end
 
@@ -118,17 +121,11 @@ end
 -- end
 
 local function settings_popup()
-  ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 8 * dpi.GetScale(), 12 * dpi.GetScale())
+  ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, dpi.Scale(8), dpi.Scale(12))
   if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
-    ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, 8 * dpi.GetScale(), 15 * dpi.GetScale())
+    ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, dpi.Scale(8), dpi.Scale(15))
     ImGui.Text(i18n("text_select_settings"))
-    
-    options.m_autoscan = widgets.btnToggle({
-      i18n("button_autoscan_on"), i18n("button_autoscan_off"),
-    }, options.m_autoscan)
-    
-    ImGui.SameLine()
-    
+
     options.m_autoappear = widgets.btnToggle({
       i18n("button_autoappear_on"), i18n("button_autoappear_off"),
     }, options.m_autoappear)
@@ -159,7 +156,7 @@ local function settings_popup()
       ImGui.SameLine()
       
       ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0) -- Menu item height
-      if ImGui.Button("?", ImGui.GetFontSize() + 2 * dpi.GetScale(), ImGui.GetFontSize() + 2 * dpi.GetScale()) then
+      if ImGui.Button("?", ImGui.GetFontSize() + dpi.Scale(2), ImGui.GetFontSize() + dpi.Scale(2)) then
         CETMM.GetBackEnd().OpenUrl("font_wiki")
       end
       if ImGui.IsItemHovered() then
@@ -241,7 +238,7 @@ function window.Render()
       ImGui.TableSetColumnIndex(1)
 
       -- Scan Button
-      if ImGui.Button(i18n("button_scan")) then
+      if widgets.button(i18n("button_scan")) then
         mods.Scan()
         dofiles.Scan()
       end
@@ -251,7 +248,7 @@ function window.Render()
       ImGui.SameLine()
 
       -- Settings Button
-      if ImGui.Button("!", layout.header_btn_height, layout.header_btn_height) then
+      if widgets.button("!", layout.header_btn_height, layout.header_btn_height) then
         ImGui.OpenPopup("Settings")
       end
       if ImGui.IsItemHovered() then
@@ -304,6 +301,7 @@ function window.Render()
 
     -- Mod List
     layout._, layout.tb_modlist_height = ImGui.GetContentRegionAvail()
+    ImGui.PushStyleVar(ImGuiStyleVar.CellPadding, dpi.Scale(4), dpi.Scale(6))
     if ImGui.BeginTable("mod_list", 2, bit32.bor(
                           ImGuiTableFlags.NoSavedSettings,
                           ImGuiTableFlags.ScrollY), 0,
@@ -351,7 +349,7 @@ function window.Render()
           for _, entry in ipairs(dofiles.Get()) do
             ImGui.TableNextRow(ImGuiTableRowFlags.None, 30 * dpi.GetScale())
             ImGui.TableSetColumnIndex(0)
-            if ImGui.Button(i18n("button_dofile_run").."##" .. entry:GetName()) then
+            if widgets.button(i18n("button_dofile_run").."##" .. entry:GetName()) then
               entry:Run()
             end
             ImGui.TableSetColumnIndex(1)
@@ -362,6 +360,7 @@ function window.Render()
 
       ImGui.EndTable()
     end
+    ImGui.PopStyleVar(1)
 
     -- Footer Buttons
     if ImGui.BeginTable("footer_btns", 2, ImGuiTableFlags.NoSavedSettings) then
@@ -370,13 +369,13 @@ function window.Render()
       ImGui.TableNextRow()
       ImGui.TableSetColumnIndex(0)
 
-      if ImGui.Button(i18n("button_mods_folder")) then
+      if widgets.button(i18n("button_mods_folder")) then
         CETMM.GetBackEnd().OpenModsFolder()
       end
 
       ImGui.SameLine()
 
-      if ImGui.Button(i18n("button_dofile_folder")) then
+      if widgets.button(i18n("button_dofile_folder")) then
         CETMM.GetBackEnd().OpenDofilesFolder()
       end
 

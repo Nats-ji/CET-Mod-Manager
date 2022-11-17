@@ -11,6 +11,7 @@ local m_locale  ---@type locale
 local m_dofiles ---@type dofiles
 local m_version ---@type string
 local m_backend ---@type backend
+local m_uninstalled = false
 
 -- function CETMM.GetModList()
 --   return m_core.mods
@@ -72,6 +73,10 @@ function CETMM.GetBackEnd()
   return m_backend
 end
 
+function CETMM.IsUninstalled()
+  return m_uninstalled
+end
+
 function CETMM.Initialize()
   -- m_api = require ("modules/api")
   m_options = require ("modules/options")
@@ -91,8 +96,11 @@ function CETMM.Initialize()
   registerForEvent("onInit", function()
   -- init
   m_backend = require ("modules/backend")
-  m_backend.GetMods().Scan()
-  m_dofiles.Scan()
+  m_uninstalled = m_backend.GetUninstall().IsAsiRemoved()
+  if not m_uninstalled then
+    m_backend.GetMods().Scan()
+    m_dofiles.Scan()
+  end
   m_gui = require ("modules/gui")
   end)
 end
@@ -104,8 +112,10 @@ function CETMM.Update()
 end
 
 function CETMM.Event() -- Hotkey, Console event..
-  m_event.Register()
-  m_hotkeys.Register()
+  if not m_uninstalled then
+    m_event.Register()
+    m_hotkeys.Register()
+  end
 end
 
 function CETMM.Render()
