@@ -7,19 +7,22 @@
 
 Download: https://github.com/Nats-ji/CET-Mod-Manager/releases/
 
+Nexusmods: https://www.nexusmods.com/cyberpunk2077/mods/895
+
 - A Mod Manager for CyberEngineTweaks based mods
 - Enable/Disable CyberEngineTweaks based mods inside game with a single click
 - Open the interface by pressing the hotkey you bound in CET
-- An API for other mods to request for a list of mods (Archive mods, ASI plugins, CET mods, Redscripts, Red4Ext plugins) loaded by the game.
 
 
 ![imgage](https://staticdelivery.nexusmods.com/mods/3333/images/895/895-1610480969-1242777005.png)
 
 ## Installation
 
-This mod requires the latest version of **Cyber Engine Tweaks** Mod. Please Install it first. https://github.com/yamashi/CyberEngineTweaks/releases
+This mod requires:
+1. the latest version of **Cyber Engine Tweaks** Mod. [[nexusmods]](https://www.nexusmods.com/cyberpunk2077/mods/107) | [[github]](https://github.com/yamashi/CyberEngineTweaks)
+2. the latest version of **Red4EXT**. [[nexusmods]](https://www.nexusmods.com/cyberpunk2077/mods/2380) | [[github]](https://github.com/WopsS/RED4ext)
 
-Put `cet_mod_manager.asi` inside `\Cyberpunk 2077\bin\x64\plugins\`
+Extract `bin` into the root directory of Cyberpunk2077's install path.
 
 Restart the game.
 
@@ -27,7 +30,7 @@ Restart the game.
 
 1. To use it, you just simply press `hotkey` you bound to open the inertface.
 
-2. Press the button `Scan` to scan your installed mods. (Set the game to `Borderless Windows` mode to avoid being thrown out to the desktop.)
+2. Press the button `Scan` to scan your installed mods.
 
 3. Tick/untick the checkbox in front of the mod name to enable/disable them.
 
@@ -36,7 +39,7 @@ Restart the game.
 ### Change language
 Check this [guide](https://wiki.redmodding.org/cyber-engine-tweaks/getting-started/configuration/change-font-and-font-size#how-to-display-non-english-characters) for more information.
 
-### API
+### API (deprecated)
 
 1. To use the API (currently only supports CET) to query the mod list
    ```lua
@@ -62,8 +65,6 @@ Check this [guide](https://wiki.redmodding.org/cyber-engine-tweaks/getting-start
 1. Before you uninstall this mod, make sure you have **re-enabled** all the mods.
 
 2. Remove `cet_mod_manager.asi` from `\Cyberpunk 2077\bin\x64\plugins\`
-
-3. Remove the `cet_mod_manager` folder from `\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\`
 
 ## Translations
 - English

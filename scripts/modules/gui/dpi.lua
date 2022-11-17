@@ -35,7 +35,7 @@ end
 
 function dpi.Initialize()
   m_displayRes.x, m_displayRes.y = GetDisplayResolution()
-  m_fontscale = ImGui.GetFontSize()/13
+  m_fontscale = ImGui.GetFontSize()/18
   m_defaultVars = get_vars()
 end
 
@@ -46,6 +46,10 @@ end
 
 function dpi.GetScale()
   return m_fontscale
+end
+
+function dpi.Scale(aNumber)
+  return aNumber * m_fontscale
 end
 
 function dpi.PushScale()

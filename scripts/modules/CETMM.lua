@@ -1,45 +1,45 @@
 ---@class CETMM
 local CETMM = {}
 
-local m_api
-local m_core
-local m_gui
-local m_event
-local m_hotkeys
-local m_auth
-local m_options
-local m_font
-local m_locale
-local m_dofiles
-local m_version
+-- local m_api
+local m_gui     ---@type gui
+local m_event   ---@type event
+local m_hotkeys ---@type hotkeys
+local m_options ---@type options
+-- local m_font
+local m_locale  ---@type locale
+local m_dofiles ---@type dofiles
+local m_version ---@type string
+local m_backend ---@type backend
+local m_uninstalled = false
 
-function CETMM.GetModList()
-  return m_core.mods
-end
+-- function CETMM.GetModList()
+--   return m_core.mods
+-- end
 
-function CETMM.GetEnums()
-  return m_core.enums
-end
+-- function CETMM.GetEnums()
+--   return m_core.enums
+-- end
 
-function CETMM.GetHelper()
-  return m_core.helper
-end
+-- function CETMM.GetHelper()
+--   return m_core.helper
+-- end
 
-function CETMM.GetScanSystem()
-  return m_core.scan
-end
+-- function CETMM.GetScanSystem()
+--   return m_core.scan
+-- end
 
-function CETMM.GetModOpEx()
-  return m_core.modopex
-end
+-- function CETMM.GetModOpEx()
+--   return m_core.modopex
+-- end
 
-function CETMM.GetPaths()
-  return m_core.paths
-end
+-- function CETMM.GetPaths()
+--   return m_core.paths
+-- end
 
-function CETMM.GetCETConfig()
-  return m_core.cetconfig
-end
+-- function CETMM.GetCETConfig()
+--   return m_core.cetconfig
+-- end
 
 function CETMM.GetUISystem()
   return m_gui
@@ -49,13 +49,13 @@ function CETMM.GetOptions()
   return m_options
 end
 
-function CETMM.GetFont()
-  return m_font
-end
+-- function CETMM.GetFont()
+--   return m_font
+-- end
 
-function CETMM.GetAPI()
-  return m_api
-end
+-- function CETMM.GetAPI()
+--   return m_api
+-- end
 
 function CETMM.GetLocale()
   return m_locale
@@ -69,12 +69,18 @@ function CETMM.GetVersion()
   return m_version
 end
 
+function CETMM.GetBackEnd()
+  return m_backend
+end
+
+function CETMM.IsUninstalled()
+  return m_uninstalled
+end
+
 function CETMM.Initialize()
-  m_auth = require ("modules/auth")
-  m_core = m_auth.GetCore()
-  m_api = require ("modules/api")
+  -- m_api = require ("modules/api")
   m_options = require ("modules/options")
-  m_font = require("modules/font")
+  -- m_font = require("modules/font")
   m_locale = require ("modules/locale")
   m_dofiles = require ("modules/dofiles")
   m_event = require ("modules/event")
@@ -85,16 +91,17 @@ function CETMM.Initialize()
   m_options.Load()
   m_locale.Initialize()
 
-  m_font.Initialize()
+  -- m_font.Initialize()
 
   registerForEvent("onInit", function()
   -- init
-  m_dofiles.Scan()
-  if m_options.m_autoscan then
-    m_core.scan.ScanALL()
+  m_backend = require ("modules/backend")
+  m_uninstalled = m_backend.GetUninstall().IsAsiRemoved()
+  if not m_uninstalled then
+    m_backend.GetMods().Scan()
+    m_dofiles.Scan()
   end
   m_gui = require ("modules/gui")
-  m_gui.Initialize()
   end)
 end
 
@@ -105,12 +112,15 @@ function CETMM.Update()
 end
 
 function CETMM.Event() -- Hotkey, Console event..
-  m_event.Register()
-  m_hotkeys.Register()
+  if not m_uninstalled then
+    m_event.Register()
+    m_hotkeys.Register()
+  end
 end
 
 function CETMM.Render()
   registerForEvent("onDraw", function()
+    m_gui.Initialize()
     m_gui.GetStyle().PushTheme()
     m_gui.Render()
     m_gui.GetStyle().PopTheme()

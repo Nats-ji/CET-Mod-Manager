@@ -20,8 +20,9 @@
 ![](https://mod.3dmgame.com/ueditor/php/upload/image/20210114/1610567995552748.png) ![](https://mod.3dmgame.com/ueditor/php/upload/image/20210114/1610567995298943.png)
 
 # 安装
-1. 首先安装 控制台MOD Cyber Engine Tweaks 最新版
-2. 解压后把 `bin` 文件夹放到游戏安装主路径
+1. 首先安装最新版 [Cyber Engine Tweaks](https://www.nexusmods.com/cyberpunk2077/mods/107)
+2. 其次安装最新版 [Red4EXT](https://www.nexusmods.com/cyberpunk2077/mods/2380)
+3. 解压后把 `bin` 文件夹放到游戏安装主路径
 
 - 安装后目录应该像这样
 
@@ -47,7 +48,6 @@
 # 卸载
 1. 先把所有mod都重新启用
 2. 删除 `<赛博朋克2077的安装路径>/bin/x64/plugins/` 里的 `cet_mod_manager.asi`
-3. 删除 `<赛博朋克2077的安装路径>/bin/x64/plugins/cyber_engine_tweaks/mods/` 里的 `cet_mod_manager`文件夹
 
 # 目前支持的语言
 - 英文

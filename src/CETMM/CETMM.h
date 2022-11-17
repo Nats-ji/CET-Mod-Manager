@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Paths.h"
-#include "ScanMods.h"
-#include "ScriptPatch.h"
-#include "Update.h"
-#include "Fonts.h"
+#include "EXT/Mods.h"
+#include "EXT/Fonts.h"
+#include "EXT/CETMMEXT.h"
+#include "EXT/Uninstall.h"
 
 class CETMM
 {
@@ -14,10 +14,13 @@ public:
   static CETMM& Get();
 
   static const Paths& GetPaths();
-  static ScanMods& GetScanMods();
-  static ScriptPatch& GetScriptPatch();
-  static Update& GetUpdate();
+  static Mods& GetMods();
   static Fonts& GetFonts();
+  static CETMMEXT& GetCETMMEXT();
+  static Uninstall& GetUninstall();
+
+  static const bool ShouldRestart();
+  static void SetRestart(bool aRestart);
 
   CETMM(const CETMM&) = delete;
   CETMM(CETMM&&) = delete;
@@ -28,9 +31,12 @@ private:
   CETMM() {}
   ~CETMM() {}
 
+  void restartGame();
+
   Paths m_paths;
-  ScanMods m_scanMods;
-  ScriptPatch m_scriptPatch;
-  Update m_update;
+  Mods m_mods;
   Fonts m_fonts;
+  CETMMEXT m_cetmmext;
+  Uninstall m_uninstall;
+  bool m_restart {false};
 };

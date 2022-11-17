@@ -7,14 +7,14 @@ static void Initialize()
     try
     {
         //Single instance check
-        hMutexHandle = CreateMutex(NULL, TRUE, L"CETMM");
+        hMutexHandle = CreateMutex(NULL, TRUE, L"CETMM_Installer");
         if (GetLastError() == ERROR_ALREADY_EXISTS)
         {
             return;
         }
-
+        
         spdlog::set_default_logger(CreateLogger());
-        CETMM::Initialize();
+        Installer::Initialize();
     }
     catch (...)
     {}
@@ -22,13 +22,7 @@ static void Initialize()
 
 static void Shutdown()
 {
-    CETMM::Shutdown();
-
-    if (hMutexHandle)
-    {
-        ReleaseMutex(hMutexHandle);
-        CloseHandle(hMutexHandle);
-    }
+    Installer::Shutdown();
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
