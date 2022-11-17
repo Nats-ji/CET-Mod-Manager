@@ -102,7 +102,7 @@ jobs:
             UNEX_GAME: ${{ env.META_UNEX_GAME }}
             UNEX_MODID: ${{ env.META_UNEX_MODID }}
             UNEX_PREVIOUSFILE: auto
-            UNEX_FILENAME: ${{ env.UNEX_FILE_NAME }}
+            UNEX_FILENAME: ${{ env.META_UNEX_FILENAME }}
             UNEX_FILEDESCRIPTION: ${{ github.event.release.body }}
             UNEX_FILEPATH: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
             UNEX_VERSION: ${{ github.event.release.tag_name }}
