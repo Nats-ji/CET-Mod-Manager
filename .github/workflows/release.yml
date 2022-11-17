@@ -61,6 +61,7 @@ jobs:
           omitBodyDuringUpdate: true
           artifacts: "${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: ${{ github.event.release.prerelease }}
 
   release-nexus:
     runs-on: ubuntu-latest
