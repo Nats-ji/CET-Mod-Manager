@@ -160,14 +160,17 @@ themeWhite.hvr_colors = {
 ---@param aGuiColor string
 ---@return float[]
 function themeWhite.GetStyleColor(self, aGuiColor)
-    if self.states.HVR then
-        return self.hvr_colors[aGuiColor]
-    end
+	for window, hovering in pairs(self.states) do
+		if hovering then
+			return self.hvr_colors[aGuiColor]
+		end
+	end
     return self.def_colors[aGuiColor]
 end
 
-function themeWhite.GetHoverState(self)
-	self.states.HVR = ImGui.IsWindowHovered(bit32.bor(ImGuiHoveredFlags.AnyWindow, ImGuiHoveredFlags.AllowWhenBlockedByActiveItem, ImGuiHoveredFlags.AllowWhenBlockedByPopup, ImGuiHoveredFlags.AllowWhenDisabled))
+---@param aWindow string
+function themeWhite.GetHoverState(self, aWindow)
+	self.states[aWindow] = ImGui.IsWindowHovered(bit32.bor(ImGuiHoveredFlags.RootAndChildWindows, ImGuiHoveredFlags.AllowWhenBlockedByActiveItem, ImGuiHoveredFlags.AllowWhenBlockedByPopup, ImGuiHoveredFlags.AllowWhenDisabled))
 end
 
 return themeWhite

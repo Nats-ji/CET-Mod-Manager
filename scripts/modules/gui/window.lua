@@ -4,7 +4,6 @@ local i18n = require("modules/i18n")
 local languages = require("lang/lang")
 local widgets = require("modules/gui/widgets")
 local themeSys = require("modules/gui/themeSys")
-local theme = themeSys.GetCurrentTheme()
 local options = CETMM.GetOptions()
 local mods = CETMM.GetBackEnd().GetMods()
 local dofiles = CETMM.GetDofiles()
@@ -38,6 +37,7 @@ local layout = {
 local function renderAboutWindow()
   window.m_draw_about = ImGui.Begin(window.m_about_title, window.m_draw_about, bit32.bor(ImGuiWindowFlags.NoSavedSettings, ImGuiWindowFlags.NoResize))
   if window.m_draw_about then
+    themeSys.GetCurrentTheme():CallIf("white", "GetHoverState", "about")
     ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - dpi.Scale(300),
                           dpi.Scale(dpi.GetDisplayResolution().y * 0.1),
                          ImGuiCond.FirstUseEver)
@@ -214,13 +214,10 @@ function window.Initialize()
 end
 
 function window.Render()
-  if ImGui.Button("Click") then
-    print(#theme)
-  end
   window.m_draw = ImGui.Begin(i18n("window_title"), window.m_draw)
   if window.m_draw then
     -- Hover check for white theme
-    theme:CallIf("white", "GetHoverState")
+    themeSys.GetCurrentTheme():CallIf("white", "GetHoverState", "main")
     -- Set window size and position
     ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 210 * dpi.GetScale(),
                        dpi.GetDisplayResolution().y / 2 - 320 * dpi.GetScale(),
@@ -290,7 +287,7 @@ function window.Render()
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_manager_5"))
       else
-        themeSys.PushColor(ImGuiCol.Text, theme:GetStyleColor("AltText"))
+        themeSys.PushColor(ImGuiCol.Text, themeSys.GetCurrentTheme():GetStyleColor("AltText"))
         ImGui.TextWrapped(i18n("text_help_dofiles_1"))
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_dofiles_2"))
@@ -385,7 +382,7 @@ function window.Render()
         CETMM.GetBackEnd().OpenDofilesFolder()
       end
 
-      theme:CallIf("ua_special", "RenderFooter")
+      themeSys.GetCurrentTheme():CallIf("ua_special", "RenderFooter")
 
       ImGui.EndTable()
     end

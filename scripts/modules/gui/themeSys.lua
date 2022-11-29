@@ -1,12 +1,13 @@
 local CETMM = require("modules/CETMM")
 ---@class themeSys
-local themeSys = {}
-local themes = {
-    default = require("modules/gui/themes/default"),
-    ua_special = require("modules/gui/themes/ua_special"),
-    white = require("modules/gui/themes/white"),
+local themeSys = {
+    themes = {
+        default = require("modules/gui/themes/default"),
+        ua_special = require("modules/gui/themes/ua_special"),
+        white = require("modules/gui/themes/white"),
+    },
+    currentTheme = {} ---@type baseTheme
 }
-local currentTheme = {} ---@type baseTheme
 
 function themeSys.Initialize()
     local theme = CETMM.GetOptions().m_theme
@@ -17,20 +18,20 @@ end
 ---@param aTheme string
 ---@param aNoSave? bool
 function themeSys.Load(aTheme, aNoSave)
-    if themes[aTheme] then
-        currentTheme = themes[aTheme]
+    if themeSys.themes[aTheme] then
+        themeSys.currentTheme = themeSys.themes[aTheme]
     else
-        currentTheme = themes.default
+        themeSys.currentTheme = themeSys.themes.default
         spdlog.error(string.format("Failed to load theme %s, loaded default theme instead.", aTheme))
     end
-    if aNoSave then
-        CETMM.GetOptions().m_theme = currentTheme:GetName()
+    if not aNoSave then
+        CETMM.GetOptions().m_theme = themeSys.currentTheme:GetName()
         CETMM.GetOptions().Save()
     end
 end
 
 function themeSys.GetCurrentTheme()
-    return currentTheme
+    return themeSys.currentTheme
 end
 
 ---@param aStyle ImGuiCol
@@ -40,31 +41,31 @@ function themeSys.PushColor(aStyle, aColor)
 end
 
 function themeSys.PushTheme()
-    themeSys.PushColor(ImGuiCol.TitleBg,              currentTheme:GetStyleColor("TitleBg"              ))
-    themeSys.PushColor(ImGuiCol.TitleBgCollapsed,     currentTheme:GetStyleColor("TitleBgCollapsed"     ))
-    themeSys.PushColor(ImGuiCol.TitleBgActive,        currentTheme:GetStyleColor("TitleBgActive"        ))
-    themeSys.PushColor(ImGuiCol.Border,               currentTheme:GetStyleColor("Border"               ))
-    themeSys.PushColor(ImGuiCol.WindowBg,             currentTheme:GetStyleColor("WindowBg"             ))
-    themeSys.PushColor(ImGuiCol.ScrollbarBg,          currentTheme:GetStyleColor("ScrollbarBg"          ))
-    themeSys.PushColor(ImGuiCol.ScrollbarGrab,        currentTheme:GetStyleColor("ScrollbarGrab"        ))
-    themeSys.PushColor(ImGuiCol.ScrollbarGrabHovered, currentTheme:GetStyleColor("ScrollbarGrabHovered" ))
-    themeSys.PushColor(ImGuiCol.ScrollbarGrabActive,  currentTheme:GetStyleColor("ScrollbarGrabActive"  ))
-    themeSys.PushColor(ImGuiCol.ResizeGrip,           currentTheme:GetStyleColor("ResizeGrip"           ))
-    themeSys.PushColor(ImGuiCol.ResizeGripHovered,    currentTheme:GetStyleColor("ResizeGripHovered"    ))
-    themeSys.PushColor(ImGuiCol.ResizeGripActive,     currentTheme:GetStyleColor("ResizeGripActive"     ))
-    themeSys.PushColor(ImGuiCol.Text,                 currentTheme:GetStyleColor("Text"                 ))
-    themeSys.PushColor(ImGuiCol.Header,               currentTheme:GetStyleColor("Header"               ))
-    themeSys.PushColor(ImGuiCol.HeaderHovered,        currentTheme:GetStyleColor("HeaderHovered"        ))
-    themeSys.PushColor(ImGuiCol.HeaderActive,         currentTheme:GetStyleColor("HeaderActive"         ))
-    themeSys.PushColor(ImGuiCol.CheckMark,            currentTheme:GetStyleColor("CheckMark"            ))
-    themeSys.PushColor(ImGuiCol.FrameBg,              currentTheme:GetStyleColor("FrameBg"              ))
-    themeSys.PushColor(ImGuiCol.FrameBgHovered,       currentTheme:GetStyleColor("FrameBgHovered"       ))
-    themeSys.PushColor(ImGuiCol.FrameBgActive,        currentTheme:GetStyleColor("FrameBgActive"        ))
-    themeSys.PushColor(ImGuiCol.Button,               currentTheme:GetStyleColor("Button"               ))
-    themeSys.PushColor(ImGuiCol.ButtonHovered,        currentTheme:GetStyleColor("ButtonHovered"        ))
-    themeSys.PushColor(ImGuiCol.ButtonActive,         currentTheme:GetStyleColor("ButtonActive"         ))
-    themeSys.PushColor(ImGuiCol.Separator,            currentTheme:GetStyleColor("Separator"            ))
-    themeSys.PushColor(ImGuiCol.PopupBg,              currentTheme:GetStyleColor("PopupBg"              ))
+    themeSys.PushColor(ImGuiCol.TitleBg,              themeSys.currentTheme:GetStyleColor("TitleBg"              ))
+    themeSys.PushColor(ImGuiCol.TitleBgCollapsed,     themeSys.currentTheme:GetStyleColor("TitleBgCollapsed"     ))
+    themeSys.PushColor(ImGuiCol.TitleBgActive,        themeSys.currentTheme:GetStyleColor("TitleBgActive"        ))
+    themeSys.PushColor(ImGuiCol.Border,               themeSys.currentTheme:GetStyleColor("Border"               ))
+    themeSys.PushColor(ImGuiCol.WindowBg,             themeSys.currentTheme:GetStyleColor("WindowBg"             ))
+    themeSys.PushColor(ImGuiCol.ScrollbarBg,          themeSys.currentTheme:GetStyleColor("ScrollbarBg"          ))
+    themeSys.PushColor(ImGuiCol.ScrollbarGrab,        themeSys.currentTheme:GetStyleColor("ScrollbarGrab"        ))
+    themeSys.PushColor(ImGuiCol.ScrollbarGrabHovered, themeSys.currentTheme:GetStyleColor("ScrollbarGrabHovered" ))
+    themeSys.PushColor(ImGuiCol.ScrollbarGrabActive,  themeSys.currentTheme:GetStyleColor("ScrollbarGrabActive"  ))
+    themeSys.PushColor(ImGuiCol.ResizeGrip,           themeSys.currentTheme:GetStyleColor("ResizeGrip"           ))
+    themeSys.PushColor(ImGuiCol.ResizeGripHovered,    themeSys.currentTheme:GetStyleColor("ResizeGripHovered"    ))
+    themeSys.PushColor(ImGuiCol.ResizeGripActive,     themeSys.currentTheme:GetStyleColor("ResizeGripActive"     ))
+    themeSys.PushColor(ImGuiCol.Text,                 themeSys.currentTheme:GetStyleColor("Text"                 ))
+    themeSys.PushColor(ImGuiCol.Header,               themeSys.currentTheme:GetStyleColor("Header"               ))
+    themeSys.PushColor(ImGuiCol.HeaderHovered,        themeSys.currentTheme:GetStyleColor("HeaderHovered"        ))
+    themeSys.PushColor(ImGuiCol.HeaderActive,         themeSys.currentTheme:GetStyleColor("HeaderActive"         ))
+    themeSys.PushColor(ImGuiCol.CheckMark,            themeSys.currentTheme:GetStyleColor("CheckMark"            ))
+    themeSys.PushColor(ImGuiCol.FrameBg,              themeSys.currentTheme:GetStyleColor("FrameBg"              ))
+    themeSys.PushColor(ImGuiCol.FrameBgHovered,       themeSys.currentTheme:GetStyleColor("FrameBgHovered"       ))
+    themeSys.PushColor(ImGuiCol.FrameBgActive,        themeSys.currentTheme:GetStyleColor("FrameBgActive"        ))
+    themeSys.PushColor(ImGuiCol.Button,               themeSys.currentTheme:GetStyleColor("Button"               ))
+    themeSys.PushColor(ImGuiCol.ButtonHovered,        themeSys.currentTheme:GetStyleColor("ButtonHovered"        ))
+    themeSys.PushColor(ImGuiCol.ButtonActive,         themeSys.currentTheme:GetStyleColor("ButtonActive"         ))
+    themeSys.PushColor(ImGuiCol.Separator,            themeSys.currentTheme:GetStyleColor("Separator"            ))
+    themeSys.PushColor(ImGuiCol.PopupBg,              themeSys.currentTheme:GetStyleColor("PopupBg"              ))
 
     ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 8, 8)
     ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
