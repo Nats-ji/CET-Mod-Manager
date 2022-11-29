@@ -139,12 +139,16 @@ local function settings_popup()
 
     -- Theme
     if ImGui.BeginMenu("Theme") then
-      if ImGui.MenuItem("Default", "", options.m_theme == "default") then
+      if select(2, ImGui.MenuItem("Default", "", options.m_theme == "default")) then
         options.m_theme = "default"
         theme.Load()
       end
-      if ImGui.MenuItem("UA Special", "", options.m_theme == "ua_special") then
+      if select(2, ImGui.MenuItem("UA Special", "", options.m_theme == "ua_special")) then
         options.m_theme = "ua_special"
+        theme.Load()
+      end
+      if select(2, ImGui.MenuItem("White", "", options.m_theme == "white")) then
+        options.m_theme = "white"
         theme.Load()
       end
       ImGui.EndMenu()
@@ -164,7 +168,7 @@ local function settings_popup()
       end
 
       for _, entry in ipairs(languages) do
-        if ImGui.MenuItem(entry.name, "", options.m_lang == entry.id) then
+        if select(2, ImGui.MenuItem(entry.name, "", options.m_lang == entry.id)) then
           options.m_lang = entry.id
           CETMM.GetLocale().SetLocale()
         end
@@ -215,6 +219,8 @@ end
 function window.Render()
   window.m_draw = ImGui.Begin(i18n("window_title"), window.m_draw)
   if window.m_draw then
+    -- Hover check for white theme
+    theme.HVR = ImGui.IsWindowHovered(bit32.bor(ImGuiHoveredFlags.AnyWindow, ImGuiHoveredFlags.AllowWhenBlockedByActiveItem, ImGuiHoveredFlags.AllowWhenBlockedByPopup, ImGuiHoveredFlags.AllowWhenDisabled))
     -- Set window size and position
     ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 210 * dpi.GetScale(),
                        dpi.GetDisplayResolution().y / 2 - 320 * dpi.GetScale(),

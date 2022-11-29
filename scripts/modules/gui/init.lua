@@ -25,7 +25,10 @@ function gui.Initialize()
   if not m_initialized then
     m_showUninstall = CETMM.IsUninstalled()
     m_dpi.Initialize()
-    if not m_showUninstall then
+    if m_showUninstall then
+      m_style.GetTheme().LoadDefault()
+    else
+      m_style.Initialize()
       m_window.Initialize()
     end
     m_initialized = true
@@ -33,11 +36,13 @@ function gui.Initialize()
 end
 
 function gui.Render()
+  m_style.PushTheme()
   if m_showUninstall then
     m_windows.uninstall.Render()
   else
     m_window.Render()
   end
+  m_style.PopTheme()
 end
 
 return gui

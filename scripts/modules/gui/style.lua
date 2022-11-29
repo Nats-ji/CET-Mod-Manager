@@ -2,6 +2,14 @@
 local style = {}
 local theme = require ("modules/gui/theme")
 
+function style.Initialize()
+  theme.Load()
+end
+
+function style.GetTheme()
+  return theme
+end
+
 ---@param aStyle number
 ---@param aColor number[]
 function style.PushColor(aStyle, aColor)
@@ -9,6 +17,7 @@ function style.PushColor(aStyle, aColor)
 end
 
 function style.PushTheme()
+  theme:Push()
   style.PushColor(ImGuiCol.TitleBg,              theme.TitleBg)
   style.PushColor(ImGuiCol.TitleBgCollapsed,     theme.TitleBgCollapsed)
   style.PushColor(ImGuiCol.TitleBgActive,        theme.TitleBgActive)
