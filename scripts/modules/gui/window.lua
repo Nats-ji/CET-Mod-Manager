@@ -3,8 +3,8 @@ local dpi = require("modules/gui/dpi")
 local i18n = require("modules/i18n")
 local languages = require("lang/lang")
 local widgets = require("modules/gui/widgets")
-local style = require("modules/gui/style")
-local theme = require("modules/gui/theme")
+local themeSys = require("modules/gui/themeSys")
+local theme = themeSys.GetCurrentTheme()
 local options = CETMM.GetOptions()
 local mods = CETMM.GetBackEnd().GetMods()
 local dofiles = CETMM.GetDofiles()
@@ -140,16 +140,13 @@ local function settings_popup()
     -- Theme
     if ImGui.BeginMenu("Theme") then
       if select(2, ImGui.MenuItem("Default", "", options.m_theme == "default")) then
-        options.m_theme = "default"
-        theme.Load()
+        themeSys.Load("default")
       end
       if select(2, ImGui.MenuItem("UA Special", "", options.m_theme == "ua_special")) then
-        options.m_theme = "ua_special"
-        theme.Load()
+        themeSys.Load("ua_special")
       end
       if select(2, ImGui.MenuItem("White", "", options.m_theme == "white")) then
-        options.m_theme = "white"
-        theme.Load()
+        themeSys.Load("white")
       end
       ImGui.EndMenu()
     end
@@ -217,10 +214,13 @@ function window.Initialize()
 end
 
 function window.Render()
+  if ImGui.Button("Click") then
+    print(#theme)
+  end
   window.m_draw = ImGui.Begin(i18n("window_title"), window.m_draw)
   if window.m_draw then
     -- Hover check for white theme
-    theme.HVR = ImGui.IsWindowHovered(bit32.bor(ImGuiHoveredFlags.AnyWindow, ImGuiHoveredFlags.AllowWhenBlockedByActiveItem, ImGuiHoveredFlags.AllowWhenBlockedByPopup, ImGuiHoveredFlags.AllowWhenDisabled))
+    theme:CallIf("white", "GetHoverState")
     -- Set window size and position
     ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 210 * dpi.GetScale(),
                        dpi.GetDisplayResolution().y / 2 - 320 * dpi.GetScale(),
@@ -290,7 +290,7 @@ function window.Render()
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_manager_5"))
       else
-        style.PushColor(ImGuiCol.Text, theme.AltText)
+        themeSys.PushColor(ImGuiCol.Text, theme:GetStyleColor("AltText"))
         ImGui.TextWrapped(i18n("text_help_dofiles_1"))
         ImGui.Spacing()
         ImGui.TextWrapped(i18n("text_help_dofiles_2"))
@@ -385,12 +385,7 @@ function window.Render()
         CETMM.GetBackEnd().OpenDofilesFolder()
       end
 
-      if options.m_theme == "ua_special" then
-      ImGui.TableSetColumnIndex(1)
-      style.PushColor(ImGuiCol.Text, theme.Border)
-      ImGui.Text("We stand with Ukraine!")
-      ImGui.PopStyleColor(1)
-      end
+      theme:CallIf("ua_special", "RenderFooter")
 
       ImGui.EndTable()
     end

@@ -1,0 +1,87 @@
+local baseTheme = require("modules/gui/themes/baseTheme")
+
+---@class themeUA : baseTheme
+local themeUA = baseTheme("ua_special")
+
+themeUA.colors = {
+	Text                                =           { 0.96, 0.81, 0.00, 1    },
+	TextDisabled                        =           { 0.48, 0.39, 0.40, 1    },
+	WindowBg                            =           { 0.05, 0.11, 0.18, 0.9  },
+	ChildBg                             =           { 0.05, 0.11, 0.18, 0.9  },
+	PopupBg                             =           { 0.05, 0.11, 0.18, 0.9  },
+	Border                              =           { 0.60, 0.51, 0.00, 1    },
+	BorderShadow                        =           { 0   , 0   , 0   , 0    },
+	FrameBg                             =           { 0.00, 0.35, 0.71, 1    },
+	FrameBgHovered                      =           { 0.00, 0.44, 0.90, 1    },
+	FrameBgActive                       =           { 0.00, 0.35, 0.71, 1    },
+	FrameBgDisabled                     =           { 0.48, 0.39, 0.40, 1    },
+	FrameBgHoveredDisabled              =           { 0.48, 0.39, 0.40, 1    },
+	FrameBgActiveDisabled               =           { 0.48, 0.39, 0.40, 1    },
+	TitleBg                             =           { 0.05, 0.11, 0.18, 0.9  },
+	TitleBgActive                       =           { 0.05, 0.11, 0.18, 0.9  },
+	TitleBgCollapsed                    =           { 0.05, 0.11, 0.18, 0.9  },
+	MenuBarBg                           =           { 0.05, 0.11, 0.18, 0.9  },
+	ScrollbarBg                         =           { 0.06, 0.04, 0.06, 0    },
+	ScrollbarGrab                       =           { 0.00, 0.35, 0.71, 1    },
+	ScrollbarGrabHovered                =           { 0.00, 0.44, 0.90, 1    },
+	ScrollbarGrabActive                 =           { 0.00, 0.35, 0.71, 1    },
+	CheckMark                           =           { 0.96, 0.81, 0.00, 1    },
+	CheckMarkTrueDisabled               =           { 0.34, 0.22, 0.24, 1    },
+	CheckMarkFalseDisabled              =           { 0.48, 0.39, 0.40, 1    },
+	SliderGrab                          =           { 0   , 0   , 0   , 0    },
+	SliderGrabActive                    =           { 0   , 0   , 0   , 0    },
+	Button                              =           { 0.00, 0.35, 0.71, 1    },
+	ButtonHovered                       =           { 0.00, 0.44, 0.90, 1    },
+	ButtonActive                        =           { 0.00, 0.35, 0.71, 1    },
+	Header                              =           { 0.00, 0.21, 0.43, 0.6  },
+	HeaderHovered                       =           { 0.00, 0.21, 0.43, 0.9  },
+	HeaderActive                        =           { 0.00, 0.21, 0.43, 0.9  },
+	Separator                           =           { 0.60, 0.51, 0.00, 0.5  },
+	SeparatorHovered                    =           { 0.29, 0.77, 0.79, 1    },
+	SeparatorActive                     =           { 0.29, 0.77, 0.79, 1    },
+	ResizeGrip                          =           { 0.05, 0.11, 0.18, 1    },
+	ResizeGripHovered                   =           { 0.96, 0.81, 0.00, 1    },
+	ResizeGripActive                    =           { 0.96, 0.81, 0.00, 1    },
+	Tab                                 =           { 0   , 0   , 0   , 0    },
+	TabHovered                          =           { 0   , 0   , 0   , 0    },
+	TabActive                           =           { 0   , 0   , 0   , 0    },
+	TabUnfocused                        =           { 0   , 0   , 0   , 0    },
+	TabUnfocusedActive                  =           { 0   , 0   , 0   , 0    },
+	DockingPreview                      =           { 0   , 0   , 0   , 0    },
+	DockingEmptyBg                      =           { 0   , 0   , 0   , 0    },
+	PlotLines                           =           { 0   , 0   , 0   , 0    },
+	PlotLinesHovered                    =           { 0   , 0   , 0   , 0    },
+	PlotHistogram                       =           { 0   , 0   , 0   , 0    },
+	PlotHistogramHovered                =           { 0   , 0   , 0   , 0    },
+	TextSelectedBg                      =           { 0   , 0   , 0   , 0    },
+	DragDropTarget                      =           { 0   , 0   , 0   , 0    },
+	NavHighlight                        =           { 0   , 0   , 0   , 0    },
+	NavWindowingHighlight               =           { 0   , 0   , 0   , 0    },
+	NavWindowingDimBg                   =           { 0   , 0   , 0   , 0    },
+	ModalWindowDimBg                    =           { 0   , 0   , 0   , 0    },
+	ModalWindowDarkening                =           { 0   , 0   , 0   , 0    },
+	COUNT                               =           { 0   , 0   , 0   , 0    },
+	CustomToggleOn                      =           { 0.96, 0.81, 0.00, 1    },
+	CustomToggleOnHovered               =           { 0.81, 0.67, 0.00, 1    },
+	CustomToggleOnActive                =           { 0.96, 0.81, 0.00, 1    },
+	CustomToggleOnText                  =           { 0.00, 0.44, 0.90, 1    },
+	CustomToggleOnDisable               =           { 0.04, 0.11, 0.12, 1    },
+	CustomToggleOnDisableHovered        =           { 0.05, 0.16, 0.16, 1    },
+	CustomToggleOnDisableText           =           { 0.06, 0.18, 0.2 , 1    },
+	CustomToggleOff                     =           { 0.57, 0.18, 0.16, 1    },
+	CustomToggleOffHovered              =           { 0.45, 0.13, 0.14, 1    },
+	CustomToggleOffDisable              =           { 0.1 , 0.04, 0.07, 1    },
+	CustomToggleOffDisableHovered       =           { 0.16, 0.06, 0.07, 1    },
+	CustomToggleOffDisableText          =           { 0.22, 0.07, 0.07, 1    },
+	AltText                             =           { 0.00, 0.44, 0.90, 1    },
+	Hidden                              =           { 0   , 0   , 0   , 0    },
+}
+
+function themeUA.RenderFooter(self)
+    ImGui.TableSetColumnIndex(1)
+    ImGui.PushStyleColor(ImGuiCol.Text, unpack(self.colors.Border))
+    ImGui.Text("We stand with Ukraine!")
+    ImGui.PopStyleColor(1)
+end
+
+return themeUA

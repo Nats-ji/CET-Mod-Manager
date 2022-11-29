@@ -2,7 +2,7 @@ local CETMM = require ("modules/CETMM")
 ---@class gui
 local gui = {}
 local m_dpi = require ("modules/gui/dpi")
-local m_style = require ("modules/gui/style")
+local m_themeSys = require ("modules/gui/themeSys")
 local m_widgets = require ("modules/gui/widgets")
 local m_window = require ("modules/gui/window")
 local m_windows = require ("modules/gui/windows")
@@ -13,8 +13,8 @@ function gui.GetDPI()
   return m_dpi
 end
 
-function gui.GetStyle()
-  return m_style
+function gui.GetThemeSys()
+  return m_themeSys
 end
 
 function gui.GetWindow()
@@ -26,9 +26,9 @@ function gui.Initialize()
     m_showUninstall = CETMM.IsUninstalled()
     m_dpi.Initialize()
     if m_showUninstall then
-      m_style.GetTheme().LoadDefault()
+      m_themeSys.Load("default", true)
     else
-      m_style.Initialize()
+      m_themeSys.Initialize()
       m_window.Initialize()
     end
     m_initialized = true
@@ -36,13 +36,13 @@ function gui.Initialize()
 end
 
 function gui.Render()
-  m_style.PushTheme()
+  m_themeSys.PushTheme()
   if m_showUninstall then
     m_windows.uninstall.Render()
   else
     m_window.Render()
   end
-  m_style.PopTheme()
+  m_themeSys.PopTheme()
 end
 
 return gui
