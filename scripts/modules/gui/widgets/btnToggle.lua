@@ -1,6 +1,5 @@
 local dpi = require ("modules/gui/dpi")
-local style = require ("modules/gui/style")
-local theme = require ("modules/gui/theme")
+local themeSys = require ("modules/gui/themeSys")
 
 -- config
 local padding_x = 5
@@ -25,15 +24,15 @@ local function btnToggle(aLabel, aValue, aSizeX, aSizeY, aAutoscale)
   local imgui_style = ImGui.GetStyle()
   ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, imgui_style.FramePadding.x + dpi.Scale(padding_x), imgui_style.FramePadding.y + dpi.Scale(padding_y))
   if aValue then
-		style.PushColor(ImGuiCol.Button, theme.CustomToggleOn)
-		style.PushColor(ImGuiCol.ButtonHovered, theme.CustomToggleOnHovered)
-		style.PushColor(ImGuiCol.ButtonActive, theme.CustomToggleOnActive)
-		style.PushColor(ImGuiCol.Text, theme.CustomToggleOnText)
+		themeSys.PushColor(ImGuiCol.Button, themeSys.GetCurrentTheme():GetStyleColor("CustomToggleOn"))
+		themeSys.PushColor(ImGuiCol.ButtonHovered, themeSys.GetCurrentTheme():GetStyleColor("CustomToggleOnHovered"))
+		themeSys.PushColor(ImGuiCol.ButtonActive, themeSys.GetCurrentTheme():GetStyleColor("CustomToggleOnActive"))
+		themeSys.PushColor(ImGuiCol.Text, themeSys.GetCurrentTheme():GetStyleColor("CustomToggleOnText"))
 	else
-		style.PushColor(ImGuiCol.Button, theme.Button)
-		style.PushColor(ImGuiCol.ButtonHovered, theme.ButtonHovered)
-		style.PushColor(ImGuiCol.ButtonActive, theme.ButtonActive)
-		style.PushColor(ImGuiCol.Text, theme.Text)
+		themeSys.PushColor(ImGuiCol.Button, themeSys.GetCurrentTheme():GetStyleColor("Button"))
+		themeSys.PushColor(ImGuiCol.ButtonHovered, themeSys.GetCurrentTheme():GetStyleColor("ButtonHovered"))
+		themeSys.PushColor(ImGuiCol.ButtonActive, themeSys.GetCurrentTheme():GetStyleColor("ButtonActive"))
+		themeSys.PushColor(ImGuiCol.Text, themeSys.GetCurrentTheme():GetStyleColor("Text"))
 	end
   if ImGui.Button(aLabel, aSizeX, aSizeY) then
     aValue = not aValue

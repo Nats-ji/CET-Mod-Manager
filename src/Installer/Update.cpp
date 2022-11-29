@@ -74,7 +74,10 @@ void Update::extractModule()
   bin2cppLua::FileManager& mgr_lua = bin2cppLua::FileManager::getInstance();
   bool saved_lua = mgr_lua.saveFiles(scriptDir.string().c_str());
   if (saved_loose && saved_lua)
+  {
     spdlog::info("Extracted script files to \"{}\"", scriptDir.string());
+    setConfig(); // white update
+  }
   else
     spdlog::error("Failed to extract script files to \"{}\"", scriptDir.string());
 }
@@ -104,4 +107,24 @@ void Update::removeOldModule()
       spdlog::info("Removed: {}", dir_entry.path().string());
     }
   }
+}
+
+void Update::setConfig()  // white update
+{
+  spdlog::info("Updating theme config..");
+
+  std::filesystem::path configPath = Installer::GetPaths().CETMMRoot() / "config.json";
+
+  std::fstream file;
+  file.open(configPath, std::fstream::in | std::fstream::out);
+  if (!file.is_open()) return;
+
+  nlohmann::json cetmm_config = nlohmann::json::parse(file);
+  std::filesystem::resize_file(configPath, 0);
+  file.seekg(0);
+  
+  cetmm_config["theme"] = "white";
+
+  file << cetmm_config.dump() << std::endl;
+  file.close();
 }

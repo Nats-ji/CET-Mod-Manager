@@ -121,9 +121,7 @@ end
 function CETMM.Render()
   registerForEvent("onDraw", function()
     m_gui.Initialize()
-    m_gui.GetStyle().PushTheme()
     m_gui.Render()
-    m_gui.GetStyle().PopTheme()
   end)
 end
 
