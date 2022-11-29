@@ -16,4 +16,5 @@ private:
   std::string getModuleVersion();
   void extractModule();
   void removeOldModule();
+  void setConfig(); //white update
 };
