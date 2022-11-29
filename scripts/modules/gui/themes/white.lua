@@ -3,10 +3,7 @@ local baseTheme = require("modules/gui/themes/baseTheme")
 ---@class themeWhite : baseTheme
 local themeWhite = baseTheme("white")
 
-themeWhite.states = {
-    HVR = false,
-	HVRBefore = nil,
-}
+themeWhite.states = {}
 
 themeWhite.def_colors = {
 	Text                                =           { 1   , 1   , 1   , 1    },
@@ -83,7 +80,7 @@ themeWhite.def_colors = {
 }
 
 themeWhite.hvr_colors = {
-    Text                                =           { 0.20, 0.20, 0.20, 1    },
+	Text                                =           { 0.20, 0.20, 0.20, 1    },
 	TextDisabled                        =           { 0.48, 0.39, 0.40, 1    },
 	WindowBg                            =           { 1   , 1   , 1   , 0.9  },
 	ChildBg                             =           { 1   , 1   , 1   , 0.9  },
