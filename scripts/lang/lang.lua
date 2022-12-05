@@ -8,5 +8,6 @@ return {
   { id = "tr_tc", name = "Türkçe (Turkish)" },
   { id = "ro_ro", name = "Limba Română (Romanian)" },
   { id = "pt_br", name = "português (Brazilian Portuguese)" },
+  { id = "fr_fr", name = "Français (French)"},
   -- { id = "example", name = "Example Language (Example)"},
 }
