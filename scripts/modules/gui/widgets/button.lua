@@ -13,7 +13,7 @@ local padding_y = 5
 local function button(aLabel, aSizeX, aSizeY, aAutoscale)
     aSizeX = aSizeX or 0
     aSizeY = aSizeY or 0
-    aAutoscale = aAutoscale or true
+    aAutoscale = aAutoscale==nil or aAutoscale
     if aAutoscale then
         aSizeX = dpi.Scale(aSizeX)
         aSizeY = dpi.Scale(aSizeY)

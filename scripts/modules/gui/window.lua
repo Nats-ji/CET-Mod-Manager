@@ -123,7 +123,7 @@ end
 local function settings_popup()
   ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, dpi.Scale(8), dpi.Scale(12))
   if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
-    ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, dpi.Scale(8), dpi.Scale(15))
+    ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, dpi.Scale(8), dpi.Scale(15))  -- Menu item height
     ImGui.Text(i18n("text_select_settings"))
 
     options.m_autoappear = widgets.btnToggle({
@@ -156,10 +156,11 @@ local function settings_popup()
       ImGui.Text(i18n("text_select_lang"))
       ImGui.SameLine()
       
-      ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0) -- Menu item height
+      ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0) -- help ? button padding
       if ImGui.Button("?", ImGui.GetFontSize() + dpi.Scale(2), ImGui.GetFontSize() + dpi.Scale(2)) then
         CETMM.GetBackEnd().OpenUrl("font_wiki")
       end
+      ImGui.PopStyleVar()
       if ImGui.IsItemHovered() then
         ImGui.SetTooltip(i18n("tooltip_btn_howto_change_font"))
       end
@@ -251,7 +252,7 @@ function window.Render()
       ImGui.SameLine()
 
       -- Settings Button
-      if widgets.button("!", layout.header_btn_height, layout.header_btn_height) then
+      if widgets.button("!", layout.header_btn_height, layout.header_btn_height, false) then
         ImGui.OpenPopup("Settings")
       end
       if ImGui.IsItemHovered() then
@@ -266,7 +267,7 @@ function window.Render()
       -- Help Button
       window.m_btn_Help = widgets.btnToggle("?", window.m_btn_Help,
                                             layout.header_btn_height,
-                                            layout.header_btn_height)
+                                            layout.header_btn_height, false)
       if ImGui.IsItemHovered() then
         ImGui.SetTooltip(i18n("tooltip_btn_help"))
       end
