@@ -167,7 +167,7 @@ end
 
 ---@param aWindow string
 function themeWhite.GetHoverState(self, aWindow)
-	self.states[aWindow] = ImGui.IsWindowHovered(bit32.bor(ImGuiHoveredFlags.RootAndChildWindows, ImGuiHoveredFlags.AllowWhenBlockedByActiveItem, ImGuiHoveredFlags.AllowWhenBlockedByPopup, ImGuiHoveredFlags.AllowWhenDisabled))
+	self.states[aWindow] = ImGui.IsWindowHovered(bit32.bor(ImGuiHoveredFlags.RootAndChildWindows, ImGuiHoveredFlags.AllowWhenBlockedByActiveItem, ImGuiHoveredFlags.AllowWhenBlockedByPopup))
 end
 
 return themeWhite
