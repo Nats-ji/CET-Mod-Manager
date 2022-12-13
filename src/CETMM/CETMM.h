@@ -2,7 +2,6 @@
 
 #include "Paths.h"
 #include "EXT/Mods.h"
-#include "EXT/Fonts.h"
 #include "EXT/CETMMEXT.h"
 #include "EXT/Uninstall.h"
 
@@ -15,7 +14,6 @@ public:
 
   static const Paths& GetPaths();
   static Mods& GetMods();
-  static Fonts& GetFonts();
   static CETMMEXT& GetCETMMEXT();
   static Uninstall& GetUninstall();
 
@@ -35,7 +33,6 @@ private:
 
   Paths m_paths;
   Mods m_mods;
-  Fonts m_fonts;
   CETMMEXT m_cetmmext;
   Uninstall m_uninstall;
   bool m_restart {false};

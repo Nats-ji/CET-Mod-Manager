@@ -3,7 +3,6 @@
 
 void CETMM::Initialize()
 {
-  // GetFonts().Scan();
   GetUninstall().Initialize();
 }
 
@@ -31,11 +30,6 @@ const Paths& CETMM::GetPaths()
 Mods& CETMM::GetMods()
 {
   return Get().m_mods;
-}
-
-Fonts& CETMM::GetFonts()
-{
-  return Get().m_fonts;
 }
 
 CETMMEXT& CETMM::GetCETMMEXT()
