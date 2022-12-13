@@ -1,3 +1,5 @@
+[![github][github-badge]][github-link] [![build][build-badge]][build-link] ![license][license-badge] [![release][release-badge]][release-link] [![nexus][nexus-badge]][nexus-link] [![3dm][3dm-badge]][3dm-link]
+
 ### 现已支持中文，需要把控制台的默认字体改成中文字体
 点按钮 <kbd>!</kbd> 选择语言。
 
@@ -63,3 +65,15 @@
 
 # Github
 https://github.com/Nats-ji/CET-Mod-Manager
+
+[github-badge]: https://img.shields.io/badge/source-Github-red?style=social&logo=github
+[github-link]: https://github.com/Nats-ji/CET-Mod-Manager
+[build-badge]: https://img.shields.io/github/workflow/status/Nats-ji/CET-Mod-Manager/Build?event=push
+[build-link]: https://github.com/Nats-ji/CET-Mod-Manager/actions/workflows/build.yml
+[license-badge]: https://img.shields.io/github/license/Nats-ji/CET-Mod-Manager
+[release-badge]: https://img.shields.io/github/v/release/Nats-ji/CET-Mod-Manager?include_prereleases
+[release-link]: https://github.com/Nats-ji/CET-Mod-Manager/releases/latest
+[nexus-badge]: https://img.shields.io/badge/download-Nexus%20Mods-orange
+[nexus-link]: https://www.nexusmods.com/cyberpunk2077/mods/895
+[3dm-badge]: https://img.shields.io/badge/download-3DM%20Mods-blueviolet
+[3dm-link]: https://mod.3dmgame.com/mod/172144

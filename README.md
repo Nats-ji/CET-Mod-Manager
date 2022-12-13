@@ -1,7 +1,9 @@
 <a href="https://www.buymeacoffee.com/mingm"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=mingm&button_colour=FF5F5F&font_colour=ffffff&font_family=Comic&outline_colour=000000&coffee_colour=FFDD00" width="180px"></a>
 <a href='https://ko-fi.com/U6U572VOM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-# CyberEngineTweaks Mod Manager
+[![github][github-badge]][github-link] [![build][build-badge]][build-link] ![license][license-badge] [![release][release-badge]][release-link] [![nexus][nexus-badge]][nexus-link] [![3dm][3dm-badge]][3dm-link]
+
+# Cyber Engine Tweaks Mod Manager
 
 ## Features
 
@@ -85,3 +87,15 @@ Check this [guide](https://wiki.redmodding.org/cyber-engine-tweaks/getting-start
 - Development Team behind CyberEngineTweaks and and RED4extSDK
 - CP77 Modding Tools Discord Community https://discord.gg/cp77modding
 - And people who translated for this project.
+
+[github-badge]: https://img.shields.io/badge/source-Github-red?style=social&logo=github
+[github-link]: https://github.com/Nats-ji/CET-Mod-Manager
+[build-badge]: https://img.shields.io/github/workflow/status/Nats-ji/CET-Mod-Manager/Build?event=push
+[build-link]: https://github.com/Nats-ji/CET-Mod-Manager/actions/workflows/build.yml
+[license-badge]: https://img.shields.io/github/license/Nats-ji/CET-Mod-Manager
+[release-badge]: https://img.shields.io/github/v/release/Nats-ji/CET-Mod-Manager?include_prereleases
+[release-link]: https://github.com/Nats-ji/CET-Mod-Manager/releases/latest
+[nexus-badge]: https://img.shields.io/badge/download-Nexus%20Mods-orange
+[nexus-link]: https://www.nexusmods.com/cyberpunk2077/mods/895
+[3dm-badge]: https://img.shields.io/badge/download-3DM%20Mods-blueviolet
+[3dm-link]: https://mod.3dmgame.com/mod/172144
