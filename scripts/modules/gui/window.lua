@@ -27,8 +27,9 @@ local layout = {
 }
 
 local function renderAboutWindow()
+  local draw_lastframe = window.m_draw_about
   window.m_draw_about = ImGui.Begin(window.m_about_title, window.m_draw_about, bit32.bor(ImGuiWindowFlags.NoSavedSettings, ImGuiWindowFlags.NoResize))
-  if window.m_draw_about then
+  if draw_lastframe then
     themeSys.GetCurrentTheme():CallIf("white", "GetHoverState", "about")
     ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - dpi.Scale(300),
                           dpi.Scale(dpi.GetDisplayResolution().y * 0.1),
@@ -140,8 +141,9 @@ function window.Initialize()
 end
 
 function window.Render()
+  local draw_lastframe = window.m_draw
   window.m_draw = ImGui.Begin(i18n("window_title"), window.m_draw)
-  if window.m_draw then
+  if draw_lastframe then
     -- Hover check for white theme
     themeSys.GetCurrentTheme():CallIf("white", "GetHoverState", "main")
     -- Set window size and position
