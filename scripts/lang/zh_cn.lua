@@ -2,8 +2,8 @@
 return {
   zh_cn = {
     console_msg_loaded1                    = "************************************************" ,
-    console_msg_loaded2                    = "  CyberEngineTweaks模组管理器已加载..." ,
-    console_msg_loaded3                    = "  如果是初次安装使用，请先在CyberEngineTweaks" ,
+    console_msg_loaded2                    = "  Cyber Engine Tweaks模组管理器已加载..." ,
+    console_msg_loaded3                    = "  如果是初次安装使用，请先在Cyber Engine Tweaks" ,
     console_msg_loaded4                    = "  里设置开启界面的热键。" ,
     console_msg_loaded5                    = "************************************************" ,
     hotkey_manager                         = "模组管理界面" ,
@@ -15,7 +15,7 @@ return {
     console_msg_autoapear_off              = "[CETMM] 不在跟随控制台自动显示。" ,
     console_msg_dofile_run                 = "[CETMM] 正在执行 %{dofilename}。" ,
     console_msg_dofile_done                = "[CETMM] 执行完毕。" ,
-    window_title                           = "CyberEngineTWeaks模组管理器" ,
+    window_title                           = "Cyber Engine Tweaks模组管理器" ,
     button_dofiles                         = "Dofile脚本" ,
     button_scan                            = "扫描" ,
     button_autoscan_on                     = "自动扫描已打开" ,

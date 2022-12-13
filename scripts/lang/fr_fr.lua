@@ -2,7 +2,7 @@
 return {
   fr_fr = {
     console_msg_loaded1                    = "************************************************" ,
-    console_msg_loaded2                    = " CyberEngineTweaks Mod Manager est chargé...  " ,
+    console_msg_loaded2                    = " Cyber Engine Tweaks Mod Manager est chargé...  " ,
     console_msg_loaded3                    = " Lier un raccourci dans Cyber Engine Tweaks,  " ,
     console_msg_loaded4                    = " si c'est votre premier lancement.            " ,
     console_msg_loaded5                    = "************************************************" ,
@@ -15,7 +15,7 @@ return {
     console_msg_autoapear_off              = "[CETMM] Ne s'ouvre plus automatiquement avec la console." ,
     console_msg_dofile_run                 = "[CETMM] Exécution de %{dofilename}." ,
     console_msg_dofile_done                = "[CETMM] Terminé." ,
-    window_title                           = "CyberEngineTweaks Mod Manager" ,
+    window_title                           = "Cyber Engine Tweaks Mod Manager" ,
     button_dofiles                         = "Mods Dofile" ,
     button_scan                            = "Scanner" ,
     button_autoscan_on                     = "Scanner auto ON" ,

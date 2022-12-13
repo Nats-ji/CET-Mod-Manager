@@ -2,7 +2,7 @@
 return {
   tr_tc = {
     console_msg_loaded1                    = "********************************************************" ,
-    console_msg_loaded2                    = " CyberEngineTweaks Mod Yöneticisi Yüklendi...      " ,
+    console_msg_loaded2                    = " Cyber Engine Tweaks Mod Yöneticisi Yüklendi...      " ,
     console_msg_loaded3                    = " Lütfen Cyber ​​Engine Tweaks'e bir kısayol tuşu bağlayın, " ,
     console_msg_loaded4                    = " Bunu ilk kez başlatıyorsanız.           " ,
     console_msg_loaded5                    = "********************************************************" ,
@@ -22,7 +22,7 @@ return {
     button_autoscan_off                    = "Otomatik Tarama Kapalı" ,
     button_autoappear_on                   = "Otomatik Görünme Açık" ,
     button_autoappear_off                  = "Otomatik Görünme Kapalı" ,
-    text_help_manager_1                    = "Yüklediğiniz CyberEngineTweaks modlarını taramak için [Tara] ya basın." ,
+    text_help_manager_1                    = "Yüklediğiniz Cyber Engine Tweaks modlarını taramak için [Tara] ya basın." ,
     text_help_manager_2                    = "Modları etkinleştirmek devre dışı bırakmak için onay kutusunu işaretleyin işaretini kaldırın." ,
     text_help_manager_3                    = "[Tara] tuşuna basıldığında masaüstüne atılmasını önlemek için Oyunlar [Ayarlar] - [Video] 'da [Pencereli Mod]' u [Windows Kenarlıksız] olarak değiştirin." ,
     text_help_manager_4                    = "Modları Etkinleştirdikten Devre Dışı Bıraktıktan sonra, modları yeniden yüklemek için konsoldaki [TÜM Modları Yeniden Yükle] düğmesine basın.." ,

@@ -2,8 +2,8 @@
 return {
   zh_tw = {
     console_msg_loaded1                    = "************************************************" ,
-    console_msg_loaded2                    = "  CyberEngineTweaks模組管理器已加載..." ,
-    console_msg_loaded3                    = "  如果這是您的首次啟動，請在CyberEngineTweaks" ,
+    console_msg_loaded2                    = "  Cyber Engine Tweaks模組管理器已加載..." ,
+    console_msg_loaded3                    = "  如果這是您的首次啟動，請在Cyber Engine Tweaks" ,
     console_msg_loaded4                    = "  中綁定一個熱鍵。 " ,
     console_msg_loaded5                    = "************************************************" ,
     hotkey_manager                         = "模組管理界面" ,
@@ -15,7 +15,7 @@ return {
     console_msg_autoapear_off              = "[CETMM] 不在隨著控制台自動打開。" ,
     console_msg_dofile_run                 = "[CETMM] 正在執行 %{dofilename}。" ,
     console_msg_dofile_done                = "[CETMM] 執行完畢。" ,
-    window_title                           = "CyberEngineTWeaks模組管理器" ,
+    window_title                           = "Cyber Engine Tweaks模組管理器" ,
     button_dofiles                         = "Dofile腳本" ,
     button_scan                            = "掃描" ,
     button_autoscan_on                     = "自動掃描已啟用" ,
