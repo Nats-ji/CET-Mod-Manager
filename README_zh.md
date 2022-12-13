@@ -59,6 +59,7 @@
 - 土耳其语（翻译者：sebepne）
 - 罗马尼亚语（翻译者：Maddmaniak）
 - 葡萄牙语（巴西）（翻译者：mathfelin）
+- 法语（翻译者：ReActif）
 
 # Github
 https://github.com/Nats-ji/CET-Mod-Manager

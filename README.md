@@ -76,6 +76,7 @@ Check this [guide](https://wiki.redmodding.org/cyber-engine-tweaks/getting-start
 - Turkish (Translator: sebepne)
 - Romanian (Translator: Maddmaniak)
 - Brazilian Portuguese (Translator: mathfelin)
+- French (Translator : ReActif)
 
 ## Credits
 
