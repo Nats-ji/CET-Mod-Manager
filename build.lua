@@ -145,3 +145,9 @@ function Clean()
     cprint("cleaning package files ... ${bright red}failed")
   end
 end
+
+function BuildAll()
+  os.execv("xmake", {"b", "cet_mod_manager"})
+  GenerateEmbeds()
+  os.execv("xmake", {"b", "installer"})
+end

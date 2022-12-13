@@ -86,3 +86,10 @@ task("install-ext")
         build.InstallExt()
     end)
     set_menu { usage = "xmake install-ext", description = "Only Package and install CET Mod Manager Red4ext plugin file"}
+
+task("build-all")
+    on_run(function () 
+        import("build")
+        build.BuildAll()
+    end)
+    set_menu { usage = "xmake build-all", description = "Build all targets."}
