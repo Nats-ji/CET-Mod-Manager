@@ -12,7 +12,7 @@ local uninstall = {
 
 function uninstall.Render()
     if uninstall.m_draw then
-        ImGui.Begin("CET Mod Manager Uninstalled", bit32.bor(ImGuiWindowFlags.NoSavedSettings))
+        ImGui.Begin(IconGlyphs.AlertDecagramOutline.." CET Mod Manager Uninstalled", bit32.bor(ImGuiWindowFlags.NoSavedSettings, ImGuiWindowFlags.AlwaysAutoResize, ImGuiWindowFlags.NoCollapse))
         ImGui.SetWindowPos((dpi.GetDisplayResolution().x - ImGui.GetWindowWidth())/2, (dpi.GetDisplayResolution().y - ImGui.GetWindowHeight())/2, ImGuiCond.Always)
         ImGui.Text("It appears that you have uninstalled CET Mod Manager,\nDo you want to remove the leftover files?")
         ImGui.Spacing()
@@ -26,12 +26,12 @@ function uninstall.Render()
             ImGui.TableNextRow()
             ImGui.TableSetColumnIndex(1)
 
-            if widget.button("Yes", 80, 0, true) then
+            if widget.button(IconGlyphs.CheckBold.."\tYes\t", 80, 0, true) then
                 EXT_Uninstall.SetFilesToRemove(true, uninstall.m_removeConfig, uninstall.m_removeDofiles)
                 uninstall.m_draw = false
             end
             ImGui.SameLine()
-            if widget.button("No", 80, 0, true) then
+            if widget.button(IconGlyphs.CloseThick.."\tNo\t", 80, 0, true) then
                 uninstall.m_draw = false
             end
 

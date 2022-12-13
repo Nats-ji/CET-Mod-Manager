@@ -137,7 +137,7 @@ local function settings_popup()
     -- end
 
     -- Theme
-    if ImGui.BeginMenu("Theme") then
+    if ImGui.BeginMenu(IconGlyphs.TelevisionGuide.."\t".."Theme") then
       if select(2, ImGui.MenuItem("Default", "", options.m_theme == "default")) then
         themeSys.Load("default")
       end
@@ -151,7 +151,7 @@ local function settings_popup()
     end
     
     -- Language menu
-    if ImGui.BeginMenu("Language") then
+    if ImGui.BeginMenu(IconGlyphs.Translate.."\t".."Language") then
       ImGui.Text(i18n("text_select_lang"))
       ImGui.SameLine()
       
@@ -178,24 +178,24 @@ local function settings_popup()
 
     ImGui.Separator()
 
-    if ImGui.MenuItem("LICENSE") then
+    if ImGui.MenuItem(IconGlyphs.CardAccountDetails.."\t".."License") then
       window.m_about_title = "License"
       window.m_draw_about = true
       window.m_about_text = loadFile("LICENSE")
     end
-    if ImGui.MenuItem("Third Party License") then
+    if ImGui.MenuItem(IconGlyphs.License.."\t".."Third Party License") then
       window.m_about_title = "Third Party License"
       window.m_draw_about = true
       window.m_about_text = loadFile("Third_Party_LICENSES")
     end
-    if ImGui.MenuItem(string.format([[%s (v%s)]], "Check Update",
+    if ImGui.MenuItem(IconGlyphs.Update.."\t"..string.format([[%s (v%s)]], "Check Update",
                                       CETMM.GetVersion())) then
       CETMM.GetBackEnd().OpenUrl("update")
     end
 
     ImGui.Separator()
 
-    if ImGui.MenuItem("Buy me a coffee") then
+    if ImGui.MenuItem(IconGlyphs.Coffee.."\t".."Buy me a coffee") then
       CETMM.GetBackEnd().OpenUrl("coffee")
     end
 
@@ -241,7 +241,7 @@ function window.Render()
       ImGui.TableSetColumnIndex(1)
 
       -- Scan Button
-      if widgets.button(i18n("button_scan")) then
+      if widgets.button(IconGlyphs.MagnifyScan.." "..i18n("button_scan")) then
         mods.Scan()
         dofiles.Scan()
       end
@@ -251,7 +251,7 @@ function window.Render()
       ImGui.SameLine()
 
       -- Settings Button
-      if widgets.button("!", layout.header_btn_height, layout.header_btn_height, false) then
+      if widgets.button(IconGlyphs.Cog, layout.header_btn_height, layout.header_btn_height, false) then
         ImGui.OpenPopup("Settings")
       end
       if ImGui.IsItemHovered() then
@@ -264,7 +264,7 @@ function window.Render()
       ImGui.SameLine()
 
       -- Help Button
-      window.m_btn_Help = widgets.btnToggle("?", window.m_btn_Help,
+      window.m_btn_Help = widgets.btnToggle(IconGlyphs.Help, window.m_btn_Help,
                                             layout.header_btn_height,
                                             layout.header_btn_height, false)
       if ImGui.IsItemHovered() then
@@ -372,13 +372,13 @@ function window.Render()
       ImGui.TableNextRow()
       ImGui.TableSetColumnIndex(0)
 
-      if widgets.button(i18n("button_mods_folder")) then
+      if widgets.button(IconGlyphs.FolderHome.." "..i18n("button_mods_folder")) then
         CETMM.GetBackEnd().OpenModsFolder()
       end
 
       ImGui.SameLine()
 
-      if widgets.button(i18n("button_dofile_folder")) then
+      if widgets.button(IconGlyphs.FolderFile.." "..i18n("button_dofile_folder")) then
         CETMM.GetBackEnd().OpenDofilesFolder()
       end
 
