@@ -1,5 +1,5 @@
 ---@class CETMM
-local CETMM = {}
+CETMM = {}
 
 -- local m_api
 local m_gui     ---@type gui
@@ -130,5 +130,3 @@ function CETMM.Shutdown()
     m_options.Save()
   end)
 end
-
-return CETMM

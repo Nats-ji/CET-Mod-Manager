@@ -1,4 +1,3 @@
-local CETMM = require ("modules/CETMM")
 ---@class gui
 local gui = {}
 local m_dpi = require ("modules/gui/dpi")

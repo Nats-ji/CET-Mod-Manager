@@ -1,4 +1,3 @@
-local CETMM = require("modules/CETMM")
 ---@class themeSys
 local themeSys = {
     themes = {

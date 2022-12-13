@@ -1,4 +1,3 @@
-local CETMM = require("modules/CETMM")
 local cetconfig = CETMM.GetCETConfig()
 
 ---@class font

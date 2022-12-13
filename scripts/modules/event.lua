@@ -1,5 +1,3 @@
-local CETMM = require("modules/CETMM")
-
 ---@class event
 local event = {}
 

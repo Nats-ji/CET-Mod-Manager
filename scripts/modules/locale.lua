@@ -1,4 +1,3 @@
-local CETMM = require ("modules/CETMM")
 local i18n = require ("modules/i18n")
 
 ---@class locale

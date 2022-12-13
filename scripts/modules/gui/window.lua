@@ -1,4 +1,3 @@
-local CETMM = require("modules/CETMM")
 local dpi = require("modules/gui/dpi")
 local i18n = require("modules/i18n")
 local languages = require("lang/lang")
