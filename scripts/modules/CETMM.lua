@@ -1,45 +1,15 @@
 ---@class CETMM
 CETMM = {}
 
--- local m_api
 local m_gui     ---@type gui
 local m_event   ---@type event
 local m_hotkeys ---@type hotkeys
 local m_options ---@type options
--- local m_font
 local m_locale  ---@type locale
 local m_dofiles ---@type dofiles
 local m_version ---@type string
 local m_backend ---@type backend
 local m_uninstalled = false
-
--- function CETMM.GetModList()
---   return m_core.mods
--- end
-
--- function CETMM.GetEnums()
---   return m_core.enums
--- end
-
--- function CETMM.GetHelper()
---   return m_core.helper
--- end
-
--- function CETMM.GetScanSystem()
---   return m_core.scan
--- end
-
--- function CETMM.GetModOpEx()
---   return m_core.modopex
--- end
-
--- function CETMM.GetPaths()
---   return m_core.paths
--- end
-
--- function CETMM.GetCETConfig()
---   return m_core.cetconfig
--- end
 
 function CETMM.GetUISystem()
   return m_gui
@@ -48,14 +18,6 @@ end
 function CETMM.GetOptions()
   return m_options
 end
-
--- function CETMM.GetFont()
---   return m_font
--- end
-
--- function CETMM.GetAPI()
---   return m_api
--- end
 
 function CETMM.GetLocale()
   return m_locale
@@ -78,9 +40,7 @@ function CETMM.IsUninstalled()
 end
 
 function CETMM.Initialize()
-  -- m_api = require ("modules/api")
   m_options = require ("modules/options")
-  -- m_font = require("modules/font")
   m_locale = require ("modules/locale")
   m_dofiles = require ("modules/dofiles")
   m_event = require ("modules/event")
@@ -90,8 +50,6 @@ function CETMM.Initialize()
   -- Load config
   m_options.Load()
   m_locale.Initialize()
-
-  -- m_font.Initialize()
 
   registerForEvent("onInit", function()
   -- init

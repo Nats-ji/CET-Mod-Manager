@@ -6,24 +6,17 @@ local themeSys = require("modules/gui/themeSys")
 local options = CETMM.GetOptions()
 local mods = CETMM.GetBackEnd().GetMods()
 local dofiles = CETMM.GetDofiles()
--- local font = CETMM.GetFont()
 
 ---@class window
 local window = {
   m_draw = false,
   m_draw_about = false,
-  -- m_draw_font = false,
   m_about_title = "",
   m_about_text = "",
   m_over_size = false,
   m_btn_Dofiles = false,
   m_btn_Scan = false,
   m_btn_Help = false
-}
-
-local font_popup = {
-  m_fontlist_current_item = "",
-  m_fontstyle_current_item = ""
 }
 
 local layout = {
@@ -59,66 +52,6 @@ local function loadFile(aFile)
   return text
 end
 
--- local function renderFontWidnow()
---   window.m_draw_font = ImGui.Begin("Font", window.m_draw_font, ImGuiWindowFlags.NoSavedSettings)
---   if window.m_draw_font then
---     ImGui.SetWindowPos(dpi.GetDisplayResolution().x / 2 - 300 * dpi.GetScale(),
---                          dpi.GetDisplayResolution().y * 0.1 * dpi.GetScale(),
---                          ImGuiCond.FirstUseEver)
---     ImGui.Text("Font:")
---     if ImGui.BeginCombo("Font", font_popup.m_fontlist_current_item) then
-
---       if ImGui.Selectable("Default", font_popup.m_fontlist_current_item == "Default") then
---         font_popup.m_fontlist_current_item = "Default"
---         font_popup.m_fontstyle_current_item = "Regular"
---       end
---       if font_popup.m_fontlist_current_item == "Default" then
---         ImGui.SetItemDefaultFocus()
---       end
-
---       for _, fontfamily in ipairs(font.fontfamilies) do
---         local is_selected = font_popup.m_fontlist_current_item == fontfamily
---         if ImGui.Selectable(fontfamily, is_selected) then
---           font_popup.m_fontlist_current_item = fontfamily
---           for fontstyle, _ in pairs(font.list[fontfamily]) do
---             font_popup.m_fontstyle_current_item = fontstyle
---             break
---           end
---         end
---         if is_selected then
---           ImGui.SetItemDefaultFocus()
---         end
---       end
---       ImGui.EndCombo()
---     end
---     ImGui.Text("Font Style:")
---     if ImGui.BeginCombo("Font Style", font_popup.m_fontstyle_current_item) then
---       if font_popup.m_fontlist_current_item == "Default" then
---         ImGui.Selectable("Regular", true)
---         ImGui.SetItemDefaultFocus()
---       elseif type(font.list[font_popup.m_fontlist_current_item]) == "table" then
---         for fontstyle, _ in pairs(font.list[font_popup.m_fontlist_current_item]) do
---           local is_selected = font_popup.m_fontstyle_current_item == fontstyle
---           if ImGui.Selectable(fontstyle, is_selected) then
---             font_popup.m_fontstyle_current_item = fontstyle
---           end
---           if is_selected then
---             ImGui.SetItemDefaultFocus()
---           end
---         end
---       end
---       ImGui.EndCombo()
---     end
---     ImGui.Text("Size:")
---     ImGui.Text("Font Range:")
-
---     ImGui.Button("Ok")
---     ImGui.SameLine()
---     ImGui.Button("Cancel")
---     ImGui.End()
---   end
--- end
-
 local function settings_popup()
   ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, dpi.Scale(8), dpi.Scale(12))
   if ImGui.BeginPopup("Settings", ImGuiWindowFlags.NoMove) then
@@ -130,11 +63,6 @@ local function settings_popup()
     }, options.m_autoappear)
     
     ImGui.Separator()
-    
-    -- Font #not ready
-    -- if ImGui.MenuItem("Font") then
-    --   -- window.m_draw_font = true
-    -- end
 
     -- Theme
     if ImGui.BeginMenu(IconGlyphs.TelevisionGuide.."\t".."Theme") then
@@ -209,8 +137,6 @@ end
 
 function window.Initialize()
   window.m_over_size = 600 * dpi.GetScale() > dpi.GetDisplayResolution().y * 0.8
-  -- font_popup.m_fontlist_current_item = font.current_settings.fontfamily
-  -- font_popup.m_fontstyle_current_item = font.current_settings.style
 end
 
 function window.Render()
