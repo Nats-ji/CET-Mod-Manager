@@ -126,25 +126,19 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v2.0.9
 
-      - name: Create zip
-        uses: ihiroky/archive-action@v1
-        with:
-          root_dir: "package/"
-          file_path: "${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip"
-
       - name: Upload to 3DM Mods
         id: upload_3dm
-        uses: Nats-ji/3dm-release-action@master
+        uses: GlossMod/ActionUpdateMod@v1
         with:
           appid: ${{ secrets.APPID_3DM }}
           appkey: ${{ secrets.APPKEY_3DM }}
-          mod_id: ${{ env.META_3DM_MOD_ID }}
-          mod_title: ${{ env.META_3DM_MOD_TITLE }}
-          mod_version: ${{ github.event.release.tag_name }}
-          mod_tags: ${{ env.META_3DM_MOD_TAGS }}
-          mod_desc: ${{ env.META_3DM_MOD_DESC }}
-          mod_content: ${{ env.META_3DM_MOD_CONTENT }}
-          mod_filepath: ${{ env.META_MOD_FILE_NAME }}_${{ github.event.release.tag_name }}.zip
+          id: ${{ env.META_3DM_MOD_ID }}
+          title: ${{ env.META_3DM_MOD_TITLE }}
+          version: ${{ github.event.release.tag_name }}
+          tags: ${{ env.META_3DM_MOD_TAGS }}
+          desc: ${{ env.META_3DM_MOD_DESC }}
+          content: ${{ env.META_3DM_MOD_CONTENT }}
+          file: package/
 
       - name: Check 3DM upload status
         run: echo ${{ steps.upload_3dm.outputs.RESPONSE }}
