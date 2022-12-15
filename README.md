@@ -90,7 +90,7 @@ Check this [guide](https://wiki.redmodding.org/cyber-engine-tweaks/getting-start
 
 [github-badge]: https://img.shields.io/badge/source-Github-red?style=social&logo=github
 [github-link]: https://github.com/Nats-ji/CET-Mod-Manager
-[build-badge]: https://img.shields.io/github/workflow/status/Nats-ji/CET-Mod-Manager/Build?event=push
+[build-badge]: https://img.shields.io/github/actions/workflow/status/Nats-ji/CET-Mod-Manager/build.yml?branch=master
 [build-link]: https://github.com/Nats-ji/CET-Mod-Manager/actions/workflows/build.yml
 [license-badge]: https://img.shields.io/github/license/Nats-ji/CET-Mod-Manager
 [release-badge]: https://img.shields.io/github/v/release/Nats-ji/CET-Mod-Manager?include_prereleases
