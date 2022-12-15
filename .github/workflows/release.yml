@@ -141,4 +141,4 @@ jobs:
           file: package/
 
       - name: Check 3DM upload status
-        run: echo ${{ steps.upload_3dm.outputs.RESPONSE }}
+        run: "echo 'Code: ${{ steps.test3.outputs.code }}\tMessage: ${{ steps.test3.outputs.msg }}'"
