@@ -76,7 +76,7 @@ void Update::extractModule()
   if (saved_loose && saved_lua)
   {
     spdlog::info("Extracted script files to \"{}\"", scriptDir.string());
-    setConfig(); // white update
+    // setConfig(); // white update
   }
   else
     spdlog::error("Failed to extract script files to \"{}\"", scriptDir.string());
