@@ -5,7 +5,7 @@
 local options = {
   m_lang = "en_us",
   m_autoappear = true,
-  m_theme = "white" --default 
+  m_theme = "default" -- change the default theme here
 }
 
 -- private functions
