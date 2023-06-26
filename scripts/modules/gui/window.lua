@@ -142,7 +142,7 @@ end
 
 function window.Render()
   local draw_lastframe = window.m_draw
-  window.m_draw = ImGui.Begin(i18n("window_title"), window.m_draw)
+  window.m_draw = ImGui.Begin(i18n("window_title").."###CETMM_MAIN_WINDOW", window.m_draw)
   if draw_lastframe then
     -- Hover check for white theme
     themeSys.GetCurrentTheme():CallIf("white", "GetHoverState", "main")
