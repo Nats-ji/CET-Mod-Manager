@@ -81,18 +81,6 @@ local function settings_popup()
     
     -- Language menu
     if ImGui.BeginMenu(IconGlyphs.Translate.."\t".."Language") then
-      ImGui.Text(i18n("text_select_lang"))
-      ImGui.SameLine()
-      
-      ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0) -- help ? button padding
-      if ImGui.Button("?", ImGui.GetFontSize() + dpi.Scale(2), ImGui.GetFontSize() + dpi.Scale(2)) then
-        CETMM.GetBackEnd().OpenUrl("font_wiki")
-      end
-      ImGui.PopStyleVar()
-      if ImGui.IsItemHovered() then
-        ImGui.SetTooltip(i18n("tooltip_btn_howto_change_font"))
-      end
-
       for _, entry in ipairs(languages) do
         if select(2, ImGui.MenuItem(entry.name, "", options.m_lang == entry.id)) then
           options.m_lang = entry.id
