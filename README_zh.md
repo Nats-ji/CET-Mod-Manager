@@ -5,15 +5,6 @@
 
 ![](https://staticdelivery.nexusmods.com/mods/3333/images/895/895-1611766356-1945566139.png)
 
-# 如何更改字体：
-1. 用文本编辑器打开 `\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\config.json`
-
-2. 把 `font_path` 这一项改为：`"C:\\Windows\\Fonts\\simhei.ttf"`
-
-3. 把 `font_glyph_ranges` 这一项改为 `"ChineseFull"`
-
-详细请参照：https://wiki.cybermods.net/cyber-engine-tweaks/v/jian-ti-zhong-wen-chinese/getting-started/configuration/change-font-and-font-size
-
 # 功能
 - 在游戏中启用或者禁用基于Cyber Engine Tweaks的mod
 - 用不到的mod在游戏中一键关闭
