@@ -93,3 +93,18 @@ task("build-all")
         build.BuildAll()
     end)
     set_menu { usage = "xmake build-all", description = "Build all targets."}
+
+task("update-ext")
+    on_run(function ()
+        local rootDir = os.curdir()
+
+        print("Pull RED4ext.SDK")
+        os.cd("./vendor/RED4ext.SDK")
+        os.execv("git", {"pull", "origin", "master"})
+
+        print("Commit changes")
+        os.cd(rootDir)
+        os.execv("git", {"add", "vendor/RED4ext.SDK"})
+        os.execv("git", {"commit", "-m", "Update RED4ext.SDK"})
+    end)
+    set_menu { usage = "xmake update-ext", description = "Update RED4ext.SDK."}
