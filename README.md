@@ -1,5 +1,6 @@
-<a href="https://www.buymeacoffee.com/mingm"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=mingm&button_colour=FF5F5F&font_colour=ffffff&font_family=Comic&outline_colour=000000&coffee_colour=FFDD00" width="180px"></a>
-<a href='https://ko-fi.com/U6U572VOM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href="https://www.buymeacoffee.com/mingm"><img height='36' src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=mingm&button_colour=FF5F5F&font_colour=ffffff&font_family=Comic&outline_colour=000000&coffee_colour=FFDD00"></a>
+<a href='https://ko-fi.com/U6U572VOM' target='_blank'><img height='36' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://paypal.me/mingmc' target='_blank'><img height='36' src='https://cdn.jsdelivr.net/gh/Nats-ji/Nats-ji@main/paypal.png' alt='Donate me at paypal.com' /></a>
 
 [![github][github-badge]][github-link] [![build][build-badge]][build-link] ![license][license-badge] [![release][release-badge]][release-link] [![nexus][nexus-badge]][nexus-link] [![3dm][3dm-badge]][3dm-link]
 
