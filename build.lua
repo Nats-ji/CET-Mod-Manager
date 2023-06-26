@@ -113,7 +113,9 @@ function InstallLua()
   local install_path = config.get("installpath")
   cprint("${green bright}Installing CET Mod Manager Lua ..")
   check_game_installation(install_path)
-  os.run([[xcopy "%s" "%s" /s /e /y /q]], path.translate("scripts"), path.translate(path.join(install_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))) -- Don't use os.cp(), it will remove the contents from the destination directory.
+  local from_path = path.translate("./scripts")
+  local to_path = path.translate(path.join(install_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager"))
+  os.execv("xcopy", {from_path, to_path, "/s", "/e", "/y", "/q"}) -- Don't use os.cp(), it will remove the contents from the destination directory.
   cprint("CET Mod Manager Lua installed at: ${underline}%s", path.translate(path.join(install_path, "bin/x64/plugins/cyber_engine_tweaks/mods/cet_mod_manager")))
 end
 
