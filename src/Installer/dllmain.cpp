@@ -14,6 +14,7 @@ static void Initialize()
         }
         
         spdlog::set_default_logger(CreateLogger());
+        spdlog::flush_on(spdlog::level::info);
         Installer::Initialize();
     }
     catch (...)
@@ -23,6 +24,7 @@ static void Initialize()
 static void Shutdown()
 {
     Installer::Shutdown();
+    spdlog::shutdown();
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
