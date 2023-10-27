@@ -63,7 +63,9 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle, RED4ext::
     case RED4ext::EMainReason::Load:
     {
         Initialize();
-        RED4ext::RTTIRegistrator::Add(RegisterTypes, PostRegisterTypes);
+
+        RED4ext::CRTTISystem::Get()->AddRegisterCallback(RegisterTypes);
+        RED4ext::CRTTISystem::Get()->AddPostRegisterCallback(PostRegisterTypes);
 
         break;
     }
