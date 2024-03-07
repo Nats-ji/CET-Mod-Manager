@@ -12,6 +12,7 @@ target("RED4ext.SDK")
     add_files("vendor/RED4ext.SDK/src/**.cpp")
     add_headerfiles("vendor/RED4ext.SDK/include/**.hpp")
     add_includedirs("vendor/RED4ext.SDK/include/", { public = true })
+    add_syslinks("User32")
 
 target("cet_mod_manager")
     set_default(false)
