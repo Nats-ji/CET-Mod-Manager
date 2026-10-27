@@ -133,6 +133,7 @@ bool Mod::changeCETModState(bool aEnable)
     }
     return true;
   }
+  return false;
 }
 
 

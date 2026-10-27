@@ -11,7 +11,7 @@ target("RED4ext.SDK")
     set_group("vendor")
     add_files("vendor/RED4ext.SDK/src/**.cpp")
     add_headerfiles("vendor/RED4ext.SDK/include/**.hpp")
-    add_includedirs("vendor/RED4ext.SDK/include/", { public = true })
+    add_includedirs("vendor/RED4ext.SDK/include/", "vendor/RED4ext.SDK/vendor/D3D12MemAlloc/", { public = true })
     add_syslinks("User32")
 
 target("cet_mod_manager")

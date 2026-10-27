@@ -34,7 +34,10 @@ const std::string Auth::GetClassName(std::string aClassName)
     return m_randNames[aClassName];
   }
   else
+  {
     spdlog::error("Can't get the hash of class: {}.", aClassName);
+    return aClassName;
+  }
 }
 
 void Auth::genAuthCode()

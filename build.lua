@@ -1,5 +1,5 @@
 -- build script for xmake
-local package_path = vformat("$(buildir)/package")
+local package_path = vformat("$(builddir)/package")
 
 -- embed settings
 local embeds_path = "src/Installer/embeds"
@@ -73,6 +73,25 @@ function GenerateEmbeds()
 
   -- embed lua files
   os.exec([[.\vendor\bin2cpp\bin2cpp.exe --dir=scripts --managerfile=EmbedFileManager_Lua.h --output=%s --namespace=bin2cppLua --keepdirs --noheader]], path.translate(embeds_lua_path))
+
+  local generated_sources = {
+    path.join(embeds_lua_path, "EmbedFileManager_Lua.cpp"),
+    path.join(embeds_lua_path, "EmbedFileManager_LooseFiles.cpp"),
+    path.join(embeds_red4ext_path, "EmbedFileManager_Red4ExtPlugin.cpp"),
+  }
+
+  for _, source_path in ipairs(generated_sources) do
+    local file = assert(io.open(source_path, "rb"), "can't open generated source " .. source_path)
+    local content = file:read("*a")
+    file:close()
+    local cleaned_content = content:gsub("// test for C:\\[ \t]*", "// test for C: root")
+
+    if cleaned_content ~= content then
+      file = assert(io.open(source_path, "wb"), "can't write generated source " .. source_path)
+      file:write(cleaned_content)
+      file:close()
+    end
+  end
 
   cprint("generating files for embedding to %s ... ${bright green}ok", embeds_path)
 end

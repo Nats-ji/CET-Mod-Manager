@@ -24,7 +24,7 @@
 
 #include <RED4ext/RED4ext.hpp>
 #include <RED4ext/RTTITypes.hpp>
-#include <RED4ext/DynArray.hpp>
+#include <RED4ext/Containers/DynArray.hpp>
 #include <RED4ext/Scripting/IScriptable.hpp>
 
 #include "CETMM.h"
